@@ -10,6 +10,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
 
+//TODOS LOS CAMPOS QUE SEAN PARA AÑADIR O EDITAR DEBERÁN LIMPIARSE UNA VEZ
+//SE HAYA TERMINADO LA OPERACIÓN
+
 /***
  * Clase Tarea3AdSophiaDeLucaMirandaApplication que contiene los métodos necesarios para
  * arrancar la aplicación.

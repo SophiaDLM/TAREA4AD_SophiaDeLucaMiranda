@@ -70,7 +70,7 @@ public class PeregrinoControlador implements Initializable {
     /***
      * Método cerrarSesion que lanza una alerta pidiendo al usuario que
      * confirme su decisión. Si el usuario pulsa en el botón de aceptar, se
-     * camibia la ventana a la de INICIARSESION y se asignan las credenciales
+     * cambia la ventana a la de INICIARSESION y se asignan las credenciales
      * a null para indicar que el usuario ha vuelto a ser un invitado.
      *
      * En este método sí se maneja la sesión del usuario, puesto que
@@ -228,7 +228,7 @@ public class PeregrinoControlador implements Initializable {
             carnet.appendChild(estancias);
 
             DOMSource fuente = new DOMSource(documento);
-            File fichero = new File("C:\\Users\\Sophi\\Downloads\\TAREA3AD_SophiaDeLucaMiranda-master\\TAREA3AD_SophiaDeLucaMiranda-master\\Tarea3ADSophiaDeLucaMiranda\\src\\main\\exportable\\" + peregrinoActual.getNombre().toLowerCase() + ".xml");
+            File fichero = new File("Tarea4ADSophiaDeLucaMiranda/src/main/exportable/" + peregrinoActual.getNombre().trim().toLowerCase() + ".xml"); //NO HACE EL TRIM. MIRAR LUEGO
             StreamResult sr = new StreamResult(fichero);
 
             TransformerFactory tf = TransformerFactory.newInstance();

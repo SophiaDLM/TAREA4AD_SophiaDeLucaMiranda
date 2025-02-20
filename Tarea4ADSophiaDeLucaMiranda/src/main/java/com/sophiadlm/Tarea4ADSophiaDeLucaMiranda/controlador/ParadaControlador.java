@@ -226,6 +226,7 @@ public class ParadaControlador implements Initializable {
         }
     }
 
+    //REFACTORIZAR PARA SEPARARLO
     /***
      * Método sellarAlojarse que muestra la información básica de una parada, pide el ID de un peregrino y
      * muestra sus datos básicos para luego perdirle confirmación y sellar su carnet. Luego se pregunta si el usuario desea
@@ -325,6 +326,57 @@ public class ParadaControlador implements Initializable {
             error.showAndWait();
         }
     }
+
+
+
+
+    // METODO CONTRATAR PAQUETE DE SERVICIOS - DB4O
+    public void contratarPaqueteServicios() {
+        try {
+
+
+        } catch (Exception e) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Fatal Error");
+            error.setHeaderText("Ocurrió una excepción general (es posible que el ID del peregrino no haya sido encontrado)");
+            error.setContentText(e.getMessage());
+            error.showAndWait();
+        }
+
+
+        //Enlazado con el método de registrar estancia
+
+        //Deben volcarse los datos de antemano, mostrando los servicios disponibles en la parada actual
+
+        //Se marcan los servicios que el peregrino quiera contratar
+        //Se registra el método de pago (choicebox)
+
+        //Se pregunta si se desea extra (quizas el de envio a casa)
+
+        //Se crea el objeto conjunto contratado y se guarda con el precio autocalculado
+    }
+
+    // METODO ENVIO A CASA
+    public void envioACasa() {
+        //Se obtiene la direccion y localidad
+        //Se obtiene el peso y dimensiones (verificar que sean solo numeros)
+        //Se obtiene si es urgente o no (checkbox)
+
+        //Se debera registrar en la base de datos el envio y la contratacion del servicio (enlazar con cu7)
+
+    }
+
+
+    // METODO VER ENVIOS REALIZADOS
+    public void verEnviosRealizados() {
+        //Boton mostrar envios realizados
+
+        //Volcar datos de los envios + direccion en una tabla en la interfaz
+    }
+
+
+
+
 
     /***
      * Método initialize que sirve para cargar valores al arrancar la aplicación.

@@ -96,6 +96,7 @@ public class IniciarSesionControlador implements Initializable {
      */
     @FXML
     public void mostrarAyuda() {
+        //AÑADIR SISTEMA DE AYUDA
         Alert sinImplementar = new Alert(Alert.AlertType.INFORMATION);
         sinImplementar.setTitle("Ayuda No Implementada");
         sinImplementar.setHeaderText("¡Oops!");
@@ -191,6 +192,7 @@ public class IniciarSesionControlador implements Initializable {
             String nacionalidad = cbNacionalidad.getSelectionModel().getSelectedItem();
             String paradaSeleccionada = cbParadaInicial.getSelectionModel().getSelectedItem();
 
+            //AÑADIR COMPROBACIÓN DE SI EXISTE EL PEREGRINO
             if (usuario.matches("[a-zA-Z0-9_]+")) {
                 if (contraseña.matches("[a-zA-Z0-9_]{8}")) {
                     if (validarNombre(nombre)) {
@@ -331,7 +333,7 @@ public class IniciarSesionControlador implements Initializable {
         List<String> listaPaisesXML = new ArrayList<>();
 
         try {
-            File archivoXML = new File("C:\\Users\\Sophi\\Downloads\\TAREA3AD_SophiaDeLucaMiranda-master\\TAREA3AD_SophiaDeLucaMiranda-master\\Tarea3ADSophiaDeLucaMiranda\\src\\main\\resources\\paises.xml");
+            File archivoXML = new File("Tarea4ADSophiaDeLucaMiranda/src/main/resources/paises.xml");
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document documento = db.parse(archivoXML);

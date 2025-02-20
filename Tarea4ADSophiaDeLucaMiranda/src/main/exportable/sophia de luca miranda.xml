@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/xml" href="test.xsl"?><carnet>
+    <id>3</id>
+    <fechaexp>2025-02-12</fechaexp>
+    <expedidoen>Gijón</expedidoen>
+    <peregrino>
+        <nombre>Sophia De Luca Miranda</nombre>
+        <nacionalidad>ES - España</nacionalidad>
+    </peregrino>
+    <hoy>2025-02-12</hoy>
+    <distanciatotal>0.0</distanciatotal>
+    <paradas>
+        <parada>
+            <orden>1</orden>
+            <nombre>Gijón</nombre>
+            <region>G</region>
+        </parada>
+    </paradas>
+    <estancias/>
+</carnet>

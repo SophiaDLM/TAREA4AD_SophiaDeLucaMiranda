@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /***
  * Clase AdministradorControlador que se encarga de manejar las acciones
@@ -39,6 +40,15 @@ public class AdministradorControlador implements Initializable {
 
     @FXML
     private PasswordField pfContraseña;
+
+    @FXML
+    private TextField tfNomServicio;
+
+    @FXML
+    private TextField tfPrecioServicio;
+
+    @FXML
+    private TextField tfConParServicio;
 
     //Elementos relacionados con el manejo de las escenas:
     @Lazy
@@ -156,6 +166,57 @@ public class AdministradorControlador implements Initializable {
             error.showAndWait();
         }
     }
+
+    //COMETARIOS CON LOS PASOS DE LA TAREA PARA GUIARME Y QUE NO ME
+    //FALTEN COMPROBACIONES COMO EN LA ANTERIOR
+
+    // MÉTODO NUEVO/EDITAR SERVICIO - DB4O
+    public void nuevoServicio() {
+        try {
+            String nomServicio = tfNomServicio.getText();
+            double precioServicio = Double.parseDouble(tfPrecioServicio.getText());
+            //Falta obtener el conjunto de paradas
+
+            //NECESARIA TABLA SERVICIO-PARADA? 1 parada puede tener muchos servicios y muchos servicios pueden estar en una parada
+
+            if(validarNombre(nomServicio)) {
+
+
+            } else {
+
+            }
+
+
+            //Se obtiene el nombre (sin números, caracteres especiales o en blanco)
+            //Se obtiene el precio (sin letras)
+            //Se obtiene el conjunto de paradas (mediante checkbox???)
+
+            //Se hace un SELECT con el nombre para ver si existe
+
+            //Si no existe, se almacena en la base de datos
+
+        } catch (Exception e) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Fatal Error");
+            error.setHeaderText("Ocurrió una excepción desconocida");
+            error.setContentText(e.getMessage());
+            error.showAndWait();
+        }
+    }
+
+    public void editarServicio() {
+        //Se da clic en el boton de editar servicio y se muestra una lista con los servicios
+        //De esa lista se selecciona un servicio y se da editar
+        //Se cambia el panel
+        //Se obtiene el nombre (sin números, caracteres especiales o en blanco)
+        //Se obtiene el precio (sin letras)
+        //Se obtiene el conjunto de paradas (Lista de ID)
+        //Se da clic en guardar
+        //Se borran los datos en la pantalla
+
+        //Se hace un update
+    }
+
 
     /***
      * Método initialize que no ha sido utilizado porque en este caso no es
