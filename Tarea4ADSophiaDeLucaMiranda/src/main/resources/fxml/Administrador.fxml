@@ -22,56 +22,62 @@
          <children>
             <GridPane prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: rgba(97, 194, 123, 0.65);">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="339.20001220703125" minWidth="10.0" prefWidth="285.5999755859375" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="298.4000122070313" minWidth="10.0" prefWidth="293.60002441406255" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="298.4000122070313" minWidth="10.0" prefWidth="293.60002441406255" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="339.20001220703125" minWidth="10.0" prefWidth="249.00002136230466" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="298.4000122070313" minWidth="10.0" prefWidth="212.00003662109376" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="298.4000122070313" minWidth="10.0" prefWidth="239.1999633789062" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="280.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/pilgrim-hat.png" />
+                     </image>
+                     <GridPane.margin>
+                        <Insets left="70.0" top="15.0" />
+                     </GridPane.margin>
+                  </ImageView>
                   <Label text="Bienvenido Administrador/a" GridPane.columnSpan="3">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="36.0" />
                      </font>
                      <GridPane.margin>
-                        <Insets left="170.0" top="15.0" />
+                        <Insets left="140.0" top="15.0" />
                      </GridPane.margin>
                   </Label>
-                  <ImageView fitHeight="150.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../imagenes/pilgrim-hat.png" />
-                     </image>
-                     <GridPane.margin>
-                        <Insets left="110.0" top="15.0" />
-                     </GridPane.margin>
-                  </ImageView>
                   <Line endX="600.0" endY="0.5928916931152344" startX="-100.0" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" style="-fx-background-color: white; -fx-border-color: black;" text="AÑADIR NUEVA PARADA" GridPane.rowIndex="2">
+                  <Button mnemonicParsing="false" onAction="#cambiarPanelNuevaParada" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black;" text="AÑADIR NUEVA PARADA" GridPane.rowIndex="2">
                      <font>
-                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                        <Font name="Arial Rounded MT Bold" size="13.0" />
                      </font>
                      <GridPane.margin>
                         <Insets left="45.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" style="-fx-background-color: white; -fx-border-color: black;" text="AÑADIR NUEVO SERVICIO" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Button mnemonicParsing="false" onAction="#cambiarPanelNuevoServicio" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black;" text="AÑADIR NUEVO SERVICIO" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
-                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                        <Font name="Arial Rounded MT Bold" size="13.0" />
                      </font>
                      <GridPane.margin>
-                        <Insets left="30.0" />
+                        <Insets left="5.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="EDITAR SERVICIO" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#cambiarPanelEditarServicio" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black;" text="EDITAR SERVICIO" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="13.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="5.0" right="45.0" />
+                     </GridPane.margin></Button>
                   <Line endX="600.0" startX="-100.0" GridPane.rowIndex="5" />
-                  <Button fx:id="btnAyuda" mnemonicParsing="false" onAction="#mostrarAyuda" style="-fx-background-color: white; -fx-border-color: black;" GridPane.rowIndex="6">
+                  <Button mnemonicParsing="false" onAction="#mostrarAyuda" style="-fx-background-color: white; -fx-border-color: black;" GridPane.rowIndex="6">
                      <graphic>
                         <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -80,10 +86,10 @@
                         </ImageView>
                      </graphic>
                      <GridPane.margin>
-                        <Insets bottom="15.0" left="40.0" />
+                        <Insets bottom="15.0" left="45.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                  <Button mnemonicParsing="false" onAction="#cerrarSesion" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="2" GridPane.rowIndex="6">
                      <graphic>
                         <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -92,13 +98,13 @@
                         </ImageView>
                      </graphic>
                      <GridPane.margin>
-                        <Insets bottom="15.0" left="206.0" />
+                        <Insets bottom="15.0" left="145.0" right="45.0" />
                      </GridPane.margin>
                   </Button>
                   <Line endX="600.0" startX="-100.0" GridPane.rowIndex="3" />
-                  <Pane prefHeight="310.0" prefWidth="700.0" GridPane.columnSpan="2" GridPane.rowIndex="4">
+                  <Pane prefHeight="310.0" prefWidth="700.0" GridPane.columnSpan="3" GridPane.rowIndex="4">
                      <children>
-                        <GridPane prefHeight="310.0" prefWidth="700.0" visible="false">
+                        <GridPane fx:id="pnlNuevaParada" prefHeight="310.0" prefWidth="700.0" visible="false">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.79998779296875" minWidth="10.0" prefWidth="156.40000915527344" />
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="426.8000030517578" minWidth="10.0" prefWidth="423.59999084472656" />
@@ -185,29 +191,68 @@
                               </PasswordField>
                            </children>
                         </GridPane>
-                        <GridPane prefHeight="310.0" prefWidth="700.0">
+                        <GridPane fx:id="pnlNuevoServicio" prefHeight="310.0" prefWidth="700.0" visible="false">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="344.39996337890625" minWidth="10.0" prefWidth="248.3999481201172" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="451.6000518798828" minWidth="10.0" prefWidth="451.6000518798828" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="Nombre:" />
-                              <Label text="Precio:" GridPane.rowIndex="1" />
-                              <Label text="Conjunto de Paradas:" GridPane.rowIndex="2" />
-                              <Button fx:id="btnCrear" mnemonicParsing="false" text="CREAR" GridPane.rowIndex="3" />
-                              <TextField fx:id="tfNomServicio" promptText="Introduzca el nombre del servicio..." GridPane.columnIndex="1" />
-                              <TextField fx:id="tfPrecioServicio" promptText="Introduzca el precio del servicio..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <TextField fx:id="tfConParServicio" promptText="Introduzca el conjunto de paradas que lo ofrecen (1, 2, 3, etc)..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Button fx:id="btnEditar" mnemonicParsing="false" text="EDITAR" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label text="Nombre:">
+                                 <font>
+                                    <Font name="Arial Rounded MT Bold" size="18.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets left="45.0" />
+                                 </GridPane.margin></Label>
+                              <Label text="Precio:" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font name="Arial Rounded MT Bold" size="18.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets left="45.0" />
+                                 </GridPane.margin></Label>
+                              <Label text="Conjunto de Paradas:" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font name="Arial Rounded MT Bold" size="18.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets left="45.0" />
+                                 </GridPane.margin></Label>
+                              <Button mnemonicParsing="false" onAction="#nuevoServicio" style="-fx-background-color: white; -fx-border-color: black;" text="CREAR" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font name="Arial Rounded MT Bold" size="13.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets left="180.0" />
+                                 </GridPane.margin></Button>
+                              <TextField fx:id="tfNomServicio" prefHeight="35.0" promptText="Introduzca el nombre del servicio..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets right="45.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font name="Arial Rounded MT Bold" size="14.0" />
+                                 </font></TextField>
+                              <TextField fx:id="tfPrecioServicio" prefHeight="35.0" promptText="Introduzca el precio del servicio..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets right="45.0" />
+                                 </GridPane.margin>
+                                 <font>
+                                    <Font name="Arial Rounded MT Bold" size="14.0" />
+                                 </font></TextField>
+                              <ListView fx:id="lstConParServicio" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" right="45.0" top="10.0" />
+                                 </GridPane.margin>
+                              </ListView>
                            </children>
                         </GridPane>
-                        <GridPane prefHeight="310.0" prefWidth="700.0" visible="false">
+                        <GridPane fx:id="pnlEditarServicio" prefHeight="310.0" prefWidth="700.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
@@ -218,7 +263,7 @@
                           </rowConstraints>
                            <children>
                               <Label text="Seleccione un servicio para editarlo:" />
-                              <ListView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                              <ListView fx:id="lstEditarServicio" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
                               <Button mnemonicParsing="false" text="EDITAR" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>

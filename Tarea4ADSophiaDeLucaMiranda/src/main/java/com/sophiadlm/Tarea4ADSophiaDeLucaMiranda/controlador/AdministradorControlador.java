@@ -3,20 +3,24 @@ package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.controlador;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.config.ManejadorEscenas;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Credenciales;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Parada;
+import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Servicio;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.TipoUsuario;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.servicios.CredencialesServicio;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.servicios.ParadaServicio;
+import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.servicios.ServicioServicio;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.vista.VistaFxml;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 /***
  * Clase AdministradorControlador que se encarga de manejar las acciones
@@ -48,7 +52,19 @@ public class AdministradorControlador implements Initializable {
     private TextField tfPrecioServicio;
 
     @FXML
-    private TextField tfConParServicio;
+    private ListView<Long> lstConParServicio;
+
+    @FXML
+    private ListView<Servicio> lstEditarServicio;
+
+    @FXML
+    private GridPane pnlNuevaParada;
+
+    @FXML
+    private GridPane pnlNuevoServicio;
+
+    @FXML
+    private GridPane pnlEditarServicio;
 
     //Elementos relacionados con el manejo de las escenas:
     @Lazy
@@ -61,6 +77,29 @@ public class AdministradorControlador implements Initializable {
 
     @Autowired
     private ParadaServicio ps;
+
+    private ServicioServicio svs = new ServicioServicio();
+
+    @FXML
+    private void cambiarPanelNuevaParada() {
+        pnlNuevaParada.setVisible(true);
+        pnlNuevoServicio.setVisible(false);
+        pnlEditarServicio.setVisible(false);
+    }
+
+    @FXML
+    private void cambiarPanelNuevoServicio() {
+        pnlNuevaParada.setVisible(false);
+        pnlNuevoServicio.setVisible(true);
+        pnlEditarServicio.setVisible(false);
+    }
+
+    @FXML
+    private void cambiarPanelEditarServicio() {
+        pnlNuevaParada.setVisible(false);
+        pnlNuevoServicio.setVisible(false);
+        pnlEditarServicio.setVisible(true);
+    }
 
     /***
      * Método mostrarAyuda que, como está incompleto, sólo se encarga
@@ -167,33 +206,42 @@ public class AdministradorControlador implements Initializable {
         }
     }
 
-    //COMETARIOS CON LOS PASOS DE LA TAREA PARA GUIARME Y QUE NO ME
-    //FALTEN COMPROBACIONES COMO EN LA ANTERIOR
-
     // MÉTODO NUEVO/EDITAR SERVICIO - DB4O
     public void nuevoServicio() {
         try {
             String nomServicio = tfNomServicio.getText();
-            double precioServicio = Double.parseDouble(tfPrecioServicio.getText());
-            //Falta obtener el conjunto de paradas
-
-            //NECESARIA TABLA SERVICIO-PARADA? 1 parada puede tener muchos servicios y muchos servicios pueden estar en una parada
+            String precioServicio = tfPrecioServicio.getText();
+            List<Long> listaIdParadas = lstConParServicio.getSelectionModel().getSelectedItems();
 
             if(validarNombre(nomServicio)) {
+                if(svs.encontrarPorNombre(nomServicio) == null) {
+                    if(precioServicio.matches("^(\\d{1,3}(\\.\\d{3})*(\\,\\d{2})?)?€?$")) {
 
+
+
+                    } else {
+                        Alert error = new Alert(Alert.AlertType.ERROR);
+                        error.setTitle("Error");
+                        error.setHeaderText("Precio inválido");
+                        error.setContentText("No pueden introducirse letras ni caracteres especiales a excepción de: \".\", \",\" y \"€\"");
+                        error.showAndWait();
+                    }
+
+                } else {
+                    Alert error = new Alert(Alert.AlertType.ERROR);
+                    error.setTitle("Error");
+                    error.setHeaderText("Servicio existente");
+                    error.setContentText("No se ha podido añadir el nuevo servicio porque ya existe");
+                    error.showAndWait();
+                }
 
             } else {
-
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Error");
+                error.setHeaderText("Nombre inválido");
+                error.setContentText("El nombre no puede estar vacio o contener caracteres que no sean letras");
+                error.showAndWait();
             }
-
-
-            //Se obtiene el nombre (sin números, caracteres especiales o en blanco)
-            //Se obtiene el precio (sin letras)
-            //Se obtiene el conjunto de paradas (mediante checkbox???)
-
-            //Se hace un SELECT con el nombre para ver si existe
-
-            //Si no existe, se almacena en la base de datos
 
         } catch (Exception e) {
             Alert error = new Alert(Alert.AlertType.ERROR);
@@ -201,10 +249,13 @@ public class AdministradorControlador implements Initializable {
             error.setHeaderText("Ocurrió una excepción desconocida");
             error.setContentText(e.getMessage());
             error.showAndWait();
+            e.printStackTrace();
         }
     }
 
     public void editarServicio() {
+
+
         //Se da clic en el boton de editar servicio y se muestra una lista con los servicios
         //De esa lista se selecciona un servicio y se da editar
         //Se cambia el panel
@@ -229,7 +280,8 @@ public class AdministradorControlador implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        lstConParServicio.getItems().addAll(obtenerIdParadas());
+//        lstEditarServicio.getItems().addAll(obtenerListaServicios());
     }
 
     /***
@@ -252,4 +304,31 @@ public class AdministradorControlador implements Initializable {
             return false;
         }
     }
+
+    private List<Long> obtenerIdParadas() {
+        List<Parada> listaParadas = ps.encontrarTodos();
+        List<Long> listaIdParadas = new ArrayList<>();
+
+        for(Parada indice: listaParadas) {
+            Long idParada = indice.getId();
+            listaIdParadas.add(idParada);
+        }
+
+        return listaIdParadas;
+    }
+
+    private List<Servicio> obtenerListaServicios() {
+        return svs.encontrarTodos();
+    }
+
+//    private void actualizarParadas(List<Long> idParadas, Long idServicio) {
+//        for(Long indice: idParadas) {
+//            Parada parada = ps.encontrarPorId(indice);
+//
+//            if(parada != null) {
+//                parada.setIdServicios(idServicio.toString());
+//                ps.actualizar(parada);
+//            }
+//        }
+//    }
 }

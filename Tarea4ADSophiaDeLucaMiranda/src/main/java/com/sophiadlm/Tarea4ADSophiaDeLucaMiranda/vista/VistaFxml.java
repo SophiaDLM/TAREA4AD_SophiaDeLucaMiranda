@@ -54,6 +54,18 @@ public enum VistaFxml {
         public String getArchivoFxml() {
             return "/fxml/Parada.fxml";
         }
+    },
+
+    ESTANCIA {
+        @Override
+        public String getTitulo() {
+            return getStringDelResourceBundle("estancia.titulo");
+        }
+
+        @Override
+        public String getArchivoFxml() {
+            return "/fxml/Estancia.fxml";
+        }
     };
 
     /***

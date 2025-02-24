@@ -39,7 +39,7 @@ public class Tarea4AdSophiaDeLucaMirandaApplication extends Application {
 	}
 
 	protected void mostrarEscenaPrincipal() {
-		me.cambiarEscena(VistaFxml.INICIARSESION);
+		me.cambiarEscena(VistaFxml.ADMINISTRADOR);
 	}
 
 	private ConfigurableApplicationContext contextoAplicacionSpringBoot() {

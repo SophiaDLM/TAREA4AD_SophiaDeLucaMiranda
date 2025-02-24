@@ -1,6 +1,8 @@
 package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.controlador;
 
+import com.db4o.ObjectContainer;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.config.ManejadorEscenas;
+import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexion;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.*;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.servicios.CarnetServicio;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.servicios.EstanciaServicio;
@@ -33,6 +35,8 @@ import java.util.ResourceBundle;
  */
 @Controller
 public class ParadaControlador implements Initializable {
+    private ObjectContainer baseDatos = DataConexion.obtenerInstancia();
+
     //Elementos relacionados con el archivo FXML:
     @FXML
     private GridPane panelParada;
@@ -92,6 +96,15 @@ public class ParadaControlador implements Initializable {
 
     @FXML
     private TextField tfNacionalidadPeregrino;
+
+    @FXML
+    private ListView<Servicio> lstServicios;
+
+    @FXML
+    private ChoiceBox<String> cbPago;
+
+    @FXML
+    private TextField tfTotal;
 
     //Elementos relacionados con el manejo de las escenas:
     @Lazy
@@ -333,6 +346,8 @@ public class ParadaControlador implements Initializable {
     // METODO CONTRATAR PAQUETE DE SERVICIOS - DB4O
     public void contratarPaqueteServicios() {
         try {
+
+
 
 
         } catch (Exception e) {

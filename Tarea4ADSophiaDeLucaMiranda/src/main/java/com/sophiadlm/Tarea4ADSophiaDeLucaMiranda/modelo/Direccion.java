@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
+@Embeddable
 public class Direccion {
     //Atributos de la clase:
     @Id
@@ -13,10 +13,6 @@ public class Direccion {
     private Long id;
     private String direccion;
     private String localidad;
-
-    //Relación entre Dirección y EnvioACasa:
-    @OneToMany(mappedBy = "direccion")
-    private List<EnvioACasa> enviosACasa;
 
     //Constructores de la clase:
     public Direccion() {

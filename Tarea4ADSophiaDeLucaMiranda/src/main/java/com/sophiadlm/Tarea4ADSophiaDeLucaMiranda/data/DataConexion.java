@@ -5,7 +5,7 @@ import com.db4o.ObjectContainer;
 
 public class DataConexion {
     private static DataConexion instancia = null;
-    private final String ruta = "src/main/resources/servicios.db4o";
+    private final String ruta = "Tarea4ADSophiaDeLucaMiranda/src/main/resources/servicios.db4o";
     private static ObjectContainer baseDatos;
 
     private DataConexion() {
