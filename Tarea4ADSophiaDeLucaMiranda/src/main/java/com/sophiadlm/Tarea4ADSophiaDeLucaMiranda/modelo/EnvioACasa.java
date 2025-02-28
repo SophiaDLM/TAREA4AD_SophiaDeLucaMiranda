@@ -54,6 +54,10 @@ public class EnvioACasa {
         return volumen;
     }
 
+    public String getVolumenString() {
+        return volumen[0] + "x" + volumen[1] + "x" + volumen[2];
+    }
+
     public void setVolumen(int[] volumen) {
         this.volumen = volumen;
     }

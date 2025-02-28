@@ -37,9 +37,6 @@ public class Parada {
     @ManyToMany(mappedBy = "listaParadas")
     private List<Peregrino> listaPeregrinos = new ArrayList<>();
 
-    //Relación entre Parada y Servicio:
-    private String idServicios;
-
     //Constructores de la clase:
     public Parada() {
 
@@ -109,14 +106,6 @@ public class Parada {
         this.listaPeregrinos = listaPeregrinos;
     }
 
-    public String getIdServicios() {
-        return idServicios;
-    }
-
-    public void setIdServicios(String idServicios) {
-        this.idServicios = idServicios;
-    }
-
     //Métodos básicos:
     @Override
     public String toString() {
@@ -127,11 +116,11 @@ public class Parada {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Parada parada = (Parada) o;
-        return region == parada.region && Objects.equals(id, parada.id) && Objects.equals(nombre, parada.nombre) && Objects.equals(responsable, parada.responsable) && Objects.equals(credenciales, parada.credenciales) && Objects.equals(listaEstancias, parada.listaEstancias) && Objects.equals(listaPeregrinos, parada.listaPeregrinos) && Objects.equals(idServicios, parada.idServicios);
+        return region == parada.region && Objects.equals(id, parada.id) && Objects.equals(nombre, parada.nombre) && Objects.equals(responsable, parada.responsable) && Objects.equals(credenciales, parada.credenciales) && Objects.equals(listaEstancias, parada.listaEstancias) && Objects.equals(listaPeregrinos, parada.listaPeregrinos);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, region, responsable, credenciales, listaEstancias, listaPeregrinos, idServicios);
+        return Objects.hash(id, nombre, region, responsable, credenciales, listaEstancias, listaPeregrinos);
     }
 }

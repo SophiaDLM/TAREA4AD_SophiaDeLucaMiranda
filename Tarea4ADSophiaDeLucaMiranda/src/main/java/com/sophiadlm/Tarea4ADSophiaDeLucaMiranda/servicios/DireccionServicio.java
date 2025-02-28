@@ -21,7 +21,7 @@ public class DireccionServicio implements DireccionRepositorio {
     @Override
     public Direccion actualizar(Direccion entity) {
         manejadorEntidades.getTransaction().begin();
-        Direccion direccion = manejadorEntidades.find(Direccion.class, entity.getId());
+        Direccion direccion = manejadorEntidades.find(Direccion.class, entity);
 
         if(direccion != null) {
             direccion.setDireccion(direccion.getDireccion());

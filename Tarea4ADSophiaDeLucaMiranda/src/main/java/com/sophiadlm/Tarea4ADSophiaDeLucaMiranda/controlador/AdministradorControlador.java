@@ -1,6 +1,8 @@
 package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.controlador;
 
+import com.db4o.ObjectContainer;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.config.ManejadorEscenas;
+import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexion;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Credenciales;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Parada;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Servicio;
@@ -66,6 +68,12 @@ public class AdministradorControlador implements Initializable {
     @FXML
     private GridPane pnlEditarServicio;
 
+    @FXML
+    private Button btnCrear;
+
+    @FXML
+    private Button btnGuardar;
+
     //Elementos relacionados con el manejo de las escenas:
     @Lazy
     @Autowired
@@ -96,9 +104,19 @@ public class AdministradorControlador implements Initializable {
 
     @FXML
     private void cambiarPanelEditarServicio() {
+        lstEditarServicio.getItems().setAll(obtenerListaServicios());
+
         pnlNuevaParada.setVisible(false);
         pnlNuevoServicio.setVisible(false);
         pnlEditarServicio.setVisible(true);
+    }
+
+    @FXML
+    private void cambiarPanel() {
+        cambiarPanelNuevoServicio();
+        btnGuardar.setVisible(true);
+        btnCrear.setVisible(false);
+        cargarServicio();
     }
 
     /***
@@ -164,6 +182,11 @@ public class AdministradorControlador implements Initializable {
                             confirmacion.setHeaderText("Se ha registrado el usuario y la parada exitosamente");
                             confirmacion.showAndWait();
 
+                            tfNombre.setText("");
+                            tfRegion.setText("");
+                            tfUsuario.setText("");
+                            pfContraseña.setText("");
+
                         } else {
                             Alert error = new Alert(Alert.AlertType.ERROR);
                             error.setTitle("Error");
@@ -209,21 +232,36 @@ public class AdministradorControlador implements Initializable {
     // MÉTODO NUEVO/EDITAR SERVICIO - DB4O
     public void nuevoServicio() {
         try {
+            lstConParServicio.getItems().setAll(obtenerIdParadas());
+            btnGuardar.setVisible(false);
+            btnCrear.setVisible(true);
+
             String nomServicio = tfNomServicio.getText();
             String precioServicio = tfPrecioServicio.getText();
-            List<Long> listaIdParadas = lstConParServicio.getSelectionModel().getSelectedItems();
+            List<Long> listaIdParadas = new ArrayList<>(lstConParServicio.getSelectionModel().getSelectedItems());
 
             if(validarNombre(nomServicio)) {
                 if(svs.encontrarPorNombre(nomServicio) == null) {
-                    if(precioServicio.matches("^(\\d{1,3}(\\.\\d{3})*(\\,\\d{2})?)?€?$")) {
+                    if(precioServicio.matches("^\\d+(\\.\\d{1,2})?$")) {
+                        Servicio servicio = new Servicio(nomServicio, Double.parseDouble(precioServicio));
+                        servicio.setIdParadas(listaIdParadas);
+                        svs.guardar(servicio);
 
+                        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                        alerta.setTitle("Servicio añadido");
+                        alerta.setHeaderText("El servicio ha sido añadido correctamente");
+                        alerta.showAndWait();
 
+                        tfNomServicio.setText("");
+                        tfPrecioServicio.setText("");
+
+                        lstEditarServicio.getItems().setAll(obtenerListaServicios());
 
                     } else {
                         Alert error = new Alert(Alert.AlertType.ERROR);
                         error.setTitle("Error");
                         error.setHeaderText("Precio inválido");
-                        error.setContentText("No pueden introducirse letras ni caracteres especiales a excepción de: \".\", \",\" y \"€\"");
+                        error.setContentText("El formato correcto es xx.xx, por ejemplo, 1500.99");
                         error.showAndWait();
                     }
 
@@ -254,18 +292,63 @@ public class AdministradorControlador implements Initializable {
     }
 
     public void editarServicio() {
+        try {
+            Servicio servicio = cargarServicio();;
 
+            if(servicio != null) {
+                String editarServicio = tfNomServicio.getText();
+                String editarPrecioServicio = tfPrecioServicio.getText();
+                List<Long> editarListaIdParadas = new ArrayList<>(lstConParServicio.getSelectionModel().getSelectedItems());
 
-        //Se da clic en el boton de editar servicio y se muestra una lista con los servicios
-        //De esa lista se selecciona un servicio y se da editar
-        //Se cambia el panel
-        //Se obtiene el nombre (sin números, caracteres especiales o en blanco)
-        //Se obtiene el precio (sin letras)
-        //Se obtiene el conjunto de paradas (Lista de ID)
-        //Se da clic en guardar
-        //Se borran los datos en la pantalla
+                if (validarNombre(editarServicio)) {
+                    if (editarPrecioServicio.matches("^\\d+(\\.\\d{1,2})?$")) {
+                        servicio.setNombre(editarServicio);
+                        servicio.setPrecio(Double.parseDouble(editarPrecioServicio));
+                        servicio.setIdParadas(editarListaIdParadas);
+                        svs.actualizar(servicio);
 
-        //Se hace un update
+                        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                        alerta.setTitle("Servicio editado");
+                        alerta.setHeaderText("El servicio ha sido editado correctamente");
+                        alerta.showAndWait();
+
+                        tfNomServicio.setText("");
+                        tfPrecioServicio.setText("");
+
+                        //NO FUNCIONA BIEN
+
+                    } else {
+                        Alert error = new Alert(Alert.AlertType.ERROR);
+                        error.setTitle("Error");
+                        error.setHeaderText("Precio inválido");
+                        error.setContentText("No pueden introducirse letras ni caracteres especiales a excepción de: \".\", \",\" y \"€\"");
+                        error.showAndWait();
+                    }
+
+                } else {
+                    Alert error = new Alert(Alert.AlertType.ERROR);
+                    error.setTitle("Error");
+                    error.setHeaderText("Nombre inválido");
+                    error.setContentText("El nombre no puede estar vacio o contener caracteres que no sean letras");
+                    error.showAndWait();
+                }
+
+            } else {
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Error");
+                error.setHeaderText("Servicio no seleccionado");
+                error.setContentText("Por favor, seleccione un servicio válido");
+                error.showAndWait();
+            }
+
+        } catch (Exception e) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Fatal Error");
+            error.setHeaderText("Ocurrió una excepción desconocida");
+            error.setContentText(e.getMessage());
+            error.showAndWait();
+            e.printStackTrace();
+        }
     }
 
 
@@ -280,8 +363,10 @@ public class AdministradorControlador implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        lstConParServicio.getItems().addAll(obtenerIdParadas());
-//        lstEditarServicio.getItems().addAll(obtenerListaServicios());
+        lstConParServicio.getItems().setAll(obtenerIdParadas());
+        lstEditarServicio.getItems().setAll(obtenerListaServicios());
+        btnCrear.setVisible(true);
+        btnGuardar.setVisible(false);
     }
 
     /***
@@ -321,14 +406,14 @@ public class AdministradorControlador implements Initializable {
         return svs.encontrarTodos();
     }
 
-//    private void actualizarParadas(List<Long> idParadas, Long idServicio) {
-//        for(Long indice: idParadas) {
-//            Parada parada = ps.encontrarPorId(indice);
-//
-//            if(parada != null) {
-//                parada.setIdServicios(idServicio.toString());
-//                ps.actualizar(parada);
-//            }
-//        }
-//    }
+    private Servicio cargarServicio() {
+        Servicio servicio = lstEditarServicio.getSelectionModel().getSelectedItem();
+
+        if(servicio != null) {
+            tfNomServicio.setText(servicio.getNombre());
+            tfPrecioServicio.setText(String.valueOf(servicio.getPrecio()));
+        }
+
+        return servicio;
+    }
 }

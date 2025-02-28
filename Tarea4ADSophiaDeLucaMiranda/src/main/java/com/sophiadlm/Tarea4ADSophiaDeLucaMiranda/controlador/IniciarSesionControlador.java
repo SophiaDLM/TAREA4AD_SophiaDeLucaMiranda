@@ -33,7 +33,6 @@ import java.util.ResourceBundle;
  * disponibles tanto de un usuario invitado como de un usuario existente en la base de datos.
  * Estás acciones son acceder a la ayuda de usuario (no implementada aún), iniciar sesión con sus credenciales,
  * registrarse como peregrino y cerrar sesión si así lo desea.
- *
  * Esta clase implementa Initializable para el uso de JavaFX.
  */
 @Controller

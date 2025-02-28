@@ -18,9 +18,8 @@
    <center>
       <GridPane prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: rgba(97, 194, 123, 0.65);" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="303.79998779296875" minWidth="10.0" prefWidth="182.199951171875" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="331.0000396728516" minWidth="10.0" prefWidth="283.800048828125" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="331.0000396728516" minWidth="10.0" prefWidth="116.60002441406249" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="303.79998779296875" minWidth="10.0" prefWidth="141.59996032714844" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="496.80005187988286" minWidth="10.0" prefWidth="493.6000396728516" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -37,10 +36,10 @@
          <children>
             <Label text="Menú Peregrino" GridPane.columnSpan="2">
                <font>
-                  <Font name="Arial Rounded MT Bold" size="32.0" />
+                  <Font name="Arial Rounded MT Bold" size="34.0" />
                </font>
                <GridPane.margin>
-                  <Insets left="90.0" top="15.0" />
+                  <Insets left="105.0" top="20.0" />
                </GridPane.margin>
             </Label>
             <ImageView fitHeight="150.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
@@ -48,13 +47,13 @@
                   <Image url="@../imagenes/pilgrim.png" />
                </image>
                <GridPane.margin>
-                  <Insets left="40.0" top="15.0" />
+                  <Insets left="45.0" top="20.0" />
                </GridPane.margin>
             </ImageView>
             <Line endX="600.0" startX="-100.0" GridPane.rowIndex="1" />
             <Label text="Nombre:" GridPane.rowIndex="2">
                <GridPane.margin>
-                  <Insets left="40.0" />
+                  <Insets left="45.0" />
                </GridPane.margin>
                <font>
                   <Font name="Arial Rounded MT Bold" size="20.0" />
@@ -65,12 +64,12 @@
                   <Font name="Arial Rounded MT Bold" size="13.0" />
                </font>
                <GridPane.margin>
-                  <Insets right="10.0" />
+                  <Insets right="45.0" />
                </GridPane.margin>
             </TextField>
             <Label text="Nacionalidad:" GridPane.rowIndex="3">
                <GridPane.margin>
-                  <Insets left="40.0" />
+                  <Insets left="45.0" />
                </GridPane.margin>
                <font>
                   <Font name="Arial Rounded MT Bold" size="20.0" />
@@ -78,31 +77,24 @@
             </Label>
             <TextField fx:id="tfNacionalidad" editable="false" prefHeight="30.0" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
-                  <Insets right="10.0" />
+                  <Insets right="45.0" />
                </GridPane.margin>
                <font>
                   <Font name="Arial Rounded MT Bold" size="13.0" />
                </font>
             </TextField>
+            <Line endX="600.0" startX="-100.0" GridPane.rowIndex="4" />
             <Label text="¿Desea exportar su carnet?" GridPane.columnSpan="3" GridPane.rowIndex="5">
                <font>
                   <Font name="Arial Rounded MT Bold" size="20.0" />
                </font>
                <GridPane.margin>
-                  <Insets left="210.0" right="40.0" />
+                  <Insets left="215.0" right="40.0" />
                </GridPane.margin>
             </Label>
-            <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editarPeregrino" style="-fx-background-color: white; -fx-border-color: black;" text="EDITAR" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.rowSpan="2">
+            <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;" text="El carnet tendrá el siguiente formato:&#10;&#10;&lt;carnet&gt;&#10;&#9;&lt;id&gt;xxxx&lt;/id&gt;&#10;&#9;&lt;fechaexp&gt;xx-xx-xxxx&lt;/fechaexp&gt;&#10;&#9;&lt;expedidoen&gt;paradaxxx&lt;/expedidoen&gt;&#10;&#9;&lt;peregrino&gt;&#10; &#9;&#9;&lt;nombre&gt;xxxxxxx&lt;/nombre&gt;&#10; &#9;&#9;&lt;nacionalidad&gt;xxxxxxxx&lt;/nacionalidad&gt;&#10;&#9;&lt;/peregrino&gt;&#10;&#9;&lt;hoy&gt;xx-xx-xxxx&lt;/hoy&gt;&#10;&#9;&lt;distanciatotal&gt;xx.x&lt;/distanciatotal&gt;&#10;&#9;&lt;paradas&gt;&#10;&#9;&#9;&lt;parada&gt;&#10;&#9;&#9;&#9;&lt;orden&gt;x&lt;/orden&gt;&#10;&#9;&#9;&#9;&lt;nombre&gt;xxxxx&lt;/nombre&gt;&#10;&#9;&#9;&#9;&lt;region&gt;X&lt;/region&gt;&#10; &#9;&#9;&lt;/parada&gt;&#10; &#9;&lt;/paradas&gt;&#10;&#9;&lt;estancias&gt;&#10;&#9;&#9;&lt;estancia&gt;&#10;&#9;&#9;&#9;&lt;id&gt;xxxxxx&lt;/id&gt;&#10;&#9;&#9;&#9;&lt;fecha&gt;xx-xx-xxxx&lt;/fecha&gt;&#10;&#9;&#9;&#9;&lt;parada&gt;xxxxx&lt;/parada&gt;&#10;&#9;&#9;&#9;&lt;vip&gt;&lt;/vip&gt;&#10;&#9;&#9;&lt;/estancia&gt;&#10;&#9;&lt;/estancias&gt;&#10;&lt;/carnet&gt;" GridPane.columnSpan="2" GridPane.rowIndex="6">
                <GridPane.margin>
-                  <Insets left="40.0" right="40.0" />
-               </GridPane.margin>
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="14.0" />
-               </font>
-            </Button>
-            <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;" text="El carnet tendrá el siguiente formato:&#10;&#10;&lt;carnet&gt;&#10;&#9;&lt;id&gt;xxxx&lt;/id&gt;&#10;&#9;&lt;fechaexp&gt;xx-xx-xxxx&lt;/fechaexp&gt;&#10;&#9;&lt;expedidoen&gt;paradaxxx&lt;/expedidoen&gt;&#10;&#9;&lt;peregrino&gt;&#10; &#9;&#9;&lt;nombre&gt;xxxxxxx&lt;/nombre&gt;&#10; &#9;&#9;&lt;nacionalidad&gt;xxxxxxxx&lt;/nacionalidad&gt;&#10;&#9;&lt;/peregrino&gt;&#10;&#9;&lt;hoy&gt;xx-xx-xxxx&lt;/hoy&gt;&#10;&#9;&lt;distanciatotal&gt;xx.x&lt;/distanciatotal&gt;&#10;&#9;&lt;paradas&gt;&#10;&#9;&#9;&lt;parada&gt;&#10;&#9;&#9;&#9;&lt;orden&gt;x&lt;/orden&gt;&#10;&#9;&#9;&#9;&lt;nombre&gt;xxxxx&lt;/nombre&gt;&#10;&#9;&#9;&#9;&lt;region&gt;X&lt;/region&gt;&#10; &#9;&#9;&lt;/parada&gt;&#10; &#9;&lt;/paradas&gt;&#10;&#9;&lt;estancias&gt;&#10;&#9;&#9;&lt;estancia&gt;&#10;&#9;&#9;&#9;&lt;id&gt;xxxxxx&lt;/id&gt;&#10;&#9;&#9;&#9;&lt;fecha&gt;xx-xx-xxxx&lt;/fecha&gt;&#10;&#9;&#9;&#9;&lt;parada&gt;xxxxx&lt;/parada&gt;&#10;&#9;&#9;&#9;&lt;vip&gt;&lt;/vip&gt;&#10;&#9;&#9;&lt;/estancia&gt;&#10;&#9;&lt;/estancias&gt;&#10;&lt;/carnet&gt;" GridPane.columnSpan="3" GridPane.rowIndex="6">
-               <GridPane.margin>
-                  <Insets left="120.0" right="120.0" />
+                  <Insets left="115.0" right="115.0" />
                </GridPane.margin>
                <font>
                   <Font name="Arial Rounded MT Bold" size="10.0" />
@@ -110,7 +102,7 @@
             </TextArea>
             <Button fx:id="btnExportar" mnemonicParsing="false" onAction="#exportarCarnetXML" style="-fx-background-color: white; -fx-border-color: black;" text="EXPORTAR" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <GridPane.margin>
-                  <Insets left="75.0" />
+                  <Insets left="100.0" />
                </GridPane.margin>
                <font>
                   <Font name="Arial Rounded MT Bold" size="14.0" />
@@ -129,9 +121,9 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="2" GridPane.rowIndex="9">
+            <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="9">
                <GridPane.margin>
-                  <Insets bottom="15.0" left="25.0" right="40.0" />
+                  <Insets bottom="15.0" left="400.0" right="45.0" />
                </GridPane.margin>
                <graphic>
                   <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -141,7 +133,6 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Line endX="600.0" startX="-100.0" GridPane.rowIndex="4" />
          </children>
       </GridPane>
    </center>

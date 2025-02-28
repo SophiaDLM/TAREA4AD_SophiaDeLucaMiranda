@@ -2,6 +2,7 @@ package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.servicios;
 
 import com.db4o.ObjectContainer;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexion;
+import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.ConjuntoContratado;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Servicio;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.repositorios.ServicioRepositorio;
 
@@ -25,7 +26,7 @@ public class ServicioServicio implements ServicioRepositorio {
         if(servicio != null) {
             servicio.setNombre(entity.getNombre());
             servicio.setPrecio(entity.getPrecio());
-            baseDatos.store(servicio);
+            baseDatos.store(entity);
             baseDatos.commit();
             return servicio;
         } else {

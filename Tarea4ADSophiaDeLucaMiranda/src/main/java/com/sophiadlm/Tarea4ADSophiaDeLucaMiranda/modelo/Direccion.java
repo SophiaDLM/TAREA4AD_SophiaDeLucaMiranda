@@ -8,9 +8,6 @@ import java.util.Objects;
 @Embeddable
 public class Direccion {
     //Atributos de la clase:
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String direccion;
     private String localidad;
 
@@ -25,14 +22,6 @@ public class Direccion {
     }
 
     //Getters y Setters de la clase:
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getDireccion() {
         return direccion;
     }
@@ -52,18 +41,18 @@ public class Direccion {
     //Métodos básicos:
     @Override
     public String toString() {
-        return "Direccion{id= " + id + ", direccion= " + direccion + ", localidad= " + localidad + "}";
+        return "Direccion{direccion= " + direccion + ", localidad= " + localidad + "}";
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Direccion direccion1 = (Direccion) o;
-        return Objects.equals(id, direccion1.id) && Objects.equals(direccion, direccion1.direccion) && Objects.equals(localidad, direccion1.localidad);
+        return Objects.equals(direccion, direccion1.direccion) && Objects.equals(localidad, direccion1.localidad);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, direccion, localidad);
+        return Objects.hash(direccion, localidad);
     }
 }
