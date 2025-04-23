@@ -10,5 +10,5 @@ import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Parada;
  */
 @Repository
 public interface ParadaRepositorio extends JpaRepository<Parada, Long> {
-
+    Parada findByNombre(String nombre);
 }

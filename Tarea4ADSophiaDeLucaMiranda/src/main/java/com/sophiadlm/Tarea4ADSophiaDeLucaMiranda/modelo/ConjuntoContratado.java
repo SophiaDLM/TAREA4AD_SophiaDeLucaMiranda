@@ -7,7 +7,6 @@ import java.util.Objects;
 public class ConjuntoContratado {
     //Atributos de la clase:
     private Long id;
-    private static Long contador;
     private double precioTotal;
     private char modoPago;
     private String extra = null;
@@ -23,9 +22,8 @@ public class ConjuntoContratado {
 
     }
 
-    public ConjuntoContratado(double precioTotal, char modoPago, String extra) {
-        contador++;
-        this.id = contador;
+    public ConjuntoContratado(Long id, double precioTotal, char modoPago, String extra) {
+        this.id = id;
         this.precioTotal = precioTotal;
         this.modoPago = modoPago;
         this.extra = extra;

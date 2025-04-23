@@ -13,7 +13,7 @@ import java.io.IOException;
 //DESASTRE
 
 /***
- * Clase Tarea3AdSophiaDeLucaMirandaApplication que contiene los métodos necesarios para
+ * Clase Tarea4AdSophiaDeLucaMirandaApplication que contiene los métodos necesarios para
  * arrancar la aplicación.
  */
 @SpringBootApplication

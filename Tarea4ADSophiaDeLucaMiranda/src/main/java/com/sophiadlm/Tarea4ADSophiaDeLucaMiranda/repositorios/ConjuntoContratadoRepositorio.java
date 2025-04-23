@@ -1,21 +1,28 @@
 package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.repositorios;
 
+import com.db4o.ObjectContainer;
+import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexion;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.ConjuntoContratado;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Repository
+public class ConjuntoContratadoRepositorio {
+    private ObjectContainer baseDatos;
 
-public interface ConjuntoContratadoRepositorio {
-    ConjuntoContratado guardar(ConjuntoContratado entity);
+    public ConjuntoContratadoRepositorio() {
+        this.baseDatos = DataConexion.obtenerInstancia();
+    }
 
-    ConjuntoContratado actualizar(ConjuntoContratado entity);
+    public boolean guardarDB4O(ConjuntoContratado entity) {
+        try {
+            baseDatos.store(entity);
+            baseDatos.commit();
+            return true;
 
-    void borrar(ConjuntoContratado entity);
-
-    void borrarPorId(Long id);
-
-    void borrarPorLote(List<ConjuntoContratado> conjuntoContratados);
-
-    ConjuntoContratado encontrarPorId(Long id);
-
-    List<ConjuntoContratado> encontrarTodos();
+        } catch (Exception e) {
+            System.out.println(">> FATAL ERROR - No se ha podido guardar el servicio: ");
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

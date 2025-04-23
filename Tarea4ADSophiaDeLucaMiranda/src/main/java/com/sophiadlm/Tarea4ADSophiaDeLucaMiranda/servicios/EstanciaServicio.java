@@ -13,7 +13,6 @@ import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.repositorios.EstanciaRepositori
  * Clase EstanciaServicio que se encarga de gestionar las transacciones con la base de datos
  * utilizando métodos predefinidos y personalizados que provienen de la interfaz EstanciaRepositorio
  * y que ésta, a su vez, hereda los métodos de JpaRepository.
- *
  * Es importante apuntar que la interfaz utilizó métodos anotados con @Query.
  */
 @Service
@@ -28,18 +27,6 @@ public class EstanciaServicio {
 
     public Estancia actualizar(Estancia entity) {
         return estanciaRep.save(entity);
-    }
-
-    public void borrar(Estancia entity ) {
-        estanciaRep.delete(entity);
-    }
-
-    public void borrarPorId(Long id) {
-        estanciaRep.deleteById(id);
-    }
-
-    public void borrarPorLote(List<Estancia> estancias) {
-        estanciaRep.deleteAll(estancias);
     }
 
     public Estancia encontrarPorId(Long id) {

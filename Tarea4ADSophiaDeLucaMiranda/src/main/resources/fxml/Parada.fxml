@@ -21,7 +21,7 @@
    <center>
       <Pane prefHeight="600.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane fx:id="panelParada" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: rgba(97, 194, 123, 0.65);" visible="false">
+            <GridPane fx:id="panelParada" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: rgba(97, 194, 123, 0.65);">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="559.3999633789062" minWidth="10.0" prefWidth="438.1999755859375" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.9999633789063" minWidth="10.0" prefWidth="261.4000244140625" />
@@ -89,7 +89,7 @@
                         <Insets left="45.0" />
                      </GridPane.margin>
                   </Label>
-                  <Button mnemonicParsing="false" onAction="#verEnviosRealizados" prefWidth="150.0" style="-fx-background-color: white; -fx-border-color: black;" text="VER" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Button mnemonicParsing="false" prefWidth="150.0" style="-fx-background-color: white; -fx-border-color: black;" text="VER" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="18.0" />
                      </font>
@@ -492,7 +492,7 @@
                   </Button>
                </children>
             </GridPane>
-            <GridPane fx:id="panelEnvios" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: rgba(97, 194, 123, 0.65);">
+            <GridPane prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: rgba(97, 194, 123, 0.65);" visible="false">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -522,7 +522,7 @@
                      </font>
                   </Label>
                   <Line endX="600.0" startX="-100.0" GridPane.rowIndex="1" />
-                  <TableView fx:id="tbEnvios" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                  <TableView prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" GridPane.columnSpan="2" GridPane.rowIndex="2">
                     <columns>
                       <TableColumn fx:id="tcIdE" editable="false" prefWidth="70.0" text="ID" />
                       <TableColumn fx:id="tcPeso" editable="false" text="PESO" />

@@ -174,10 +174,8 @@ public class IniciarSesionControlador implements Initializable {
      * Método nuevoPeregrino que añade un nuevo peregrino, obteniendo los datos de los campos en el formulario
      * y validándolos. Si todos los datos introducidos son válidos, se crea el objeto credenciales, el peregrino con
      * su carnet con la referencia a la parada inicial y se registra en la tabla peregrino_parada que pasó por allí.
-     *
      * Si todo el proceso sale bien, se lanza una alerta, sino, se avisa de que ha ocurrido una excepción o los
      * datos son inválidos.
-     *
      * OJO - Es posible que se guarden algunos datos en la base de datos, pero no todos, puesto que faltaría
      * agregar una variable boolean que controlara que si todo es válido, se realicen las operaciones de inserción.
      * Esto queda como mejora para la siguiente tarea.
@@ -191,73 +189,88 @@ public class IniciarSesionControlador implements Initializable {
             String nacionalidad = cbNacionalidad.getSelectionModel().getSelectedItem();
             String paradaSeleccionada = cbParadaInicial.getSelectionModel().getSelectedItem();
 
-            //AÑADIR COMPROBACIÓN DE SI EXISTE EL PEREGRINO
             if (usuario.matches("[a-zA-Z0-9_]+")) {
-                if (contraseña.matches("[a-zA-Z0-9_]{8}")) {
-                    if (validarNombre(nombre)) {
-                        if (nacionalidad != null) {
-                            if (paradaSeleccionada != null) {
-                                String[] campos = paradaSeleccionada.split(" - ");
-                                Long idParada = Long.parseLong(campos[0]);
+                if(cs.encontrarPorNombreUsuario(usuario) == null) {
+                    if (contraseña.matches("[a-zA-Z0-9_]{8}")) {
+                        if (validarNombre(nombre)) {
+                            if(pes.encontrarPorNombre(nombre) == null) {
+                                if (nacionalidad != null) {
+                                    if (paradaSeleccionada != null) {
+                                        String[] campos = paradaSeleccionada.split(" - ");
+                                        Long idParada = Long.parseLong(campos[0]);
 
-                                Parada paradaInicial = pas.encontrarPorId(idParada);
-                                if (paradaInicial != null) {
-                                    Credenciales nuevasCredenciales = new Credenciales(usuario, contraseña, TipoUsuario.PEREGRINO);
-                                    nuevasCredenciales = cs.guardar(nuevasCredenciales);
+                                        Parada paradaInicial = pas.encontrarPorId(idParada);
+                                        if (paradaInicial != null) {
+                                            Credenciales nuevasCredenciales = new Credenciales(usuario, contraseña, TipoUsuario.PEREGRINO);
+                                            nuevasCredenciales = cs.guardar(nuevasCredenciales);
 
-                                    Peregrino nuevoPeregrino = new Peregrino(nuevasCredenciales.getId(), nombre, nacionalidad);
-                                    nuevoPeregrino = pes.guardar(nuevoPeregrino);
+                                            Peregrino nuevoPeregrino = new Peregrino(nuevasCredenciales.getId(), nombre, nacionalidad);
+                                            nuevoPeregrino = pes.guardar(nuevoPeregrino);
 
-                                    Carnet nuevoCarnet = new Carnet(nuevoPeregrino.getId()); //NOOO TOCAR POR NADA DEL MUNDO
-                                    nuevoCarnet.setParadaInicial(paradaInicial);
-                                    nuevoCarnet = cas.guardar(nuevoCarnet);
+                                            Carnet nuevoCarnet = new Carnet(nuevoPeregrino.getId());
+                                            nuevoCarnet.setParadaInicial(paradaInicial);
+                                            nuevoCarnet = cas.guardar(nuevoCarnet);
 
-                                    pps.guardarPeregrinoParada(nuevoPeregrino.getId(), nuevoCarnet.getParadaInicial().getId());
+                                            pps.guardarPeregrinoParada(nuevoPeregrino.getId(), nuevoCarnet.getParadaInicial().getId());
 
-                                    Alert confirmacion = new Alert(Alert.AlertType.INFORMATION);
-                                    confirmacion.setTitle("Operación exitosa");
-                                    confirmacion.setHeaderText("Se ha registrado el usuario y la parada exitosamente");
-                                    confirmacion.showAndWait();
+                                            Alert confirmacion = new Alert(Alert.AlertType.INFORMATION);
+                                            confirmacion.setTitle("Operación exitosa");
+                                            confirmacion.setHeaderText("Se ha registrado el usuario y el peregrino exitosamente");
+                                            confirmacion.showAndWait();
+
+                                        } else {
+                                            Alert error = new Alert(Alert.AlertType.ERROR);
+                                            error.setTitle("Error");
+                                            error.setHeaderText("Parada inicial inválida");
+                                            error.setContentText("La parada inicial no ha sido encontrada en la base de datos");
+                                            error.showAndWait();
+                                        }
+
+                                    } else {
+                                        Alert error = new Alert(Alert.AlertType.ERROR);
+                                        error.setTitle("Error");
+                                        error.setHeaderText("Parada inicial inválida");
+                                        error.setContentText("La parada inicial no puede estar vacia");
+                                        error.showAndWait();
+                                    }
 
                                 } else {
                                     Alert error = new Alert(Alert.AlertType.ERROR);
                                     error.setTitle("Error");
-                                    error.setHeaderText("Parada inicial inválida");
-                                    error.setContentText("La parada inicial no ha sido encontrada en la base de datos");
+                                    error.setHeaderText("Nacionalidad inválida");
+                                    error.setContentText("La nacionalidad no puede estar vacia");
                                     error.showAndWait();
                                 }
 
                             } else {
                                 Alert error = new Alert(Alert.AlertType.ERROR);
                                 error.setTitle("Error");
-                                error.setHeaderText("Parada inicial inválida");
-                                error.setContentText("La parada inicial no puede estar vacia");
+                                error.setHeaderText("Ese peregrino ya existe");
                                 error.showAndWait();
                             }
 
                         } else {
                             Alert error = new Alert(Alert.AlertType.ERROR);
                             error.setTitle("Error");
-                            error.setHeaderText("Nacionalidad inválida");
-                            error.setContentText("La nacionalidad no puede estar vacia");
+                            error.setHeaderText("Nombre inválido");
+                            error.setContentText("El nombre no puede estar vacio");
                             error.showAndWait();
                         }
 
                     } else {
                         Alert error = new Alert(Alert.AlertType.ERROR);
                         error.setTitle("Error");
-                        error.setHeaderText("Nombre inválido");
-                        error.setContentText("El nombre no puede estar vacio");
+                        error.setHeaderText("Contraseña inválida");
+                        error.setContentText("Debe contener números, letras, símbolos especiales como _, ! o ? y una longitud de 8 caracteres");
                         error.showAndWait();
+
                     }
 
                 } else {
                     Alert error = new Alert(Alert.AlertType.ERROR);
                     error.setTitle("Error");
-                    error.setHeaderText("Contraseña inválida");
-                    error.setContentText("Debe contener números, letras, símbolos especiales como _, ! o ? y una longitud de 8 caracteres");
+                    error.setHeaderText("Ese usuario ya existe");
                     error.showAndWait();
-
                 }
 
             } else {
@@ -279,9 +292,6 @@ public class IniciarSesionControlador implements Initializable {
 
     /***
      * Método initialize que sirve para cargar valores al arrancar la aplicación.
-     *
-     * @param url
-     * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

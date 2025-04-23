@@ -27,23 +27,16 @@ public class ParadaServicio {
         return paradaRep.save(entity);
     }
 
-    public void borrar(Parada entity ) {
-        paradaRep.delete(entity);
-    }
-
-    public void borrarPorId(Long id) {
-        paradaRep.deleteById(id);
-    }
-
-    public void borrarPorLote(List<Parada> paradas) {
-        paradaRep.deleteAll(paradas);
-    }
-
     public Parada encontrarPorId(Long id) {
         return paradaRep.findById(id).get();
     }
 
     public List<Parada> encontrarTodos() {
         return paradaRep.findAll();
+    }
+
+    //Métodos personalizados:
+    public Parada encontrarPorNombre(String nombre) {
+        return paradaRep.findByNombre(nombre);
     }
 }

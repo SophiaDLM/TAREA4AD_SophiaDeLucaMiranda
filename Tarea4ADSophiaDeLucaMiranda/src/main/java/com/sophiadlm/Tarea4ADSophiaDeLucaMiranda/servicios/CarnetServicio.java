@@ -27,18 +27,6 @@ public class CarnetServicio {
         return carnetRep.save(entity);
     }
 
-    public void borrar(Carnet entity ) {
-        carnetRep.delete(entity);
-    }
-
-    public void borrarPorId(Long id) {
-        carnetRep.deleteById(id);
-    }
-
-    public void borrarPorLote(List<Carnet> carnets) {
-        carnetRep.deleteAll(carnets);
-    }
-
     public Carnet encontrarPorId(Long id) {
         return carnetRep.findById(id).get();
     }

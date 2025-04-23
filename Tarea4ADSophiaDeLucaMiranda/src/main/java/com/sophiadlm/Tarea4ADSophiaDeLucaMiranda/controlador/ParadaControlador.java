@@ -47,8 +47,8 @@ public class ParadaControlador implements Initializable {
     @FXML
     private GridPane panelSellarAlojarse;
 
-    @FXML
-    private GridPane panelEnvios;
+//    @FXML
+//    private GridPane panelEnvios;
 
     @FXML
     private TextField tfId;
@@ -100,44 +100,44 @@ public class ParadaControlador implements Initializable {
     @FXML
     private TextField tfNacionalidadPeregrino;
 
-    @FXML
-    private ListView<Servicio> lstServicios;
+//    @FXML
+//    private ListView<Servicio> lstServicios;
+//
+//    @FXML
+//    private ChoiceBox<String> cbPago;
+//
+//    @FXML
+//    private TextField tfExtra;
+//
+//    @FXML
+//    private TextField tfTotal;
 
-    @FXML
-    private ChoiceBox<String> cbPago;
+//    @FXML
+//    private TableView<EnvioACasa> tbEnvios;
+//
+//    @FXML
+//    private TableColumn<EnvioACasa, Long> tcIdE;
+//
+//    @FXML
+//    private TableColumn<EnvioACasa, Double> tcPeso;
+//
+//    @FXML
+//    private TableColumn<EnvioACasa, String> tcVolumen;
+//
+//    @FXML
+//    private TableColumn<EnvioACasa, Boolean> tcUrgente;
+//
+//    @FXML
+//    private TableColumn<EnvioACasa, String> tcDireccion;
+//
+//    @FXML
+//    private TableColumn<EnvioACasa, String> tcLocalidad;
 
-    @FXML
-    private TextField tfExtra;
-
-    @FXML
-    private TextField tfTotal;
-
-    @FXML
-    private TableView<EnvioACasa> tbEnvios;
-
-    @FXML
-    private TableColumn<EnvioACasa, Long> tcIdE;
-
-    @FXML
-    private TableColumn<EnvioACasa, Double> tcPeso;
-
-    @FXML
-    private TableColumn<EnvioACasa, String> tcVolumen;
-
-    @FXML
-    private TableColumn<EnvioACasa, Boolean> tcUrgente;
-
-    @FXML
-    private TableColumn<EnvioACasa, String> tcDireccion;
-
-    @FXML
-    private TableColumn<EnvioACasa, String> tcLocalidad;
-
-    @FXML
-    private TextField tfDireccion;
-
-    @FXML
-    private TextField tfLocalidad;
+//    @FXML
+//    private TextField tfDireccion;
+//
+//    @FXML
+//    private TextField tfLocalidad;
 
     //Elementos relacionados con el manejo de las escenas:
     @Lazy
@@ -157,18 +157,17 @@ public class ParadaControlador implements Initializable {
     @Autowired
     private CarnetServicio cas;
 
-    private EnvioACasaServicio eacs;
+//    private EnvioACasaServicio eacs;
 
-    private ConjuntoContratadoServicio ccs;
-
-    private ServicioServicio svs;
+//    private ConjuntoContratadoServicio ccs;
+//
+//    private ServicioServicio svs;
 
     /***
      * Método cerrarSesion que lanza una alerta pidiendo al usuario que
      * confirme su decisión. Si el usuario pulsa en el botón de aceptar, se
      * camibia la ventana a la de INICIARSESION y se asignan las credenciales
      * a null para indicar que el usuario ha vuelto a ser un invitado.
-     *
      * En este método sí se maneja la sesión del usuario, puesto que
      * pueden existir varios peregrinos en la base de datos y se pide que
      * se recojan los datos de este para otros métodos.
@@ -208,7 +207,7 @@ public class ParadaControlador implements Initializable {
         panelParada.setVisible(true);
         panelExportar.setVisible(false);
         panelSellarAlojarse.setVisible(false);
-        panelEnvios.setVisible(false);
+        //panelEnvios.setVisible(false);
     }
 
     /***
@@ -219,7 +218,7 @@ public class ParadaControlador implements Initializable {
         panelParada.setVisible(false);
         panelExportar.setVisible(true);
         panelSellarAlojarse.setVisible(false);
-        panelEnvios.setVisible(false);
+        //panelEnvios.setVisible(false);
     }
 
     /***
@@ -230,16 +229,16 @@ public class ParadaControlador implements Initializable {
         panelParada.setVisible(false);
         panelExportar.setVisible(false);
         panelSellarAlojarse.setVisible(true);
-        panelEnvios.setVisible(false);
+        //panelEnvios.setVisible(false);
     }
 
-    @FXML
-    public void cambiarPanelEnvios() {
-        panelParada.setVisible(false);
-        panelExportar.setVisible(false);
-        panelSellarAlojarse.setVisible(false);
-        panelEnvios.setVisible(true);
-    }
+//    @FXML
+//    public void cambiarPanelEnvios() {
+//        panelParada.setVisible(false);
+//        panelExportar.setVisible(false);
+//        panelSellarAlojarse.setVisible(false);
+//        panelEnvios.setVisible(true);
+//    }
 
     /***
      * Método exportarDatosParada que obtiene y muestra los datos básicos de una parada, pide un rango de fechas y lo valida.
@@ -293,7 +292,6 @@ public class ParadaControlador implements Initializable {
      * Método sellarAlojarse que muestra la información básica de una parada, pide el ID de un peregrino y
      * muestra sus datos básicos para luego perdirle confirmación y sellar su carnet. Luego se pregunta si el usuario desea
      * realizar una estancia y, si es el caso, si desea que sea del tipo V.I.P.
-     *
      * La mayor parte del proceso se realiza mediante alertas, lo cual puede resultar molesto o incluso como mala
      * práctica, por lo que se intentará encontrar una forma mejor de implementarlo. Sin embargo, después de un
      * par de pruebas, se ha determinado que los cambios sí que se realizan en la base de datos.
@@ -337,7 +335,9 @@ public class ParadaControlador implements Initializable {
                     ButtonType confirmar2 = confirmacion2.showAndWait().orElse(ButtonType.CANCEL);
 
                     if (confirmar2 == ButtonType.OK) {
-//                        me.cambiarEscena(VistaFxml.ESTANCIA);
+                        //MODIFICAR LO DE ALOJARSE Y PONER BOTONES EN PARADA.FXML
+                        //LUEGO PREGUNTAR SI SE DESEA CONTRATAR SERVICIO Y LUEGO CAMBIAR A ESTANCIA.FXML
+                        //EDITAR VENTANITAS HOYYYYYY
                     }
 
                 } else {
@@ -364,96 +364,96 @@ public class ParadaControlador implements Initializable {
         }
     }
 
-    @FXML
-    //METODO ALOJARSE ESTANDAR
-    public void estanciaEstandar() {
-//        Estancia nuevaEstancia = new Estancia(LocalDate.now(), false);
-//        nuevaEstancia.setPeregrino(actualizarCarnet.getPeregrino());
-//        nuevaEstancia.setParada(paradaActual);
-//        ess.guardar(nuevaEstancia);
-//
-//        Alert actualizado1 = new Alert(Alert.AlertType.INFORMATION);
-//        actualizado1.setTitle("Operación exitosa");
-//        actualizado1.setHeaderText("Se ha registrado la estancia");
-//        actualizado1.showAndWait();
-    }
+//    @FXML
+//    //METODO ALOJARSE ESTANDAR
+//    public void estanciaEstandar() {
+////        Estancia nuevaEstancia = new Estancia(LocalDate.now(), false);
+////        nuevaEstancia.setPeregrino(actualizarCarnet.getPeregrino());
+////        nuevaEstancia.setParada(paradaActual);
+////        ess.guardar(nuevaEstancia);
+////
+////        Alert actualizado1 = new Alert(Alert.AlertType.INFORMATION);
+////        actualizado1.setTitle("Operación exitosa");
+////        actualizado1.setHeaderText("Se ha registrado la estancia");
+////        actualizado1.showAndWait();
+//    }
 
     //
-    @FXML
-    public void estanciaVIP() {
-//        Estancia nuevaEstancia = new Estancia(LocalDate.now(), true);
-//        nuevaEstancia.setPeregrino(actualizarCarnet.getPeregrino());
-//        nuevaEstancia.setParada(paradaActual);
-//        ess.guardar(nuevaEstancia);
-//
-//        actualizarCarnet.setNvips(actualizarCarnet.getNvips() + 1);
-//        cas.actualizar(actualizarCarnet);
-//
-//        Alert actualizado1 = new Alert(Alert.AlertType.INFORMATION);
-//        actualizado1.setTitle("Operación exitosa");
-//        actualizado1.setHeaderText("Se ha registrado la estancia V.I.P. y se ha actualizado el carnet");
-//        actualizado1.showAndWait();
-    }
+//    @FXML
+//    public void estanciaVIP() {
+////        Estancia nuevaEstancia = new Estancia(LocalDate.now(), true);
+////        nuevaEstancia.setPeregrino(actualizarCarnet.getPeregrino());
+////        nuevaEstancia.setParada(paradaActual);
+////        ess.guardar(nuevaEstancia);
+////
+////        actualizarCarnet.setNvips(actualizarCarnet.getNvips() + 1);
+////        cas.actualizar(actualizarCarnet);
+////
+////        Alert actualizado1 = new Alert(Alert.AlertType.INFORMATION);
+////        actualizado1.setTitle("Operación exitosa");
+////        actualizado1.setHeaderText("Se ha registrado la estancia V.I.P. y se ha actualizado el carnet");
+////        actualizado1.showAndWait();
+//    }
 
-    @FXML
+    //@FXML
     // METODO CONTRATAR PAQUETE DE SERVICIOS - DB4O
-    public void contratarPaqueteServicios() {
-//        try {
-//            if(cbPago.getValue() != null) {
-//                char pago = cbPago.getValue().charAt(0);
-//                String extra = tfExtra.getText();
-//                //FALTA LOS SERVICIOS
-//                //FALTA EL PRECIO
-//
-//                ConjuntoContratado conjunto = new ConjuntoContratado(0.0, pago, extra);
-//
-//                ccs.guardar(conjunto);
-//
-//                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-//                alerta.setTitle("Conjunto de Servicios contratados correctamente");
-//                alerta.showAndWait();
-//
-//            } else {
-//                Alert error = new Alert(Alert.AlertType.ERROR);
-//                error.setTitle("Forma de pago no seleccionada");
-//                error.setHeaderText("Por favor, seleccione una forma de pago válida");
-//                error.showAndWait();
-//            }
-//
-//        } catch (Exception e) {
-//            Alert error = new Alert(Alert.AlertType.ERROR);
-//            error.setTitle("Fatal Error");
-//            error.setHeaderText("Ocurrió una excepción general");
-//            error.setContentText(e.getMessage());
-//            error.showAndWait();
-//        }
-    }
+//    public void contratarPaqueteServicios() {
+////        try {
+////            if(cbPago.getValue() != null) {
+////                char pago = cbPago.getValue().charAt(0);
+////                String extra = tfExtra.getText();
+////                //FALTA LOS SERVICIOS
+////                //FALTA EL PRECIO
+////
+////                ConjuntoContratado conjunto = new ConjuntoContratado(0.0, pago, extra);
+////
+////                ccs.guardar(conjunto);
+////
+////                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+////                alerta.setTitle("Conjunto de Servicios contratados correctamente");
+////                alerta.showAndWait();
+////
+////            } else {
+////                Alert error = new Alert(Alert.AlertType.ERROR);
+////                error.setTitle("Forma de pago no seleccionada");
+////                error.setHeaderText("Por favor, seleccione una forma de pago válida");
+////                error.showAndWait();
+////            }
+////
+////        } catch (Exception e) {
+////            Alert error = new Alert(Alert.AlertType.ERROR);
+////            error.setTitle("Fatal Error");
+////            error.setHeaderText("Ocurrió una excepción general");
+////            error.setContentText(e.getMessage());
+////            error.showAndWait();
+////        }
+//    }
 
-    @FXML
-    // METODO ENVIO A CASA
-    public void envioACasa() {
-//        try {
-//            //FALTA VINCULAR AL ANTERIOR MÉTODO - obtener objeto ConjuntoContratado conjunto
-//
-//            String direccion = tfDireccion.getText();
-//            String localidad = tfLocalidad.getText();
-//
-//            Direccion direccionEnvio = new Direccion(direccion, localidad);
-//            conjunto.setDireccion(direccionEnvio);
-//            ccs.guardar(conjunto);
-//
-//            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-//            alerta.setTitle("Conjunto contratado y dirección de envió añadida correctamente");
-//            alerta.showAndWait();
-//
-//        } catch (Exception e) {
-//            Alert error = new Alert(Alert.AlertType.ERROR);
-//            error.setTitle("Fatal Error");
-//            error.setHeaderText("Ocurrió una excepción general");
-//            error.setContentText(e.getMessage());
-//            error.showAndWait();
-//        }
-    }
+//    @FXML
+//    // METODO ENVIO A CASA
+//    public void envioACasa() {
+////        try {
+////            //FALTA VINCULAR AL ANTERIOR MÉTODO - obtener objeto ConjuntoContratado conjunto
+////
+////            String direccion = tfDireccion.getText();
+////            String localidad = tfLocalidad.getText();
+////
+////            Direccion direccionEnvio = new Direccion(direccion, localidad);
+////            conjunto.setDireccion(direccionEnvio);
+////            ccs.guardar(conjunto);
+////
+////            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+////            alerta.setTitle("Conjunto contratado y dirección de envió añadida correctamente");
+////            alerta.showAndWait();
+////
+////        } catch (Exception e) {
+////            Alert error = new Alert(Alert.AlertType.ERROR);
+////            error.setTitle("Fatal Error");
+////            error.setHeaderText("Ocurrió una excepción general");
+////            error.setContentText(e.getMessage());
+////            error.showAndWait();
+////        }
+//    }
 
 
     @FXML
@@ -513,7 +513,7 @@ public class ParadaControlador implements Initializable {
         tfRegion1.setText(paradaActual.getRegion()+"");
 
 
-        cbPago.getItems().addAll("Efectivo", "Tarjeta", "Bizum");
+        //cbPago.getItems().addAll("Efectivo", "Tarjeta", "Bizum");
 
     }
 
@@ -582,7 +582,7 @@ public class ParadaControlador implements Initializable {
         return carnetActual;
     }
 
-    private List<Servicio> obtenerServicios() {
-        return svs.encontrarTodos();
-    }
+//    private List<Servicio> obtenerServicios() {
+//        return svs.encontrarTodos();
+//    }
 }

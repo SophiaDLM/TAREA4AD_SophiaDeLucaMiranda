@@ -30,18 +30,6 @@ public class CredencialesServicio {
         return credencialesRep.save(entity);
     }
 
-    public void borrar(Credenciales entity ) {
-        credencialesRep.delete(entity);
-    }
-
-    public void borrarPorId(Long id) {
-        credencialesRep.deleteById(id);
-    }
-
-    public void borrarPorLote(List<Credenciales> credenciales) {
-        credencialesRep.deleteAll(credenciales);
-    }
-
     public Credenciales encontrarPorId(Long id) {
         return credencialesRep.findById(id).get();
     }

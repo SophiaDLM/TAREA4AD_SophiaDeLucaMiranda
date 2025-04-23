@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-//NO SE MUY BIEN QUE PASA CON LA LIBRERIA DE OBJECTDB
+
 public class DataConexionObjectDB {
     private static DataConexionObjectDB instancia = null;
     private final String ruta = "envios.odb";

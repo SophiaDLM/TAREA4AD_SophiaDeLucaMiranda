@@ -1,90 +1,34 @@
 package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.servicios;
 
-import com.db4o.ObjectContainer;
-import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexion;
-import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.ConjuntoContratado;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Servicio;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.repositorios.ServicioRepositorio;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-//MODIFICAR Y DOCUMENTAR
-public class ServicioServicio implements ServicioRepositorio {
-    private ObjectContainer baseDatos = DataConexion.obtenerInstancia();
+@Service
+public class ServicioServicio {
+    @Autowired
+    private ServicioRepositorio servicioRep;
 
-    @Override
-    public Servicio guardar(Servicio entity) {
-        baseDatos.store(entity);
-        baseDatos.commit();
-        return entity;
+    public boolean guardar(Servicio entity) {
+        return servicioRep.guardarDB4O(entity);
     }
 
-    @Override
-    public Servicio actualizar(Servicio entity) {
-        Servicio servicio = encontrarPorId(entity.getId());
-
-        if(servicio != null) {
-            servicio.setNombre(entity.getNombre());
-            servicio.setPrecio(entity.getPrecio());
-            baseDatos.store(entity);
-            baseDatos.commit();
-            return servicio;
-        } else {
-            return null;
-        }
+    public boolean actualizar(Servicio entity) {
+        return servicioRep.actualizarDB4O(entity);
     }
 
-    @Override
-    public void borrar(Servicio entity) {
-        baseDatos.delete(entity);
-        baseDatos.commit();
-    }
-
-    @Override
-    public void borrarPorId(Long id) {
-        Servicio servicio = encontrarPorId(id);
-
-        if(servicio != null) {
-            baseDatos.delete(servicio);
-            baseDatos.commit();
-        }
-    }
-
-    @Override
-    public void borrarPorLote(List<Servicio> servicios) {
-        for(Servicio indice: servicios) {
-            baseDatos.delete(indice);
-        }
-        baseDatos.commit();
-    }
-
-    @Override
     public Servicio encontrarPorId(Long id) {
-        List<Servicio> servicios = baseDatos.query(Servicio.class);
-
-        for(Servicio indice: servicios) {
-            if(indice.getId().equals(id)) {
-                return indice;
-            }
-        }
-        return null;
+        return servicioRep.encontrarPorIdDB4O(id);
     }
 
-    @Override
     public List<Servicio> encontrarTodos() {
-        List<Servicio> listaServicios = baseDatos.query(Servicio.class);
-        return listaServicios;
+        return servicioRep.encontrarTodosDB4O();
     }
 
-    @Override
     public Servicio encontrarPorNombre(String nombre) {
-        List<Servicio> servicios = baseDatos.query(Servicio.class);
-
-        for(Servicio indice: servicios) {
-            if(indice.getNombre().equals(nombre)) {
-                return indice;
-            }
-        }
-        return null;
+        return servicioRep.encontrarPorNombreDB4O(nombre);
     }
 }

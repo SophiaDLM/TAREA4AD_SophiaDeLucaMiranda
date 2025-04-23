@@ -27,23 +27,16 @@ public class PeregrinoServicio {
         return peregrinoRep.save(entity);
     }
 
-    public void borrar(Peregrino entity ) {
-        peregrinoRep.delete(entity);
-    }
-
-    public void borrarPorId(Long id) {
-        peregrinoRep.deleteById(id);
-    }
-
-    public void borrarPorLote(List<Peregrino> peregrinos) {
-        peregrinoRep.deleteAll(peregrinos);
-    }
-
     public Peregrino encontrarPorId(Long id) {
         return peregrinoRep.findById(id).get();
     }
 
     public List<Peregrino> encontrarTodos() {
         return peregrinoRep.findAll();
+    }
+
+    //Métodos personalizados:
+    public Peregrino encontrarPorNombre(String nombre) {
+        return peregrinoRep.findByNombre(nombre);
     }
 }

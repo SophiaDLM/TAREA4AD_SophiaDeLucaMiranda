@@ -10,5 +10,5 @@ import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Peregrino;
  */
 @Repository
 public interface PeregrinoRepositorio extends JpaRepository<Peregrino, Long> {
-
+    Peregrino findByNombre(String nombre);
 }

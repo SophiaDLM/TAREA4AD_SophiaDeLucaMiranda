@@ -6,7 +6,6 @@ import java.util.Objects;
 public class Servicio {
     //Atributos de la clase:
     private Long id;
-    private static Long contador = 0L;
     private String nombre;
     private double precio;
 
@@ -21,9 +20,8 @@ public class Servicio {
 
     }
 
-    public Servicio(String nombre, double precio) {
-        contador++;
-        this.id = contador;
+    public Servicio(Long id, String nombre, double precio) {
+        this.id = id;
         this.nombre = nombre;
         this.precio = precio;
     }
@@ -74,7 +72,7 @@ public class Servicio {
     public String toString() { //EDITAR LUEGO
         return "Servicio{" +
                 "id=" + id +
-                ", nombre='" + nombre + '\'' +
+                ", nombre='" + nombre +
                 ", precio=" + precio +
                 ", paradas= " +idParadas+ "}";
     }
