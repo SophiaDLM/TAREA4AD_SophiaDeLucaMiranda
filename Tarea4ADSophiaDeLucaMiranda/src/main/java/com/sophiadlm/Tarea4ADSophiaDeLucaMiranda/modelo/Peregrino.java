@@ -7,7 +7,7 @@ import java.util.Objects;
 import jakarta.persistence.*;
 
 /***
- * Clase Peregrino del tipo @Entity que generará una tabla en la base de datos y desde la cuál se
+ * Clase Peregrino del tipo @Entity que generará una tabla en la base de datos y desde la cual se
  * podrán manejar los datos gracias al uso de las clases @Service.
  */
 @Entity
@@ -109,11 +109,6 @@ public class Peregrino {
     }
 
     //Métodos básicos:
-    @Override
-    public String toString() {
-        return "Peregrino [id=" + id + ", nombre=" + nombre + ", nacionalidad=" + nacionalidad + "]";
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

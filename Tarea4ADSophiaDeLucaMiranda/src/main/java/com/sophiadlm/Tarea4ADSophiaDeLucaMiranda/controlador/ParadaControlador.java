@@ -1,12 +1,9 @@
 package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.controlador;
 
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.config.ManejadorEscenas;
-import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexionObjectDB;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.*;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.servicios.*;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.vista.VistaFxml;
-import jakarta.persistence.EntityManager;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +18,7 @@ import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -34,9 +32,6 @@ import java.util.ResourceBundle;
  */
 @Controller
 public class ParadaControlador implements Initializable {
-//    private ObjectContainer baseDatos = DataConexion.obtenerInstancia();
-//    private EntityManager baseDatosObjectDB = DataConexionObjectDB.obtenerInstancia();
-
     //Elementos relacionados con el archivo FXML:
     @FXML
     private GridPane panelParada;
@@ -92,13 +87,19 @@ public class ParadaControlador implements Initializable {
     private ObservableList<Estancia> listaEstancias;
 
     @FXML
-    private TextField tfIdPeregrino;
+    private ChoiceBox<String> cbPeregrino;
 
     @FXML
     private TextField tfNombrePeregrino;
 
     @FXML
     private TextField tfNacionalidadPeregrino;
+
+    @FXML
+    private Button btnAlojarse;
+
+    @FXML
+    private Button btnAlojarseVIP;
 
 //    @FXML
 //    private ListView<Servicio> lstServicios;
@@ -152,16 +153,16 @@ public class ParadaControlador implements Initializable {
     private ParadaServicio pas;
 
     @Autowired
+    private PeregrinoServicio pes;
+
+    @Autowired
     private EstanciaServicio ess;
 
     @Autowired
     private CarnetServicio cas;
 
-//    private EnvioACasaServicio eacs;
-
-//    private ConjuntoContratadoServicio ccs;
-//
-//    private ServicioServicio svs;
+    @Autowired
+    private PeregrinoParadaServicio pps;
 
     /***
      * Método cerrarSesion que lanza una alerta pidiendo al usuario que
@@ -184,19 +185,6 @@ public class ParadaControlador implements Initializable {
             me.cambiarEscena(VistaFxml.INICIARSESION);
             su.setCredenciales(null);
         }
-    }
-
-    /***
-     * Método mostrarAyuda que, como está incompleto, sólo se encarga
-     * de mostrar una alerta informativa.
-     */
-    @FXML
-    public void mostrarAyuda() {
-        Alert sinImplementar = new Alert(Alert.AlertType.INFORMATION);
-        sinImplementar.setTitle("Ayuda No Implementada");
-        sinImplementar.setHeaderText("¡Oops!");
-        sinImplementar.setContentText("La ayuda para el usuario aún no está disponible");
-        sinImplementar.showAndWait();
     }
 
     /***
@@ -288,7 +276,7 @@ public class ParadaControlador implements Initializable {
         }
     }
 
-    /***
+    /*** EDITAR
      * Método sellarAlojarse que muestra la información básica de una parada, pide el ID de un peregrino y
      * muestra sus datos básicos para luego perdirle confirmación y sellar su carnet. Luego se pregunta si el usuario desea
      * realizar una estancia y, si es el caso, si desea que sea del tipo V.I.P.
@@ -300,16 +288,20 @@ public class ParadaControlador implements Initializable {
     Long idPeregrino;
     Carnet actualizarCarnet;
 
-
     @FXML
-    public void sellarAlojarse() {
+    public void sellarCarnet() {
+        paradaActual = obtenerParada();
+        idPeregrino = Long.parseLong(cbPeregrino.getSelectionModel().getSelectedItem());
+        actualizarCarnet = obtenerCarnet(idPeregrino);
+        LocalDateTime fechaHora = LocalDateTime.now();
+
         try {
-            paradaActual = obtenerParada();
-            idPeregrino = Long.parseLong(tfIdPeregrino.getText());
-            actualizarCarnet = obtenerCarnet(idPeregrino);
-
-
             if (actualizarCarnet.getPeregrino().getId() == actualizarCarnet.getId() && actualizarCarnet.getParadaInicial().getId() == paradaActual.getId()) {
+                tfNombrePeregrino.setText(actualizarCarnet.getPeregrino().getNombre());
+                tfNacionalidadPeregrino.setText(actualizarCarnet.getPeregrino().getNacionalidad());
+
+                Thread.sleep(500);
+
                 Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
                 confirmacion.setTitle("Confirmar Datos");
                 confirmacion.setHeaderText("¿Son los datos correctos?");
@@ -317,11 +309,12 @@ public class ParadaControlador implements Initializable {
                 ButtonType confirmar = confirmacion.showAndWait().orElse(ButtonType.CANCEL);
 
                 if (confirmar == ButtonType.OK) {
-                    tfNombrePeregrino.setText(actualizarCarnet.getPeregrino().getNombre());
-                    tfNacionalidadPeregrino.setText(actualizarCarnet.getPeregrino().getNacionalidad());
-
                     actualizarCarnet.setDistancia(actualizarCarnet.getDistancia() + 10);
                     cas.actualizar(actualizarCarnet);
+
+                    if (!verificarPasoPeregrinoParada(idPeregrino, paradaActual.getId(), fechaHora)) {
+                        pps.guardarPeregrinoParada(idPeregrino, paradaActual.getId(), fechaHora);
+                    }
 
                     Alert actualizado = new Alert(Alert.AlertType.INFORMATION);
                     actualizado.setTitle("Operación exitosa");
@@ -335,9 +328,8 @@ public class ParadaControlador implements Initializable {
                     ButtonType confirmar2 = confirmacion2.showAndWait().orElse(ButtonType.CANCEL);
 
                     if (confirmar2 == ButtonType.OK) {
-                        //MODIFICAR LO DE ALOJARSE Y PONER BOTONES EN PARADA.FXML
-                        //LUEGO PREGUNTAR SI SE DESEA CONTRATAR SERVICIO Y LUEGO CAMBIAR A ESTANCIA.FXML
-                        //EDITAR VENTANITAS HOYYYYYY
+                        btnAlojarse.setDisable(false);
+                        btnAlojarseVIP.setDisable(false);
                     }
 
                 } else {
@@ -364,97 +356,84 @@ public class ParadaControlador implements Initializable {
         }
     }
 
-//    @FXML
-//    //METODO ALOJARSE ESTANDAR
-//    public void estanciaEstandar() {
-////        Estancia nuevaEstancia = new Estancia(LocalDate.now(), false);
-////        nuevaEstancia.setPeregrino(actualizarCarnet.getPeregrino());
-////        nuevaEstancia.setParada(paradaActual);
-////        ess.guardar(nuevaEstancia);
-////
-////        Alert actualizado1 = new Alert(Alert.AlertType.INFORMATION);
-////        actualizado1.setTitle("Operación exitosa");
-////        actualizado1.setHeaderText("Se ha registrado la estancia");
-////        actualizado1.showAndWait();
-//    }
+    //FUNCIONA
+    @FXML
+    public void alojarEstandar() {
+        paradaActual = obtenerParada();
+        idPeregrino = Long.parseLong(cbPeregrino.getSelectionModel().getSelectedItem());
+        actualizarCarnet = obtenerCarnet(idPeregrino);
 
-    //
-//    @FXML
-//    public void estanciaVIP() {
-////        Estancia nuevaEstancia = new Estancia(LocalDate.now(), true);
-////        nuevaEstancia.setPeregrino(actualizarCarnet.getPeregrino());
-////        nuevaEstancia.setParada(paradaActual);
-////        ess.guardar(nuevaEstancia);
-////
-////        actualizarCarnet.setNvips(actualizarCarnet.getNvips() + 1);
-////        cas.actualizar(actualizarCarnet);
-////
-////        Alert actualizado1 = new Alert(Alert.AlertType.INFORMATION);
-////        actualizado1.setTitle("Operación exitosa");
-////        actualizado1.setHeaderText("Se ha registrado la estancia V.I.P. y se ha actualizado el carnet");
-////        actualizado1.showAndWait();
-//    }
+        try {
+            Estancia nuevaEstancia = new Estancia(LocalDate.now(), false);
+            nuevaEstancia.setPeregrino(actualizarCarnet.getPeregrino());
+            nuevaEstancia.setParada(paradaActual);
+            ess.guardar(nuevaEstancia);
 
-    //@FXML
-    // METODO CONTRATAR PAQUETE DE SERVICIOS - DB4O
-//    public void contratarPaqueteServicios() {
-////        try {
-////            if(cbPago.getValue() != null) {
-////                char pago = cbPago.getValue().charAt(0);
-////                String extra = tfExtra.getText();
-////                //FALTA LOS SERVICIOS
-////                //FALTA EL PRECIO
-////
-////                ConjuntoContratado conjunto = new ConjuntoContratado(0.0, pago, extra);
-////
-////                ccs.guardar(conjunto);
-////
-////                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-////                alerta.setTitle("Conjunto de Servicios contratados correctamente");
-////                alerta.showAndWait();
-////
-////            } else {
-////                Alert error = new Alert(Alert.AlertType.ERROR);
-////                error.setTitle("Forma de pago no seleccionada");
-////                error.setHeaderText("Por favor, seleccione una forma de pago válida");
-////                error.showAndWait();
-////            }
-////
-////        } catch (Exception e) {
-////            Alert error = new Alert(Alert.AlertType.ERROR);
-////            error.setTitle("Fatal Error");
-////            error.setHeaderText("Ocurrió una excepción general");
-////            error.setContentText(e.getMessage());
-////            error.showAndWait();
-////        }
-//    }
+            Alert actualizado1 = new Alert(Alert.AlertType.INFORMATION);
+            actualizado1.setTitle("Operación exitosa");
+            actualizado1.setHeaderText("Se ha registrado la estancia");
+            actualizado1.showAndWait();
 
-//    @FXML
-//    // METODO ENVIO A CASA
-//    public void envioACasa() {
-////        try {
-////            //FALTA VINCULAR AL ANTERIOR MÉTODO - obtener objeto ConjuntoContratado conjunto
-////
-////            String direccion = tfDireccion.getText();
-////            String localidad = tfLocalidad.getText();
-////
-////            Direccion direccionEnvio = new Direccion(direccion, localidad);
-////            conjunto.setDireccion(direccionEnvio);
-////            ccs.guardar(conjunto);
-////
-////            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-////            alerta.setTitle("Conjunto contratado y dirección de envió añadida correctamente");
-////            alerta.showAndWait();
-////
-////        } catch (Exception e) {
-////            Alert error = new Alert(Alert.AlertType.ERROR);
-////            error.setTitle("Fatal Error");
-////            error.setHeaderText("Ocurrió una excepción general");
-////            error.setContentText(e.getMessage());
-////            error.showAndWait();
-////        }
-//    }
+            Thread.sleep(500);
 
+            Alert confirmacion3 = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmacion3.setTitle("Confirmar");
+            confirmacion3.setHeaderText("¿Desea contratar un servicio?");
+
+            ButtonType confirmar3 = confirmacion3.showAndWait().orElse(ButtonType.CANCEL);
+
+            if (confirmar3 == ButtonType.OK) {
+                me.cambiarEscena(VistaFxml.ESTANCIA);
+            }
+        } catch (Exception e) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Fatal Error");
+            error.setHeaderText("Ocurrió una excepción general");
+            error.setContentText(e.getMessage());
+            error.showAndWait();
+        }
+    }
+
+    //FUNCIONA
+    @FXML
+    public void alojarVip() {
+        paradaActual = obtenerParada();
+        idPeregrino = Long.parseLong(cbPeregrino.getSelectionModel().getSelectedItem());
+        actualizarCarnet = obtenerCarnet(idPeregrino);
+
+        try {
+            Estancia nuevaEstancia = new Estancia(LocalDate.now(), true);
+            nuevaEstancia.setPeregrino(actualizarCarnet.getPeregrino());
+            nuevaEstancia.setParada(paradaActual);
+            ess.guardar(nuevaEstancia);
+
+            actualizarCarnet.setNvips(actualizarCarnet.getNvips() + 1);
+            cas.actualizar(actualizarCarnet);
+
+            Alert actualizado1 = new Alert(Alert.AlertType.INFORMATION);
+            actualizado1.setTitle("Operación exitosa");
+            actualizado1.setHeaderText("Se ha registrado la estancia V.I.P. y se ha actualizado el carnet");
+            actualizado1.showAndWait();
+
+            Thread.sleep(500);
+
+            Alert confirmacion3 = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmacion3.setTitle("Confirmar");
+            confirmacion3.setHeaderText("¿Desea contratar un servicio?");
+
+            ButtonType confirmar3 = confirmacion3.showAndWait().orElse(ButtonType.CANCEL);
+
+            if (confirmar3 == ButtonType.OK) {
+                me.cambiarEscena(VistaFxml.ESTANCIA);
+            }
+        } catch (Exception e) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Fatal Error");
+            error.setHeaderText("Ocurrió una excepción general");
+            error.setContentText(e.getMessage());
+            error.showAndWait();
+        }
+    }
 
     @FXML
     //METODO VER ENVIOS REALIZADOS
@@ -500,6 +479,16 @@ public class ParadaControlador implements Initializable {
         tfNombre.setText(paradaActual.getNombre());
         tfRegion.setText(paradaActual.getRegion()+"");
 
+        List<Peregrino> listaPeregrinos = pes.encontrarTodos();
+        ObservableList<String> elementosPeregrino = FXCollections.observableArrayList();
+
+        for(Peregrino indice: listaPeregrinos) {
+            String campos = String.valueOf(indice.getId());
+            elementosPeregrino.add(campos);
+        }
+
+        cbPeregrino.getItems().addAll(elementosPeregrino);
+
         tcId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tcPeregrino.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPeregrino().getNombre()));
         tcFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
@@ -511,10 +500,6 @@ public class ParadaControlador implements Initializable {
         tfId1.setText(String.valueOf(paradaActual.getId()));
         tfNombre1.setText(paradaActual.getNombre());
         tfRegion1.setText(paradaActual.getRegion()+"");
-
-
-        //cbPago.getItems().addAll("Efectivo", "Tarjeta", "Bizum");
-
     }
 
     /***
@@ -582,7 +567,10 @@ public class ParadaControlador implements Initializable {
         return carnetActual;
     }
 
-//    private List<Servicio> obtenerServicios() {
-//        return svs.encontrarTodos();
-//    }
+    private boolean verificarPasoPeregrinoParada(Long idPeregrino, Long idParada, LocalDateTime fechaHora) {
+        if(pps.existePeregrinoParada(idPeregrino, idParada, fechaHora) != 0) {
+            return true;
+        }
+        return false;
+    }
 }

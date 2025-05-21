@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -16,317 +15,107 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.controlador.AdministradorControlador">
    <center>
       <Pane prefHeight="600.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: rgba(97, 194, 123, 0.65);">
+            <GridPane fx:id="pnlAdministrador" prefHeight="600.0" prefWidth="700.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="339.20001220703125" minWidth="10.0" prefWidth="248.0000244140625" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="298.4000122070313" minWidth="10.0" prefWidth="213.59997558593753" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="298.4000122070313" minWidth="10.0" prefWidth="239.1999633789062" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.2000183105469" minWidth="10.0" prefWidth="561.599951171875" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="275.79998779296875" minWidth="10.0" prefWidth="138.40004882812502" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="280.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
+                  <ImageView fitHeight="670.0" fitWidth="700.0" nodeOrientation="INHERIT" opacity="0.9" pickOnBounds="true" GridPane.rowIndex="4">
+                     <image>
+                        <Image url="@../imagenes/beautiful-rays-of-sunlight-in-a-green-forest-generative-ai-free-photo.jpg" />
+                     </image>
+                  </ImageView>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffffb2" height="560.0" stroke="BLACK" strokeType="INSIDE" width="650.0" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="25.0" top="110.0" />
+                     </GridPane.margin>
+                  </Rectangle>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../imagenes/pilgrim-hat.png" />
                      </image>
                      <GridPane.margin>
-                        <Insets left="40.0" top="20.0" />
+                        <Insets left="80.0" top="40.0" />
                      </GridPane.margin>
                   </ImageView>
-                  <Label text="Bienvenido Administrador/a" GridPane.columnSpan="3">
+                  <Label text="Bienvenido Administrador/a" GridPane.columnSpan="2">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="34.0" />
                      </font>
                      <GridPane.margin>
-                        <Insets left="110.0" top="20.0" />
+                        <Insets left="140.0" top="40.0" />
                      </GridPane.margin>
                   </Label>
-                  <Line endX="600.0" endY="0.5928916931152344" startX="-100.0" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#cambiarPanelNuevaParada" prefHeight="30.0" prefWidth="205.0" style="-fx-background-color: white; -fx-border-color: black;" text="AÑADIR NUEVA PARADA" GridPane.rowIndex="2">
+                  <Label text="Elija la operación que desea realizar a continuación:" GridPane.columnSpan="2" GridPane.rowIndex="2">
                      <font>
-                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                        <Font name="Arial Rounded MT Bold" size="20.0" />
                      </font>
                      <GridPane.margin>
-                        <Insets left="40.0" />
+                        <Insets left="95.0" />
                      </GridPane.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#cambiarPanelNuevoServicio" prefHeight="30.0" prefWidth="205.0" style="-fx-background-color: white; -fx-border-color: black;" text="AÑADIR NUEVO SERVICIO" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  </Label>
+                  <Line endX="548.0" startX="-100.0" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="25.0" />
+                     </GridPane.margin>
+                  </Line>
+                  <Button mnemonicParsing="false" onAction="#cambiarPanelNuevaParada" prefHeight="35.0" prefWidth="360.0" style="-fx-background-color: white; -fx-border-color: black;" text="AÑADIR UNA NUEVA PARADA" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="170.0" />
+                     </GridPane.margin>
                      <font>
-                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                        <Font name="Arial Rounded MT Bold" size="16.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#cambiarPanelNuevoServicio" prefHeight="35.0" prefWidth="360.0" style="-fx-background-color: white; -fx-border-color: black;" text="AÑADIR UN NUEVO SERVICIO" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="16.0" />
                      </font>
                      <GridPane.margin>
-                        <Insets left="5.0" />
+                        <Insets left="170.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="205.0" style="-fx-background-color: white; -fx-border-color: black;" text="EDITAR SERVICIO" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <Button mnemonicParsing="false" onAction="#cambiarPanelEditarServicio" prefHeight="35.0" prefWidth="360.0" style="-fx-background-color: white; -fx-border-color: black;" text="EDITAR UN SERVICIO EXISTENTE" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="170.0" />
+                     </GridPane.margin>
                      <font>
-                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                        <Font name="Arial Rounded MT Bold" size="16.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="360.0" style="-fx-background-color: white; -fx-border-color: black;" text="HACER BACKUP COMPLETO DE CARNETS" GridPane.rowIndex="6">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="16.0" />
                      </font>
                      <GridPane.margin>
-                        <Insets left="5.0" right="40.0" />
-                     </GridPane.margin></Button>
-                  <Line endX="600.0" startX="-100.0" GridPane.rowIndex="3" />
-                  <Pane prefHeight="310.0" prefWidth="700.0" GridPane.columnSpan="3" GridPane.rowIndex="4">
-                     <children>
-                        <GridPane fx:id="pnlNuevaParada" prefHeight="310.0" prefWidth="700.0" visible="false">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="328.8" minWidth="10.0" prefWidth="202.40003662109376" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="510.40000305175784" minWidth="10.0" prefWidth="497.59996337890624" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Label text="Nombre:">
-                                 <GridPane.margin>
-                                    <Insets left="40.0" />
-                                 </GridPane.margin>
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="20.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="tfNombre" prefHeight="35.0" promptText="Introduzca el nombre de la parada..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets right="40.0" />
-                                 </GridPane.margin>
-                              </TextField>
-                              <Label text="Región:" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="20.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="40.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <TextField fx:id="tfRegion" prefHeight="35.0" promptText="Introduzca la región de la parada..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets right="40.0" />
-                                 </GridPane.margin>
-                              </TextField>
-                              <Label text="Usuario:" GridPane.rowIndex="3">
-                                 <GridPane.margin>
-                                    <Insets left="40.0" />
-                                 </GridPane.margin>
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="20.0" />
-                                 </font>
-                              </Label>
-                              <Label text="Contraseña:" GridPane.rowIndex="4">
-                                 <GridPane.margin>
-                                    <Insets left="40.0" />
-                                 </GridPane.margin>
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="20.0" />
-                                 </font>
-                              </Label>
-                              <Button mnemonicParsing="false" onAction="#nuevaParada" style="-fx-background-color: white; -fx-border-color: black;" text="ACEPTAR" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="16.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="92.0" />
-                                 </GridPane.margin>
-                              </Button>
-                              <TextField fx:id="tfUsuario" prefHeight="35.0" promptText="Introduzca el usuario administrador de la parada..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <GridPane.margin>
-                                    <Insets right="40.0" />
-                                 </GridPane.margin>
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="15.0" />
-                                 </font>
-                              </TextField>
-                              <PasswordField fx:id="pfContraseña" prefHeight="35.0" promptText="Introduzca la contraseña del usuario..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="15.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets right="40.0" />
-                                 </GridPane.margin>
-                              </PasswordField>
-                              <Label text="Responsable:" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="20.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="40.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <TextField fx:id="tfResponsable" prefHeight="35.0" promptText="Introduzca el nombre del responsable..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <GridPane.margin>
-                                    <Insets right="40.0" />
-                                 </GridPane.margin>
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="15.0" />
-                                 </font>
-                              </TextField>
-                           </children>
-                        </GridPane>
-                        <GridPane fx:id="pnlNuevoServicio" prefHeight="310.0" prefWidth="700.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="344.39996337890625" minWidth="10.0" prefWidth="268.0000244140625" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="451.6000518798828" minWidth="10.0" prefWidth="431.9999755859375" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="120.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Label text="Nombre:">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="20.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="45.0" />
-                                 </GridPane.margin></Label>
-                              <Label text="Precio:" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="20.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="45.0" />
-                                 </GridPane.margin></Label>
-                              <Label text="Conjunto de Paradas:" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="20.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="45.0" />
-                                 </GridPane.margin></Label>
-                              <Button fx:id="btnCrear" mnemonicParsing="false" onAction="#nuevoServicio" style="-fx-background-color: white; -fx-border-color: black;" text="CREAR" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="16.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="40.0" />
-                                 </GridPane.margin></Button>
-                              <Button fx:id="btnGuardar" mnemonicParsing="false" style="-fx-background-color: white; -fx-border-color: black;" text="GUARDAR" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="14.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="40.0" />
-                                 </GridPane.margin>
-                              </Button>
-                              <TextField fx:id="tfNombreServicio" prefHeight="35.0" promptText="Introduzca el nombre del servicio..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1">
-                                 <GridPane.margin>
-                                    <Insets right="45.0" />
-                                 </GridPane.margin>
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="15.0" />
-                                 </font></TextField>
-                              <TextField fx:id="tfPrecioServicio" prefHeight="35.0" promptText="Introduzca el precio del servicio..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets right="45.0" />
-                                 </GridPane.margin>
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="15.0" />
-                                 </font></TextField>
-                              <TableView fx:id="tvParadasVer" maxHeight="100.0" maxWidth="100.0" minHeight="140.0" minWidth="100.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                <columns>
-                                  <TableColumn fx:id="tcParadasVer" maxWidth="95.0" minWidth="9.0" prefWidth="99.19994813203812" resizable="false" text="ID Parada" />
-                                </columns>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </TableView>
-                              <Button mnemonicParsing="false" onAction="#añadirParadaALista" prefWidth="95.0" style="-fx-background-color: white; -fx-border-color: black;" text="AÑADIR" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <GridPane.margin>
-                                    <Insets bottom="47.0" left="145.0" />
-                                 </GridPane.margin>
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="16.0" />
-                                 </font>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#borrarParadaDeLista" prefWidth="95.0" style="-fx-background-color: white; -fx-border-color: black;" text="BORRAR" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="16.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="145.0" top="45.0" />
-                                 </GridPane.margin>
-                              </Button>
-                              <TableView fx:id="tvParadasUsar" maxHeight="80.0" maxWidth="100.0" minHeight="140.0" minWidth="100.0" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                <columns>
-                                  <TableColumn fx:id="tcParadasUsar" maxWidth="95.0" prefWidth="97.59991455078125" resizable="false" text="ID Parada" />
-                                </columns>
-                                 <GridPane.margin>
-                                    <Insets left="287.0" />
-                                 </GridPane.margin>
-                              </TableView>
-                           </children>
-                        </GridPane>
-                        <GridPane fx:id="pnlEditarServicio" prefHeight="310.0" prefWidth="700.0" visible="false">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Label text="Seleccione un servicio para editarlo:">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="18.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="45.0" />
-                                 </GridPane.margin></Label>
-                              <ListView fx:id="lstEditarServicio" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets left="45.0" right="45.0" />
-                                 </GridPane.margin></ListView>
-                              <Button mnemonicParsing="false" style="-fx-background-color: white; -fx-border-color: black;" text="EDITAR" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Arial Rounded MT Bold" size="14.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets left="310.0" />
-                                 </GridPane.margin></Button>
-                           </children>
-                        </GridPane>
-                     </children>
-                  </Pane>
-                  <Line endX="600.0" startX="-100.0" GridPane.rowIndex="5" />
-                  <Button mnemonicParsing="false" onAction="#mostrarAyuda" style="-fx-background-color: white; -fx-border-color: black;" GridPane.rowIndex="6">
-                     <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../imagenes/question-mark.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <GridPane.margin>
-                        <Insets bottom="15.0" left="40.0" />
+                        <Insets left="170.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#cerrarSesion" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                  <Line endX="548.0" startX="-100.0" GridPane.rowIndex="7">
+                     <GridPane.margin>
+                        <Insets left="25.0" />
+                     </GridPane.margin>
+                  </Line>
+                  <Button mnemonicParsing="false" onAction="#cerrarSesion" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="8">
                      <graphic>
                         <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -335,7 +124,401 @@
                         </ImageView>
                      </graphic>
                      <GridPane.margin>
-                        <Insets bottom="15.0" left="145.0" right="45.0" />
+                        <Insets bottom="40.0" />
+                     </GridPane.margin>
+                  </Button>
+               </children>
+            </GridPane>
+            <GridPane fx:id="pnlNuevaParada" prefHeight="600.0" prefWidth="700.0" visible="false">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="344.4000244140625" minWidth="10.0" prefWidth="226.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="476.39996337890625" minWidth="10.0" prefWidth="474.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fitHeight="670.0" fitWidth="700.0" nodeOrientation="INHERIT" opacity="0.9" pickOnBounds="true" GridPane.rowIndex="4">
+                     <image>
+                        <Image url="@../imagenes/beautiful-rays-of-sunlight-in-a-green-forest-generative-ai-free-photo.jpg" />
+                     </image>
+                  </ImageView>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffffb2" height="560.0" stroke="BLACK" strokeType="INSIDE" width="650.0" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets left="25.0" top="30.0" />
+                     </GridPane.margin>
+                  </Rectangle>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/pilgrim-stop.png" />
+                     </image>
+                     <GridPane.margin>
+                        <Insets left="110.0" top="40.0" />
+                     </GridPane.margin>
+                  </ImageView>
+                  <Label text="Añadir una nueva parada" GridPane.columnSpan="2">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="34.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="170.0" top="40.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Line endX="548.0" startX="-100.0" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="25.0" />
+                     </GridPane.margin>
+                  </Line>
+                  <Label text="Nombre:" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="20.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="80.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="tfNombre" prefHeight="35.0" promptText="Introduzca el nombre de la parada..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="80.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label text="Región:" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="20.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="80.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="tfRegion" prefHeight="35.0" promptText="Introduzca la región de la parada..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="80.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label text="Responsable:" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="20.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="80.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="tfResponsable" prefHeight="35.0" promptText="Introduzca el nombre del responsable..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets right="80.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label text="Usuario:" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="80.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tfUsuario" prefHeight="35.0" promptText="Introduzca el usuario administrador de la parada..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets right="80.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label text="Contraseña:" GridPane.rowIndex="6">
+                     <GridPane.margin>
+                        <Insets left="80.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="pfContraseña" prefHeight="35.0" promptText="Introduzca la contraseña del usuario..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="80.0" />
+                     </GridPane.margin>
+                  </PasswordField>
+                  <Button mnemonicParsing="false" onAction="#nuevaParada" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: white; -fx-border-color: black;" text="ACEPTAR" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="16.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="50.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Line endX="548.0" startX="-100.0" GridPane.rowIndex="8">
+                     <GridPane.margin>
+                        <Insets left="25.0" />
+                     </GridPane.margin>
+                  </Line>
+                  <Button mnemonicParsing="false" onAction="#volver" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagenes/logout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <GridPane.margin>
+                        <Insets bottom="30.0" left="346.0" />
+                     </GridPane.margin>
+                  </Button>
+               </children>
+            </GridPane>
+            <GridPane fx:id="pnlNuevoServicio" prefHeight="600.0" prefWidth="700.0" visible="false">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.20001220703125" minWidth="10.0" prefWidth="303.60003662109375" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="396.39996337890625" minWidth="10.0" prefWidth="396.39996337890625" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="160.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fitHeight="698.0" fitWidth="700.0" nodeOrientation="INHERIT" opacity="0.9" pickOnBounds="true" GridPane.rowIndex="4">
+                     <image>
+                        <Image url="@../imagenes/beautiful-rays-of-sunlight-in-a-green-forest-generative-ai-free-photo.jpg" />
+                     </image>
+                  </ImageView>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffffb2" height="560.0" stroke="BLACK" strokeType="INSIDE" width="650.0" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="25.0" top="160.0" />
+                     </GridPane.margin>
+                  </Rectangle>
+                  <Label text="Añadir un nuevo servicio" GridPane.columnSpan="2">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="34.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="140.0" top="40.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Line endX="548.0" startX="-100.0" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="25.0" />
+                     </GridPane.margin>
+                  </Line>
+                  <Label text="Nombre:" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="20.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="80.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="tfNombreServicio" prefHeight="35.0" promptText="Introduzca el nombre del servicio..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets right="80.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label text="Precio:" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="20.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="80.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="tfPrecioServicio" prefHeight="35.0" promptText="Introduzca el precio del servicio..." style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets right="80.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label text="Conjunto de Paradas:" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="20.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="80.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TableView fx:id="tvParadasVer" maxHeight="100.0" maxWidth="100.0" minHeight="140.0" minWidth="100.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <columns>
+                      <TableColumn fx:id="tcParadasVer" maxWidth="95.0" minWidth="9.0" prefWidth="99.19994813203812" resizable="false" text="ID Parada" />
+                    </columns>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </TableView>
+                  <Button mnemonicParsing="false" onAction="#añadirParadaALista" prefWidth="95.0" style="-fx-background-color: white; -fx-border-color: black;" text="AÑADIR" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets bottom="47.0" left="110.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="16.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#borrarParadaDeLista" prefWidth="95.0" style="-fx-background-color: white; -fx-border-color: black;" text="BORRAR" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="16.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="110.0" top="45.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <TableView fx:id="tvParadasUsar" maxHeight="80.0" maxWidth="100.0" minHeight="140.0" minWidth="100.0" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <columns>
+                      <TableColumn fx:id="tcParadasUsar" maxWidth="95.0" prefWidth="97.59991455078125" resizable="false" text="ID Parada" />
+                    </columns>
+                     <GridPane.margin>
+                        <Insets left="220.0" />
+                     </GridPane.margin>
+                  </TableView>
+                  <Button fx:id="btnCrear" mnemonicParsing="false" onAction="#nuevoServicio" style="-fx-background-color: white; -fx-border-color: black;" text="CREAR" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="16.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="300.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#editarServicio" style="-fx-background-color: white; -fx-border-color: black;" text="GUARDAR" visible="false" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="40.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Line endX="548.0" startX="-100.0" GridPane.rowIndex="6">
+                     <GridPane.margin>
+                        <Insets left="25.0" />
+                     </GridPane.margin>
+                  </Line>
+                  <Button mnemonicParsing="false" onAction="#volver" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagenes/logout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <GridPane.margin>
+                        <Insets bottom="30.0" left="270.0" />
+                     </GridPane.margin>
+                  </Button>
+               </children>
+            </GridPane>
+            <GridPane fx:id="pnlEditarServicio" prefHeight="600.0" prefWidth="700.0" visible="false">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="449.40003662109376" minWidth="10.0" prefWidth="449.40003662109376" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="281.0000122070312" minWidth="10.0" prefWidth="250.19996337890626" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="200.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fitHeight="637.0" fitWidth="700.0" nodeOrientation="INHERIT" opacity="0.9" pickOnBounds="true" GridPane.rowIndex="3">
+                     <image>
+                        <Image url="@../imagenes/beautiful-rays-of-sunlight-in-a-green-forest-generative-ai-free-photo.jpg" />
+                     </image>
+                  </ImageView>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffffb2" height="560.0" stroke="BLACK" strokeType="INSIDE" width="650.0" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets bottom="27.0" left="25.0" />
+                     </GridPane.margin>
+                  </Rectangle>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/pilgrim-hat.png" />
+                     </image>
+                     <GridPane.margin>
+                        <Insets left="80.0" top="40.0" />
+                     </GridPane.margin>
+                  </ImageView>
+                  <Label text="Editar un servicio existente" GridPane.columnSpan="2">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="34.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="140.0" top="40.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Line endX="548.0" startX="-100.0" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="25.0" />
+                     </GridPane.margin>
+                  </Line>
+                  <Label text="Seleccione un servicio para editarlo:" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="20.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="80.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TableView fx:id="tvServiciosEditar" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                    <columns>
+                      <TableColumn fx:id="tcIdServicio" prefWidth="134.0" text="ID" />
+                      <TableColumn fx:id="tcNombreServicio" prefWidth="134.0" text="NOMBRE" />
+                        <TableColumn fx:id="tcPrecioServicio" prefWidth="134.0" text="PRECIO" />
+                        <TableColumn fx:id="tcParadasServicio" prefWidth="134.0" text="PARADAS" />
+                    </columns>
+                     <GridPane.margin>
+                        <Insets left="80.0" right="80.0" />
+                     </GridPane.margin>
+                  </TableView>
+                  <Button mnemonicParsing="false" onAction="#cambiarPanel" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: white; -fx-border-color: black;" text="EDITAR" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="290.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Line endX="548.0" startX="-100.0" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="25.0" />
+                     </GridPane.margin>
+                  </Line>
+                  <Button mnemonicParsing="false" onAction="#volver" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagenes/logout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <GridPane.margin>
+                        <Insets bottom="30.0" left="122.0" />
                      </GridPane.margin>
                   </Button>
                </children>

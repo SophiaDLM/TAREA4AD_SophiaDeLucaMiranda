@@ -5,12 +5,14 @@ import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexion;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.ConjuntoContratado;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class ConjuntoContratadoRepositorio {
     private ObjectContainer baseDatos;
 
     public ConjuntoContratadoRepositorio() {
-        this.baseDatos = DataConexion.obtenerInstancia();
+        this.baseDatos = DataConexion.obtenerInstanciaObjectContainer();
     }
 
     public boolean guardarDB4O(ConjuntoContratado entity) {
@@ -24,5 +26,10 @@ public class ConjuntoContratadoRepositorio {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public List<ConjuntoContratado> encontrarTodosDB4O() {
+        List<ConjuntoContratado> listaConjuntos = baseDatos.query(ConjuntoContratado.class);
+        return listaConjuntos;
     }
 }

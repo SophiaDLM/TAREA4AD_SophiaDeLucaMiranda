@@ -6,6 +6,7 @@ import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.repositorios.PeregrinoParadaRep
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /***
@@ -25,12 +26,16 @@ public class PeregrinoParadaServicio {
     private ParadaRepositorio paradaRepositorio;
 
     //Métodos personalizados:
-    public void guardarPeregrinoParada(Long idPeregrino, Long idParada) {
-        peregrinoParadaRepositorio.insertarPeregrinoParada(idPeregrino, idParada);
+    public void guardarPeregrinoParada(Long idPeregrino, Long idParada, LocalDateTime fechaHora) {
+        peregrinoParadaRepositorio.insertarPeregrinoParada(idPeregrino, idParada, fechaHora);
     }
 
     public List<Parada> obtenerParadaPeregrino(Long idPeregrino) {
         List<Long> idParadas = peregrinoParadaRepositorio.encontrarParadasPeregrino(idPeregrino);
         return paradaRepositorio.findAllById(idParadas);
+    }
+
+    public int existePeregrinoParada(Long idPeregrino, Long idParada, LocalDateTime fechaHora) {
+        return peregrinoParadaRepositorio.existePeregrinoParada(idPeregrino, idParada, fechaHora);
     }
 }

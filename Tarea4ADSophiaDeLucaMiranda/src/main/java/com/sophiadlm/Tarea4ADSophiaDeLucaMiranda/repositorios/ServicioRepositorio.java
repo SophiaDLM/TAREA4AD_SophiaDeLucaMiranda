@@ -6,6 +6,7 @@ import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexion;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Servicio;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -13,7 +14,7 @@ public class ServicioRepositorio {
     private ObjectContainer baseDatos;
 
     public ServicioRepositorio() {
-        this.baseDatos = DataConexion.obtenerInstancia();
+        this.baseDatos = DataConexion.obtenerInstanciaObjectContainer();
     }
 
     public boolean guardarDB4O(Servicio entity) {
@@ -24,9 +25,19 @@ public class ServicioRepositorio {
 
         } catch (Exception e) {
             System.out.println(">> FATAL ERROR - No se ha podido guardar el servicio: ");
-            e.printStackTrace();
         }
         return false;
+    }
+
+    public Servicio encontrarPorIdDB4O(Long id) {
+        ObjectSet<Servicio> servicios = baseDatos.queryByExample(new Servicio(id, null, 0));
+        Servicio servicioEncontrado;
+
+        if(servicios.hasNext()) {
+            return servicioEncontrado = servicios.next();
+        } else {
+            return null;
+        }
     }
 
     public boolean actualizarDB4O(Servicio entity) {
@@ -48,17 +59,6 @@ public class ServicioRepositorio {
         return false;
     }
 
-    public Servicio encontrarPorIdDB4O(Long id) {
-        ObjectSet<Servicio> servicios = baseDatos.queryByExample(new Servicio(id, null, 0));
-        Servicio servicioEncontrado;
-
-        if(servicios.hasNext()) {
-            return servicioEncontrado = servicios.next();
-        } else {
-            return null;
-        }
-    }
-
     public List<Servicio> encontrarTodosDB4O() {
         List<Servicio> listaServicios = baseDatos.query(Servicio.class);
         return listaServicios;
@@ -73,5 +73,18 @@ public class ServicioRepositorio {
         } else {
             return null;
         }
+    }
+
+    public List<Servicio> encontrarPorIdParadaDB4O(Long idParada) {
+        List<Servicio> serviciosSinFiltro = baseDatos.query(Servicio.class);
+        List<Servicio> serviciosFiltrado = new ArrayList<>();
+
+        for(Servicio indice: serviciosSinFiltro) {
+            if(indice.getIdParadas() != null && indice.getIdParadas().contains(idParada)) {
+                serviciosFiltrado.add(indice);
+            }
+        }
+
+        return serviciosFiltrado;
     }
 }

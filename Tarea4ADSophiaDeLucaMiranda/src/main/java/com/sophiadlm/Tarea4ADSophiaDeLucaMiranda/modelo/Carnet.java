@@ -96,11 +96,6 @@ public class Carnet {
 
     //Métodos básicos:
     @Override
-    public String toString() {
-        return "Carnet [id=" + id + ", fechaexp=" + fechaexp + ", distancia=" + distancia + ", nvips=" + nvips + "]";
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Carnet carnet = (Carnet) o;

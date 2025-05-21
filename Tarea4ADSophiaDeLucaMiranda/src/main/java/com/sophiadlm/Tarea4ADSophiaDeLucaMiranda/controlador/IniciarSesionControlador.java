@@ -1,9 +1,11 @@
 package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.controlador;
 
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.config.ManejadorEscenas;
+import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexion;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.*;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.servicios.*;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.vista.VistaFxml;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,6 +26,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -31,7 +34,7 @@ import java.util.ResourceBundle;
 /***
  * Clase IniciarSesionControlador que se encarga de manejar las acciones
  * disponibles tanto de un usuario invitado como de un usuario existente en la base de datos.
- * Estás acciones son acceder a la ayuda de usuario (no implementada aún), iniciar sesión con sus credenciales,
+ * Estas acciones son acceder a la ayuda de usuario (no implementada aún), iniciar sesión con sus credenciales,
  * registrarse como peregrino y cerrar sesión si así lo desea.
  * Esta clase implementa Initializable para el uso de JavaFX.
  */
@@ -90,20 +93,6 @@ public class IniciarSesionControlador implements Initializable {
     private PeregrinoParadaServicio pps;
 
     /***
-     * Método mostrarAyuda que, como está incompleto, sólo se encarga
-     * de mostrar una alerta informativa.
-     */
-    @FXML
-    public void mostrarAyuda() {
-        //AÑADIR SISTEMA DE AYUDA
-        Alert sinImplementar = new Alert(Alert.AlertType.INFORMATION);
-        sinImplementar.setTitle("Ayuda No Implementada");
-        sinImplementar.setHeaderText("¡Oops!");
-        sinImplementar.setContentText("La ayuda para el usuario aún no está disponible");
-        sinImplementar.showAndWait();
-    }
-
-    /***
      * Método volver que se utiliza para cambiar el panel de registrar peregrino al de iniciar sesión y borra los
      * datos almacenados en el formulario después de confirmar que quiere volver.
      */
@@ -147,7 +136,6 @@ public class IniciarSesionControlador implements Initializable {
      * Método iniciarSesion que obtiene las credenciales de la base de datos, las almacena en un objeto del
      * tipo SesionUsuario para utilizarlas posteriormente y en función del tipo de usuario que esté accediendo,
      * se le muestra la vista correspondiente.
-     *
      * Si no se puede encontrar el usuario, se lanza una alerta infomando del error.
      */
     @FXML
@@ -171,14 +159,36 @@ public class IniciarSesionControlador implements Initializable {
     }
 
     /***
+     *
+     */
+    @FXML
+    public void salir() {
+        try {
+            DataConexion.obtenerInstanciaDataConexion().cerrarConexion();
+
+            Alert confirmacion = new Alert(Alert.AlertType.INFORMATION);
+            confirmacion.setTitle("Operación exitosa");
+            confirmacion.setHeaderText("Se ha cerrado la conexión con la base de datos");
+            confirmacion.showAndWait();
+
+            Platform.exit();
+            //EDITAR PARA QUE PREGUNTE SI QUIERE CERRAR
+
+        } catch(Exception e) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Fatal Error");
+            error.setHeaderText("Ocurrió una excepción desconocida");
+            error.setContentText(e.getMessage());
+            error.showAndWait();
+        }
+    }
+
+    /***
      * Método nuevoPeregrino que añade un nuevo peregrino, obteniendo los datos de los campos en el formulario
      * y validándolos. Si todos los datos introducidos son válidos, se crea el objeto credenciales, el peregrino con
      * su carnet con la referencia a la parada inicial y se registra en la tabla peregrino_parada que pasó por allí.
      * Si todo el proceso sale bien, se lanza una alerta, sino, se avisa de que ha ocurrido una excepción o los
      * datos son inválidos.
-     * OJO - Es posible que se guarden algunos datos en la base de datos, pero no todos, puesto que faltaría
-     * agregar una variable boolean que controlara que si todo es válido, se realicen las operaciones de inserción.
-     * Esto queda como mejora para la siguiente tarea.
      */
     @FXML
     public void nuevoPeregrino() {
@@ -188,6 +198,7 @@ public class IniciarSesionControlador implements Initializable {
             String nombre = tfNombre.getText();
             String nacionalidad = cbNacionalidad.getSelectionModel().getSelectedItem();
             String paradaSeleccionada = cbParadaInicial.getSelectionModel().getSelectedItem();
+            LocalDateTime fechaHora = LocalDateTime.now();
 
             if (usuario.matches("[a-zA-Z0-9_]+")) {
                 if(cs.encontrarPorNombreUsuario(usuario) == null) {
@@ -211,7 +222,7 @@ public class IniciarSesionControlador implements Initializable {
                                             nuevoCarnet.setParadaInicial(paradaInicial);
                                             nuevoCarnet = cas.guardar(nuevoCarnet);
 
-                                            pps.guardarPeregrinoParada(nuevoPeregrino.getId(), nuevoCarnet.getParadaInicial().getId());
+                                            pps.guardarPeregrinoParada(nuevoPeregrino.getId(), nuevoCarnet.getParadaInicial().getId(), fechaHora);
 
                                             Alert confirmacion = new Alert(Alert.AlertType.INFORMATION);
                                             confirmacion.setTitle("Operación exitosa");
@@ -317,7 +328,7 @@ public class IniciarSesionControlador implements Initializable {
      * la cadena no esté vacía o solo contenga espacios en blanco.
      *
      * @param nombre con la cadena de caracteres que se quiere validar
-     * @return true si pasa la validación, false sino.
+     * @return true si pasa la validación, false si no.
      */
     private boolean validarNombre(String nombre) {
         if(nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {

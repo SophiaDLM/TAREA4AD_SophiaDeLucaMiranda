@@ -5,6 +5,8 @@ import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.repositorios.ConjuntoContratado
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ConjuntoContratadoServicio {
     @Autowired
@@ -12,5 +14,9 @@ public class ConjuntoContratadoServicio {
 
     public boolean guardar(ConjuntoContratado entity) {
         return conjuntoContratadoRep.guardarDB4O(entity);
+    }
+
+    public List<ConjuntoContratado> encontrarTodos() {
+        return conjuntoContratadoRep.encontrarTodosDB4O();
     }
 }

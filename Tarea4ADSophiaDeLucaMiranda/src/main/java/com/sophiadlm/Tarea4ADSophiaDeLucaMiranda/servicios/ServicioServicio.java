@@ -31,4 +31,8 @@ public class ServicioServicio {
     public Servicio encontrarPorNombre(String nombre) {
         return servicioRep.encontrarPorNombreDB4O(nombre);
     }
+
+    public List<Servicio> encontrarPorIdParada(Long idParada) {
+        return servicioRep.encontrarPorIdParadaDB4O(idParada);
+    }
 }

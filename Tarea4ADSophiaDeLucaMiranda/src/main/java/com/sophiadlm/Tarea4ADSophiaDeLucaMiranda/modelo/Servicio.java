@@ -9,9 +9,6 @@ public class Servicio {
     private String nombre;
     private double precio;
 
-    //Relación entre Servicio y ConjuntoContratado:
-    private List<Long> idConjuntosContratados;
-
     //Relación entre Servicio y Parada:
     private List<Long> idParadas;
 
@@ -51,16 +48,16 @@ public class Servicio {
         this.precio = precio;
     }
 
-    public List<Long> getIdConjuntosContratadosContratado() {
-        return idConjuntosContratados;
-    }
-
-    public void setIdConjuntosContratadosContratado(List<Long> idConjuntoContratado) {
-        this.idConjuntosContratados = idConjuntosContratados;
-    }
-
     public List<Long> getIdParadas() {
         return idParadas;
+    }
+
+    public String getIdParadasString() {
+        if(idParadas == null || idParadas.isEmpty()) {
+            return "Sin paradas";
+        }
+
+        return idParadas.toString().replaceAll("[\\[\\]]", "");
     }
 
     public void setIdParadas(List<Long> idParadas) {
@@ -69,23 +66,14 @@ public class Servicio {
 
     //Métodos básicos:
     @Override
-    public String toString() { //EDITAR LUEGO
-        return "Servicio{" +
-                "id=" + id +
-                ", nombre='" + nombre +
-                ", precio=" + precio +
-                ", paradas= " +idParadas+ "}";
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Servicio servicio = (Servicio) o;
-        return Double.compare(precio, servicio.precio) == 0 && Objects.equals(id, servicio.id) && Objects.equals(nombre, servicio.nombre) && Objects.equals(idConjuntosContratados, servicio.idConjuntosContratados) && Objects.equals(idParadas, servicio.idParadas);
+        return Double.compare(precio, servicio.precio) == 0 && Objects.equals(id, servicio.id) && Objects.equals(nombre, servicio.nombre) && Objects.equals(idParadas, servicio.idParadas);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, precio, idConjuntosContratados, idParadas);
+        return Objects.hash(id, nombre, precio, idParadas);
     }
 }

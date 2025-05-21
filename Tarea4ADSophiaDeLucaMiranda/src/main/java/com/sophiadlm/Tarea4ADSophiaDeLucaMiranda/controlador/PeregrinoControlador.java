@@ -72,7 +72,6 @@ public class PeregrinoControlador implements Initializable {
      * confirme su decisión. Si el usuario pulsa en el botón de aceptar, se
      * cambia la ventana a la de INICIARSESION y se asignan las credenciales
      * a null para indicar que el usuario ha vuelto a ser un invitado.
-     *
      * En este método sí se maneja la sesión del usuario, puesto que
      * pueden existir varios peregrinos en la base de datos y se pide que
      * se recojan los datos de este para otros métodos.
@@ -89,32 +88,6 @@ public class PeregrinoControlador implements Initializable {
             me.cambiarEscena(VistaFxml.INICIARSESION);
             su.setCredenciales(null);
         }
-    }
-
-    /***
-     * Método mostrarAyuda que, como está incompleto, sólo se encarga
-     * de mostrar una alerta informativa.
-     */
-    @FXML
-    public void mostrarAyuda() {
-        Alert sinImplementar = new Alert(Alert.AlertType.INFORMATION);
-        sinImplementar.setTitle("Ayuda No Implementada");
-        sinImplementar.setHeaderText("¡Oops!");
-        sinImplementar.setContentText("La ayuda para el usuario aún no está disponible");
-        sinImplementar.showAndWait();
-    }
-
-    /***
-     * Método editarPeregrino que, como no está implementado, sólo se encarga
-     * de mostrar una alerta informativa.
-     */
-    @FXML
-    public void editarPeregrino() {
-        Alert sinImplementar = new Alert(Alert.AlertType.INFORMATION);
-        sinImplementar.setTitle("Edición No Implementada");
-        sinImplementar.setHeaderText("¡Oops!");
-        sinImplementar.setContentText("La edición aún no está disponible");
-        sinImplementar.showAndWait();
     }
 
     /***
@@ -273,9 +246,6 @@ public class PeregrinoControlador implements Initializable {
 
     /***
      * Método initialize que sirve para cargar valores al arrancar la aplicación.
-     *
-     * @param url
-     * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -289,7 +259,7 @@ public class PeregrinoControlador implements Initializable {
      * Método obtenerPeregrino que sirve para obtener el objeto peregrino de la base
      * de datos accediendo a él gracias a la sesión guardada al iniciar sesión.
      *
-     * @return peregrinoActual si se encontró el peregrino, sino, debería lanzar un error.
+     * @return peregrinoActual si se encontró el peregrino, si no, debería lanzar un error.
      */
     private Peregrino obtenerPeregrino() {
         Credenciales credencialesActuales = su.getCredenciales();
@@ -313,8 +283,7 @@ public class PeregrinoControlador implements Initializable {
      * @return carnetActual.
      */
     private Carnet obtenerCarnet(Long idPeregrino) {
-        Carnet carnetActual = cas.encontrarPorId(idPeregrino);
-        return carnetActual;
+        return cas.encontrarPorId(idPeregrino);
     }
 
     /***
@@ -325,8 +294,7 @@ public class PeregrinoControlador implements Initializable {
      * @return la lista de paradasActuales.
      */
     private List<Parada> obtenerParadas(Long idPeregrino) {
-        List<Parada> paradasActuales = pps.obtenerParadaPeregrino(idPeregrino);
-        return paradasActuales;
+        return pps.obtenerParadaPeregrino(idPeregrino);
     }
 
     /***
@@ -337,7 +305,6 @@ public class PeregrinoControlador implements Initializable {
      * @return la lista de estanciasActuales.
      */
     private List<Estancia> obtenerEstancias(Long idPeregrino) {
-        List<Estancia> estanciasActuales = ess.encontrarPorIdPeregrino(idPeregrino);
-        return estanciasActuales;
+        return ess.encontrarPorIdPeregrino(idPeregrino);
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
 
-//DESASTRE
+//AÑADIR MÉTODOS DE VOLVER Y CERRAR SESIÓN EN TODO PARA FACILITAR LA NAVEGACIÓN ENTRE PANTALLAS
 
 /***
  * Clase Tarea4AdSophiaDeLucaMirandaApplication que contiene los métodos necesarios para
@@ -38,7 +38,7 @@ public class Tarea4AdSophiaDeLucaMirandaApplication extends Application {
 	}
 
 	protected void mostrarEscenaPrincipal() {
-		me.cambiarEscena(VistaFxml.ADMINISTRADOR);
+		me.cambiarEscena(VistaFxml.INICIARSESION);
 	}
 
 	private ConfigurableApplicationContext contextoAplicacionSpringBoot() {

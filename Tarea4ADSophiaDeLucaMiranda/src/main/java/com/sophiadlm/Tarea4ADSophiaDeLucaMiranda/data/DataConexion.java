@@ -10,7 +10,6 @@ import java.util.Properties;
 
 public class DataConexion {
     private static DataConexion instancia = null;
-    //EXTRAER DE .PROPERTIES
     private File ficheroDb4oProp = new File("Tarea4ADSophiaDeLucaMiranda/src/main/resources/db4o.properties");
     private static ObjectContainer baseDatos;
 
@@ -25,11 +24,18 @@ public class DataConexion {
         }
     }
 
-    public static ObjectContainer obtenerInstancia() {
+    public static ObjectContainer obtenerInstanciaObjectContainer() {
         if(instancia == null) {
             crearInstancia();
         }
         return baseDatos;
+    }
+
+    public static DataConexion obtenerInstanciaDataConexion() {
+        if(instancia == null) {
+            crearInstancia();
+        }
+        return instancia;
     }
 
     public void realizarConexion() {
@@ -53,6 +59,8 @@ public class DataConexion {
     }
 
     public void cerrarConexion() {
-        baseDatos.close();
+        if (baseDatos != null && !baseDatos.ext().isClosed()) {
+            baseDatos.close();
+        }
     }
 }

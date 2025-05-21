@@ -7,7 +7,7 @@ import java.util.Objects;
 import jakarta.persistence.*;
 
 /***
- * Clase Parada del tipo @Entity que generará una tabla en la base de datos y desde la cuál se
+ * Clase Parada del tipo @Entity que generará una tabla en la base de datos y desde la cual se
  * podrán manejar los datos gracias al uso de las clases @Service.
  */
 @Entity
@@ -107,11 +107,6 @@ public class Parada {
     }
 
     //Métodos básicos:
-    @Override
-    public String toString() {
-        return "Parada [id=" + id + ", nombre=" + nombre + ", region=" + region + ", responsable=" + responsable + "]";
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

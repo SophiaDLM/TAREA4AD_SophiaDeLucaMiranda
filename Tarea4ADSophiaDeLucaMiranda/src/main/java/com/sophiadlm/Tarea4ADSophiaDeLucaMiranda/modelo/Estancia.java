@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /***
- * Clase Estancia del tipo @Entity que generará una tabla en la base de datos y desde la cuál se
+ * Clase Estancia del tipo @Entity que generará una tabla en la base de datos y desde la cual se
  * podrán manejar los datos gracias al uso de las clases @Service.
  */
 @Entity
@@ -91,11 +91,6 @@ public class Estancia {
     }
 
     //Métodos básicos:
-    @Override
-    public String toString() {
-        return "Estancia [id=" + id + ", fecha=" + fecha + ", vip=" + vip + "]";
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

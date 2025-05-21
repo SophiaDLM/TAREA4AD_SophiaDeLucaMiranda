@@ -19,9 +19,6 @@ public class CargadorSpringFXML {
 
     /***
      * Constructor CargadorSpringFXML que inyecta el ResourceBundle y ApplicationContext a la aplicación.
-     *
-     * @param rb
-     * @param ac
      */
     @Autowired
     public CargadorSpringFXML(ResourceBundle rb, ApplicationContext ac) {
