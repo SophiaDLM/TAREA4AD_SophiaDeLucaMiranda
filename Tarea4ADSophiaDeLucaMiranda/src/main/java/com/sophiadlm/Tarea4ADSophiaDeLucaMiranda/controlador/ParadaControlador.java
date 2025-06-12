@@ -4,6 +4,7 @@ import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.config.ManejadorEscenas;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.*;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.servicios.*;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.vista.VistaFxml;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,7 +28,6 @@ import java.util.ResourceBundle;
  * disponibles de un administrador de parada como lo es acceder a la ayuda de usuario
  * (no implementada aún), al método de exportar datos de la parada o sellar el carnet de un peregrino
  * y ofrecerle un alojamiento, y a cerrar sesión si así lo desea.
- *
  * Esta clase implementa Initializable para el uso de JavaFX.
  */
 @Controller
@@ -42,8 +42,8 @@ public class ParadaControlador implements Initializable {
     @FXML
     private GridPane panelSellarAlojarse;
 
-//    @FXML
-//    private GridPane panelEnvios;
+    @FXML
+    private GridPane panelEnvios;
 
     @FXML
     private TextField tfId;
@@ -90,55 +90,31 @@ public class ParadaControlador implements Initializable {
     private ChoiceBox<String> cbPeregrino;
 
     @FXML
-    private TextField tfNombrePeregrino;
-
-    @FXML
-    private TextField tfNacionalidadPeregrino;
-
-    @FXML
     private Button btnAlojarse;
 
     @FXML
     private Button btnAlojarseVIP;
 
-//    @FXML
-//    private ListView<Servicio> lstServicios;
-//
-//    @FXML
-//    private ChoiceBox<String> cbPago;
-//
-//    @FXML
-//    private TextField tfExtra;
-//
-//    @FXML
-//    private TextField tfTotal;
+    @FXML
+    private TableView<EnvioACasa> tbEnvios;
 
-//    @FXML
-//    private TableView<EnvioACasa> tbEnvios;
-//
-//    @FXML
-//    private TableColumn<EnvioACasa, Long> tcIdE;
-//
-//    @FXML
-//    private TableColumn<EnvioACasa, Double> tcPeso;
-//
-//    @FXML
-//    private TableColumn<EnvioACasa, String> tcVolumen;
-//
-//    @FXML
-//    private TableColumn<EnvioACasa, Boolean> tcUrgente;
-//
-//    @FXML
-//    private TableColumn<EnvioACasa, String> tcDireccion;
-//
-//    @FXML
-//    private TableColumn<EnvioACasa, String> tcLocalidad;
+    @FXML
+    private TableColumn<EnvioACasa, Long> tcIdE;
 
-//    @FXML
-//    private TextField tfDireccion;
-//
-//    @FXML
-//    private TextField tfLocalidad;
+    @FXML
+    private TableColumn<EnvioACasa, Double> tcPeso;
+
+    @FXML
+    private TableColumn<EnvioACasa, String> tcVolumen;
+
+    @FXML
+    private TableColumn<EnvioACasa, Boolean> tcUrgente;
+
+    @FXML
+    private TableColumn<EnvioACasa, String> tcDireccion;
+
+    @FXML
+    private TableColumn<EnvioACasa, String> tcLocalidad;
 
     //Elementos relacionados con el manejo de las escenas:
     @Lazy
@@ -163,6 +139,9 @@ public class ParadaControlador implements Initializable {
 
     @Autowired
     private PeregrinoParadaServicio pps;
+
+    @Autowired
+    private EnvioACasaServicio eacs;
 
     /***
      * Método cerrarSesion que lanza una alerta pidiendo al usuario que
@@ -195,7 +174,7 @@ public class ParadaControlador implements Initializable {
         panelParada.setVisible(true);
         panelExportar.setVisible(false);
         panelSellarAlojarse.setVisible(false);
-        //panelEnvios.setVisible(false);
+        panelEnvios.setVisible(false);
     }
 
     /***
@@ -206,7 +185,7 @@ public class ParadaControlador implements Initializable {
         panelParada.setVisible(false);
         panelExportar.setVisible(true);
         panelSellarAlojarse.setVisible(false);
-        //panelEnvios.setVisible(false);
+        panelEnvios.setVisible(false);
     }
 
     /***
@@ -217,16 +196,33 @@ public class ParadaControlador implements Initializable {
         panelParada.setVisible(false);
         panelExportar.setVisible(false);
         panelSellarAlojarse.setVisible(true);
-        //panelEnvios.setVisible(false);
+        panelEnvios.setVisible(false);
     }
 
-//    @FXML
-//    public void cambiarPanelEnvios() {
-//        panelParada.setVisible(false);
-//        panelExportar.setVisible(false);
-//        panelSellarAlojarse.setVisible(false);
-//        panelEnvios.setVisible(true);
-//    }
+    @FXML
+    public void cambiarPanelEnvios() {
+        panelParada.setVisible(false);
+        panelExportar.setVisible(false);
+        panelSellarAlojarse.setVisible(false);
+        panelEnvios.setVisible(true);
+    }
+
+    @FXML
+    public void volver() {
+        panelParada.setVisible(true);
+        panelExportar.setVisible(false);
+        panelSellarAlojarse.setVisible(false);
+        panelEnvios.setVisible(false);
+
+        //Limpiar exportar
+        dpFechaInicio.setValue(null);
+        dpFechaFin.setValue(null);
+        tvEstancias.getItems().clear();
+
+        //Limpiar sellar/Alojarse
+        cbPeregrino.getItems().clear();
+
+    }
 
     /***
      * Método exportarDatosParada que obtiene y muestra los datos básicos de una parada, pide un rango de fechas y lo valida.
@@ -250,6 +246,7 @@ public class ParadaControlador implements Initializable {
 
                     listaEstancias.clear();
                     listaEstancias.addAll(estanciasEncontradas);
+                    tvEstancias.setItems(listaEstancias);
                     tvEstancias.refresh();
 
                 } else {
@@ -291,60 +288,55 @@ public class ParadaControlador implements Initializable {
     @FXML
     public void sellarCarnet() {
         paradaActual = obtenerParada();
-        idPeregrino = Long.parseLong(cbPeregrino.getSelectionModel().getSelectedItem());
+
+        String idSeleccionado = cbPeregrino.getSelectionModel().getSelectedItem();
+        if (idSeleccionado != null && !idSeleccionado.isEmpty()) {
+            String auxiliar = idSeleccionado.split(" - ")[0];
+            idPeregrino = Long.parseLong(auxiliar.trim());
+        }
+
         actualizarCarnet = obtenerCarnet(idPeregrino);
         LocalDateTime fechaHora = LocalDateTime.now();
 
         try {
-            if (actualizarCarnet.getPeregrino().getId() == actualizarCarnet.getId() && actualizarCarnet.getParadaInicial().getId() == paradaActual.getId()) {
-                tfNombrePeregrino.setText(actualizarCarnet.getPeregrino().getNombre());
-                tfNacionalidadPeregrino.setText(actualizarCarnet.getPeregrino().getNacionalidad());
+            Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmacion.setTitle("Confirmar Datos");
+            confirmacion.setHeaderText("¿Son los datos correctos?");
 
-                Thread.sleep(500);
+            ButtonType confirmar = confirmacion.showAndWait().orElse(ButtonType.CANCEL);
 
-                Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-                confirmacion.setTitle("Confirmar Datos");
-                confirmacion.setHeaderText("¿Son los datos correctos?");
+            if (confirmar == ButtonType.OK) {
+                actualizarCarnet.setDistancia(actualizarCarnet.getDistancia() + 10);
+                cas.actualizar(actualizarCarnet);
 
-                ButtonType confirmar = confirmacion.showAndWait().orElse(ButtonType.CANCEL);
+                if (!verificarPasoPeregrinoParada(idPeregrino, paradaActual.getId(), fechaHora)) {
+                    pps.guardarPeregrinoParada(idPeregrino, paradaActual.getId(), fechaHora);
+                }
 
-                if (confirmar == ButtonType.OK) {
-                    actualizarCarnet.setDistancia(actualizarCarnet.getDistancia() + 10);
-                    cas.actualizar(actualizarCarnet);
+                Alert actualizado = new Alert(Alert.AlertType.INFORMATION);
+                actualizado.setTitle("Operación exitosa");
+                actualizado.setHeaderText("Se ha actualizado el carnet");
+                actualizado.showAndWait();
 
-                    if (!verificarPasoPeregrinoParada(idPeregrino, paradaActual.getId(), fechaHora)) {
-                        pps.guardarPeregrinoParada(idPeregrino, paradaActual.getId(), fechaHora);
-                    }
+                Alert confirmacion2 = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmacion2.setTitle("Confirmar");
+                confirmacion2.setHeaderText("¿Desea alojarse?");
 
-                    Alert actualizado = new Alert(Alert.AlertType.INFORMATION);
-                    actualizado.setTitle("Operación exitosa");
-                    actualizado.setHeaderText("Se ha actualizado el carnet");
-                    actualizado.showAndWait();
+                ButtonType confirmar2 = confirmacion2.showAndWait().orElse(ButtonType.CANCEL);
 
-                    Alert confirmacion2 = new Alert(Alert.AlertType.CONFIRMATION);
-                    confirmacion2.setTitle("Confirmar");
-                    confirmacion2.setHeaderText("¿Desea alojarse?");
-
-                    ButtonType confirmar2 = confirmacion2.showAndWait().orElse(ButtonType.CANCEL);
-
-                    if (confirmar2 == ButtonType.OK) {
-                        btnAlojarse.setDisable(false);
-                        btnAlojarseVIP.setDisable(false);
-                    }
-
+                if (confirmar2 == ButtonType.OK) {
+                    btnAlojarse.setDisable(false);
+                    btnAlojarseVIP.setDisable(false);
                 } else {
-                    Alert info = new Alert(Alert.AlertType.INFORMATION);
-                    info.setTitle("Modificar Datos");
-                    info.setHeaderText("Modifique los datos para que sean correctos");
-                    info.showAndWait();
+                    btnAlojarse.setDisable(true);
+                    btnAlojarseVIP.setDisable(false);
                 }
 
             } else {
-                Alert error = new Alert(Alert.AlertType.ERROR);
-                error.setTitle("Error");
-                error.setHeaderText("¡Oops!");
-                error.setContentText("El peregrino no ha pasado por esta parada");
-                error.showAndWait();
+                Alert info = new Alert(Alert.AlertType.INFORMATION);
+                info.setTitle("Modificar Datos");
+                info.setHeaderText("Modifique los datos para que sean correctos");
+                info.showAndWait();
             }
 
         } catch (Exception e) {
@@ -360,7 +352,13 @@ public class ParadaControlador implements Initializable {
     @FXML
     public void alojarEstandar() {
         paradaActual = obtenerParada();
-        idPeregrino = Long.parseLong(cbPeregrino.getSelectionModel().getSelectedItem());
+
+        String idSeleccionado = cbPeregrino.getSelectionModel().getSelectedItem();
+        if (idSeleccionado != null && !idSeleccionado.isEmpty()) {
+            String auxiliar = idSeleccionado.split(" - ")[0];
+            idPeregrino = Long.parseLong(auxiliar.trim());
+        }
+
         actualizarCarnet = obtenerCarnet(idPeregrino);
 
         try {
@@ -385,6 +383,10 @@ public class ParadaControlador implements Initializable {
             if (confirmar3 == ButtonType.OK) {
                 me.cambiarEscena(VistaFxml.ESTANCIA);
             }
+
+            btnAlojarse.setDisable(true);
+            btnAlojarseVIP.setDisable(true);
+
         } catch (Exception e) {
             Alert error = new Alert(Alert.AlertType.ERROR);
             error.setTitle("Fatal Error");
@@ -398,7 +400,13 @@ public class ParadaControlador implements Initializable {
     @FXML
     public void alojarVip() {
         paradaActual = obtenerParada();
-        idPeregrino = Long.parseLong(cbPeregrino.getSelectionModel().getSelectedItem());
+
+        String idSeleccionado = cbPeregrino.getSelectionModel().getSelectedItem();
+        if (idSeleccionado != null && !idSeleccionado.isEmpty()) {
+            String auxiliar = idSeleccionado.split(" - ")[0];
+            idPeregrino = Long.parseLong(auxiliar.trim());
+        }
+
         actualizarCarnet = obtenerCarnet(idPeregrino);
 
         try {
@@ -426,6 +434,10 @@ public class ParadaControlador implements Initializable {
             if (confirmar3 == ButtonType.OK) {
                 me.cambiarEscena(VistaFxml.ESTANCIA);
             }
+
+            btnAlojarse.setDisable(true);
+            btnAlojarseVIP.setDisable(true);
+
         } catch (Exception e) {
             Alert error = new Alert(Alert.AlertType.ERROR);
             error.setTitle("Fatal Error");
@@ -436,38 +448,35 @@ public class ParadaControlador implements Initializable {
     }
 
     @FXML
-    //METODO VER ENVIOS REALIZADOS
     public void verEnviosRealizados() {
-//        try {
-//            cambiarPanelEnvios();
-//            List<EnvioACasa> enviosRealizados = eacs.encontrarTodos();
-//
-//            ObservableList<EnvioACasa> enviosListaObservable = FXCollections.observableArrayList(enviosRealizados);
-//
-//            tcIdE.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getId()));
-//            tcPeso.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getPeso()));
-//            tcVolumen.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getVolumenString()));
-//            tcUrgente.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().isUrgente()));
-//            tcDireccion.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDireccion().getDireccion()));
-//            tcLocalidad.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDireccion().getLocalidad()));
-//
-//            tbEnvios.setItems(enviosListaObservable);
-//
-//        } catch (Exception e) {
-//            Alert error = new Alert(Alert.AlertType.ERROR);
-//            error.setTitle("Fatal Error");
-//            error.setHeaderText("Ocurrió una excepción general (es posible que el ID del peregrino no haya sido encontrado)");
-//            error.setContentText(e.getMessage());
-//            error.showAndWait();
-//
-//        }
+        cambiarPanelEnvios();
+        Parada paradaActual = obtenerParada();
+
+        try {
+            List<EnvioACasa> enviosRealizados = eacs.encontrarTodosPorParada(paradaActual.getId());
+
+            ObservableList<EnvioACasa> enviosListaObservable = FXCollections.observableArrayList(enviosRealizados);
+
+            tcIdE.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getId()));
+            tcPeso.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getPeso()));
+            tcVolumen.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getVolumenString()));
+            tcUrgente.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().isUrgente()));
+            tcDireccion.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDireccion().getDireccion()));
+            tcLocalidad.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDireccion().getLocalidad()));
+
+            tbEnvios.setItems(enviosListaObservable);
+
+        } catch (Exception e) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Fatal Error");
+            error.setHeaderText("Ocurrió una excepción general (es posible que el ID del peregrino no haya sido encontrado)");
+            error.setContentText(e.getMessage());
+            error.showAndWait();
+        }
     }
 
     /***
      * Método initialize que sirve para cargar valores al arrancar la aplicación.
-     *
-     * @param url
-     * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -477,16 +486,15 @@ public class ParadaControlador implements Initializable {
 
         tfId.setText(String.valueOf(paradaActual.getId()));
         tfNombre.setText(paradaActual.getNombre());
-        tfRegion.setText(paradaActual.getRegion()+"");
+        tfRegion.setText(paradaActual.getRegion() + "");
 
         List<Peregrino> listaPeregrinos = pes.encontrarTodos();
         ObservableList<String> elementosPeregrino = FXCollections.observableArrayList();
 
-        for(Peregrino indice: listaPeregrinos) {
-            String campos = String.valueOf(indice.getId());
+        for (Peregrino indice : listaPeregrinos) {
+            String campos = indice.getId() + " - " + indice.getNombre() + " - " + indice.getNacionalidad();
             elementosPeregrino.add(campos);
         }
-
         cbPeregrino.getItems().addAll(elementosPeregrino);
 
         tcId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -499,7 +507,7 @@ public class ParadaControlador implements Initializable {
 
         tfId1.setText(String.valueOf(paradaActual.getId()));
         tfNombre1.setText(paradaActual.getNombre());
-        tfRegion1.setText(paradaActual.getRegion()+"");
+        tfRegion1.setText(paradaActual.getRegion() + "");
     }
 
     /***
@@ -512,7 +520,7 @@ public class ParadaControlador implements Initializable {
         Credenciales credencialesActuales = su.getCredenciales();
         Parada paradaActual = null;
 
-        if(credencialesActuales != null) {
+        if (credencialesActuales != null) {
             paradaActual = pas.encontrarPorId(credencialesActuales.getId());
         } else {
             Alert error = new Alert(Alert.AlertType.ERROR);
@@ -530,14 +538,14 @@ public class ParadaControlador implements Initializable {
      *
      * @param fecha1
      * @param fecha2
-     * @return true si el rango es válido, false sino.
+     * @return true si el rango es válido, false si no.
      */
     private boolean validarRangoFechas(LocalDate fecha1, LocalDate fecha2) {
         // MAL HECHO
         fecha1 = dpFechaInicio.getValue();
         fecha2 = dpFechaFin.getValue();
 
-        if(!fecha1.isAfter(LocalDate.now()) || !fecha1.isAfter(fecha2) || !fecha2.isAfter(LocalDate.now())) {
+        if (!fecha1.isAfter(LocalDate.now()) || !fecha1.isAfter(fecha2) || !fecha2.isAfter(LocalDate.now())) {
             return true;
         } else {
             return false;
@@ -548,12 +556,11 @@ public class ParadaControlador implements Initializable {
      * Método obtenerEstancias que sirve para obtener una lista de todas las estancias asociadas
      * a un parada.
      *
-     * @param idParada
+     * @param idParada es un Long que indica la parada actual en la que se encuentra
      * @return la lista de estanciasActuales.
      */
     private List<Estancia> obtenerEstancias(Long idParada, LocalDate fechaInicio, LocalDate fechaFin) {
-        List<Estancia> estanciasActuales = ess.encontrarPorIdParadaYRangoFecha(idParada, fechaInicio, fechaFin);
-        return estanciasActuales;
+        return ess.encontrarPorIdParadaYRangoFecha(idParada, fechaInicio, fechaFin);
     }
 
     /***
@@ -563,12 +570,11 @@ public class ParadaControlador implements Initializable {
      * @return carnetActual.
      */
     private Carnet obtenerCarnet(Long idPeregrino) {
-        Carnet carnetActual = cas.encontrarPorId(idPeregrino);
-        return carnetActual;
+        return cas.encontrarPorId(idPeregrino);
     }
 
     private boolean verificarPasoPeregrinoParada(Long idPeregrino, Long idParada, LocalDateTime fechaHora) {
-        if(pps.existePeregrinoParada(idPeregrino, idParada, fechaHora) != 0) {
+        if (pps.existePeregrinoParada(idPeregrino, idParada, fechaHora) != 0) {
             return true;
         }
         return false;

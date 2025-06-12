@@ -79,13 +79,17 @@ public class ConjuntoContratado {
     }
 
     //Métodos básicos:
+
+
     @Override
-    public String toString() { //EDITAR LUEGO
+    public String toString() {
         return "ConjuntoContratado{" +
                 "id=" + id +
                 ", precioTotal=" + precioTotal +
                 ", modoPago=" + modoPago +
                 ", extra='" + extra + '\'' +
+                ", idEstancia=" + idEstancia +
+                ", idServicios=" + idServicios +
                 '}';
     }
 

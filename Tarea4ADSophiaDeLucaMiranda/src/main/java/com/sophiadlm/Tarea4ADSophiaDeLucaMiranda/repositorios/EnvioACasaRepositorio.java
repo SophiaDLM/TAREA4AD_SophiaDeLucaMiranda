@@ -2,14 +2,14 @@ package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.repositorios;
 
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexionObjectDB;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.EnvioACasa;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import java.util.List;
 
 public class EnvioACasaRepositorio {
+
     public boolean guardarObjectDB(EnvioACasa entity) {
-        //MODIFICAR
         EntityManager manejadorEntidad = DataConexionObjectDB.obtenerInstancia();
 
         try {
@@ -19,41 +19,51 @@ public class EnvioACasaRepositorio {
             return true;
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            manejadorEntidad.getTransaction().rollback();
+            System.out.println(">> FATAL ERROR - No se ha podido guardar el envío: ");
+            e.printStackTrace();
+
         } finally {
             manejadorEntidad.close();
         }
+        return false;
     }
 
-    public List<EnvioACasa> encontrarTodosObjectDB(EnvioACasa entity) {
+    public List<EnvioACasa> encontrarTodosObjectDB() {
+        List<EnvioACasa> listaEnvios = null;
         EntityManager manejadorEntidad = DataConexionObjectDB.obtenerInstancia();
 
         try {
             TypedQuery<EnvioACasa> consulta = manejadorEntidad.createQuery("SELECT e FROM EnvioACasa e", EnvioACasa.class);
-            List<EnvioACasa> listaEnvios = consulta.getResultList();
+            listaEnvios = consulta.getResultList();
             return listaEnvios;
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println(">> FATAL ERROR - No se han podido encontrar los envíos: ");
+            e.printStackTrace();
+
         } finally {
             manejadorEntidad.close();
         }
+        return listaEnvios;
     }
 
+    public List<EnvioACasa> encontrarEnviosPorParada(Long idParada) {
+        List<EnvioACasa> listaEnviosParada = null;
+        EntityManager manejadorEntidad = DataConexionObjectDB.obtenerInstancia();
 
+        try {
+            TypedQuery<EnvioACasa> consulta = manejadorEntidad.createQuery("SELECT e FROM EnvioACasa e WHERE e.idParada = :idParada", EnvioACasa.class);
+            consulta.setParameter("idParada", idParada);
+            listaEnviosParada = consulta.getResultList();
 
-//    public List<EnvioACasa> obtenerEnviosPorParada(Long idParada)
-//    {
-//        EntityManager em = ObjectDBConnection.getEntityManager();
-//
-//        TypedQuery<EnvioACasa> query = em.createQuery("SELECT e FROM EnvioACasa e WHERE e.idParada = :idParada", EnvioACasa.class);
-//
-//        query.setParameter("idParada", idParada);
-//
-//        List<EnvioACasa> envios = query.getResultList();
-//
-//        em.close();
-//
-//        return envios;
-//    }
+        } catch (Exception e) {
+            System.out.println(">> FATAL ERROR - No se han podido encontrar los envíos: ");
+            e.printStackTrace();
+
+        } finally {
+            manejadorEntidad.close();
+        }
+        return listaEnviosParada;
+    }
 }

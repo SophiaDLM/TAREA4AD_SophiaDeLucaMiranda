@@ -22,4 +22,6 @@ public interface EstanciaRepositorio extends JpaRepository<Estancia, Long> {
 
     @Query(value = "SELECT id, fecha, vip, id_parada, id_peregrino FROM estancia WHERE id_parada = :idParada AND fecha BETWEEN :fechaInicio AND :fechaFin", nativeQuery = true)
     List<Estancia> encontrarEstanciasPorParadaYRangoFecha(@Param("idParada") Long idParada, @Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin);
+
+    Estancia findTopByParadaIdOrderByIdDesc(Long idParada);
 }

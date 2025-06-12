@@ -1,11 +1,12 @@
 package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class Direccion {
+public class Direccion implements Serializable {
     //Atributos de la clase:
     private String direccion;
     private String localidad;

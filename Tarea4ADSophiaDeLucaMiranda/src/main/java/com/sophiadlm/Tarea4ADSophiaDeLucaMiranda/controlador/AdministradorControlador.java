@@ -1,6 +1,7 @@
 package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.controlador;
 
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.config.ManejadorEscenas;
+import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexionExistDB;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Credenciales;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Parada;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Servicio;
@@ -116,6 +117,10 @@ public class AdministradorControlador implements Initializable {
     @Autowired
     private ServicioServicio svs;
 
+    private DataConexionExistDB existDB;
+
+    ObservableList<Servicio> lstServicioEditar;
+
     //Métodos:
     @FXML
     private void cambiarPanelNuevaParada() {
@@ -131,6 +136,7 @@ public class AdministradorControlador implements Initializable {
         pnlNuevoServicio.setVisible(true);
         pnlEditarServicio.setVisible(false);
         pnlAdministrador.setVisible(false);
+        tvServiciosEditar.refresh();
     }
 
     @FXML
@@ -147,6 +153,7 @@ public class AdministradorControlador implements Initializable {
         cambiarPanelNuevoServicio();
         btnGuardar.setVisible(true);
         btnCrear.setVisible(false);
+        tvServiciosEditar.refresh();
         cargarServicio();
     }
 
@@ -178,6 +185,15 @@ public class AdministradorControlador implements Initializable {
         pnlNuevoServicio.setVisible(false);
         pnlEditarServicio.setVisible(false);
         pnlAdministrador.setVisible(true);
+
+        //Limpiar tabla servicios
+        tvServiciosEditar.getItems().clear();
+        lstServicioEditar = FXCollections.observableArrayList(obtenerListaServicios());
+        tvServiciosEditar.setItems(lstServicioEditar);
+        tvServiciosEditar.refresh();
+
+        //Limpiar formulario servicio
+        tvParadasUsar.getItems().clear();
     }
 
     /***
@@ -205,6 +221,8 @@ public class AdministradorControlador implements Initializable {
 
                                         Parada nuevaParada = new Parada(nuevasCredenciales.getId(), nombre, region, responsable);
                                         nuevaParada = ps.guardar(nuevaParada);
+
+                                        //existDB = new DataConexionExistDB("")
 
                                         Alert confirmacion = new Alert(Alert.AlertType.INFORMATION);
                                         confirmacion.setTitle("Operación Exitosa");
@@ -281,7 +299,6 @@ public class AdministradorControlador implements Initializable {
         }
     }
 
-    // MÉTODO NUEVO/EDITAR SERVICIO - DB4O
     @FXML
     public void nuevoServicio() {
         try {
@@ -297,8 +314,6 @@ public class AdministradorControlador implements Initializable {
                         Long idNuevo = listaServicios.isEmpty() ?1 : listaServicios.getLast().getId() + 1;
 
                         Servicio servicio = new Servicio(idNuevo, nombreServicio, Double.parseDouble(precioServicio));
-
-                        //AÑADIR CONTROL DE DUPLICADOS
                         servicio.setIdParadas(listaIdParadas);
 
                         if (svs.guardar(servicio)) {
@@ -310,7 +325,6 @@ public class AdministradorControlador implements Initializable {
                             tfNombreServicio.setText("");
                             tfPrecioServicio.setText("");
                             tvParadasUsar.getItems().clear();
-                            tvServiciosEditar.refresh();
 
                         } else {
                             Alert error = new Alert(Alert.AlertType.ERROR);
@@ -350,6 +364,7 @@ public class AdministradorControlador implements Initializable {
             error.setHeaderText("Ocurrió una excepción desconocida");
             error.setContentText(e.getMessage());
             error.showAndWait();
+            e.printStackTrace();
         }
     }
 
@@ -403,9 +418,9 @@ public class AdministradorControlador implements Initializable {
 
                         tfNombreServicio.setText("");
                         tfPrecioServicio.setText("");
-                        tvServiciosEditar.refresh();
+                        tvParadasUsar.getItems().clear();
 
-                    } else {
+                } else {
                         Alert error = new Alert(Alert.AlertType.ERROR);
                         error.setTitle("Error");
                         error.setHeaderText("Precio inválido");
@@ -458,7 +473,7 @@ public class AdministradorControlador implements Initializable {
         tcPrecioServicio.setCellValueFactory(new PropertyValueFactory<>("precio"));
         tcParadasServicio.setCellValueFactory(new PropertyValueFactory<>("idParadasString"));
 
-        ObservableList<Servicio> lstServicioEditar = FXCollections.observableArrayList(obtenerListaServicios());
+        lstServicioEditar = FXCollections.observableArrayList(obtenerListaServicios());
         tvServiciosEditar.setItems(lstServicioEditar);
 
         btnCrear.setVisible(true);

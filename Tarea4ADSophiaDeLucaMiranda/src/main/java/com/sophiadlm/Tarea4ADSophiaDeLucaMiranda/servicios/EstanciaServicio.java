@@ -25,10 +25,6 @@ public class EstanciaServicio {
         return estanciaRep.save(entity);
     }
 
-    public Estancia actualizar(Estancia entity) {
-        return estanciaRep.save(entity);
-    }
-
     public Estancia encontrarPorId(Long id) {
         return estanciaRep.findById(id).get();
     }
@@ -44,5 +40,9 @@ public class EstanciaServicio {
 
     public List<Estancia> encontrarPorIdParadaYRangoFecha(Long idParada, LocalDate fechaInicio, LocalDate fechaFin) {
         return estanciaRep.encontrarEstanciasPorParadaYRangoFecha(idParada, fechaInicio, fechaFin);
+    }
+
+    public Estancia encontrarPorIdParadaEnOrden(Long idParada) {
+        return estanciaRep.findTopByParadaIdOrderByIdDesc(idParada);
     }
 }

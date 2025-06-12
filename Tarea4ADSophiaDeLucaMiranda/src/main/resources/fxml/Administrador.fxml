@@ -372,7 +372,7 @@
                         <Insets />
                      </GridPane.margin>
                   </TableView>
-                  <Button mnemonicParsing="false" onAction="#añadirParadaALista" prefWidth="95.0" style="-fx-background-color: white; -fx-border-color: black;" text="AÑADIR" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Button mnemonicParsing="false" onAction="#añadirParadaALista" prefHeight="35.0" prefWidth="95.0" style="-fx-background-color: white; -fx-border-color: black;" text="AÑADIR" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets bottom="47.0" left="110.0" />
                      </GridPane.margin>
@@ -380,7 +380,7 @@
                         <Font name="Arial Rounded MT Bold" size="16.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#borrarParadaDeLista" prefWidth="95.0" style="-fx-background-color: white; -fx-border-color: black;" text="BORRAR" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Button mnemonicParsing="false" onAction="#borrarParadaDeLista" prefHeight="35.0" prefWidth="95.0" style="-fx-background-color: white; -fx-border-color: black;" text="BORRAR" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="16.0" />
                      </font>
@@ -396,7 +396,7 @@
                         <Insets left="220.0" />
                      </GridPane.margin>
                   </TableView>
-                  <Button fx:id="btnCrear" mnemonicParsing="false" onAction="#nuevoServicio" style="-fx-background-color: white; -fx-border-color: black;" text="CREAR" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                  <Button fx:id="btnCrear" mnemonicParsing="false" onAction="#nuevoServicio" prefHeight="35.0" prefWidth="110.0" style="-fx-background-color: white; -fx-border-color: black;" text="CREAR" GridPane.columnSpan="2" GridPane.rowIndex="5">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="16.0" />
                      </font>
@@ -404,12 +404,12 @@
                         <Insets left="300.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#editarServicio" style="-fx-background-color: white; -fx-border-color: black;" text="GUARDAR" visible="false" GridPane.rowIndex="5">
+                  <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#editarServicio" prefHeight="35.0" prefWidth="110.0" style="-fx-background-color: white; -fx-border-color: black;" text="GUARDAR" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="5">
                      <font>
-                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                        <Font name="Arial Rounded MT Bold" size="16.0" />
                      </font>
                      <GridPane.margin>
-                        <Insets left="40.0" />
+                        <Insets left="300.0" />
                      </GridPane.margin>
                   </Button>
                   <Line endX="548.0" startX="-100.0" GridPane.rowIndex="6">

@@ -1,15 +1,16 @@
 package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
-public class EnvioACasa {
+public class EnvioACasa implements Serializable {
     //Atributos de la clase:
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
     private double peso;
     private int[] volumen = new int[3];
@@ -88,13 +89,9 @@ public class EnvioACasa {
 
     //Métodos básicos:
     @Override
-    public String toString() { //EDITAR LUEGO
-        return "EnvioACasa{" +
-                "id=" + id +
-                ", peso=" + peso +
-                ", volumen=" + Arrays.toString(volumen) +
-                ", urgente=" + urgente +
-                '}';
+    public String toString() {
+        return "\nENVÍO A CASA\nID: " + id + "\nPeso: " + peso + "\nVolumen: " + volumen[0]+"x"+volumen[1]+"x"+volumen[2] +
+                "\nUrgente: " + urgente + "\nDirección: " + direccion.getDireccion() + "\nLocalidad: " + direccion.getLocalidad() + "\n";
     }
 
     @Override

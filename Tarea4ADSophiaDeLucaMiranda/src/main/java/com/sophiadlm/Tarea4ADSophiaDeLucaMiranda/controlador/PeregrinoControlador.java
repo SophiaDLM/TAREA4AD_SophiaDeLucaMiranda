@@ -30,11 +30,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /***
- * Clase PeregrinoControlador que se encarga de gestionar las acciones
- * que puede realizar un usuario del tipo peregrino como acceder a la ayuda
- * de usuario (no implementada aún), cerrar sesión si así lo desea, editar datos
- * como su nombre o nacionalidad (y en un futuro su email), e incluso exportar
- * su carnet en un documento XML.
+ * Clase Peregrino Controlador que se encarga de gestionar las acciones que puede realizar un usuario del tipo peregrino
+ * como exportar su carnet en un documento XML y cerrar la sesión si así lo desea.
  */
 @Controller
 public class PeregrinoControlador implements Initializable {
@@ -45,36 +42,35 @@ public class PeregrinoControlador implements Initializable {
     @FXML
     private TextField tfNacionalidad;
 
+
     //Elementos relacionados con el manejo de las escenas:
     @Lazy
     @Autowired
     private ManejadorEscenas me;
 
+
     //Elementos relacionados con la manipulación de la base de datos:
     @Autowired
-    private SesionUsuario su;
+    private SesionUsuario sesionUsuario;
 
     @Autowired
-    private PeregrinoServicio pes;
+    private PeregrinoServicio peregrinoServicio;
 
     @Autowired
-    private CarnetServicio cas;
+    private CarnetServicio carnetServicio;
 
     @Autowired
-    private EstanciaServicio ess;
+    private EstanciaServicio estanciaServicio;
 
     @Autowired
-    private PeregrinoParadaServicio pps;
+    private PeregrinoParadaServicio peregrinoParadaServicio;
 
 
     /***
-     * Método cerrarSesion que lanza una alerta pidiendo al usuario que
-     * confirme su decisión. Si el usuario pulsa en el botón de aceptar, se
-     * cambia la ventana a la de INICIARSESION y se asignan las credenciales
-     * a null para indicar que el usuario ha vuelto a ser un invitado.
-     * En este método sí se maneja la sesión del usuario, puesto que
-     * pueden existir varios peregrinos en la base de datos y se pide que
-     * se recojan los datos de este para otros métodos.
+     * Método para Cerrar Sesión que lanza una alerta pidiendo al usuario que confirme su decisión. Si el usuario pulsa en el
+     * botón de aceptar, se cambia la ventana a la de iniciar sesión y se asignan las credenciales a null para indicar
+     * que el usuario ha vuelto a ser de tipo invitado. En este método sí se maneja la sesión del usuario, puesto que
+     * pueden existir varios peregrinos en la base de datos y se pide que se recojan los datos de este para otros métodos.
      */
     @FXML
     public void cerrarSesion() {
@@ -86,15 +82,15 @@ public class PeregrinoControlador implements Initializable {
 
         if (confirmar == ButtonType.OK) {
             me.cambiarEscena(VistaFxml.INICIARSESION);
-            su.setCredenciales(null);
+            sesionUsuario.setCredenciales(null);
         }
     }
 
     /***
-     * Método exportarCarnetXML que recoge los datos de la base de datos y construye,
-     * utilizando la tecnología DOM, un documento XML que se encontrará disponible en
-     * la carpeta denominada como exportable.
+     * Método para Exportar un Carnet en XML que recoge los datos de la base de datos y construye, utilizando la
+     * tecnología DOM, un documento XML que se encontrará disponible en la carpeta denominada como "exportable".
      */
+    //EN MONGO DB BACKUP NOMBRE DEBE TENER FECHA Y HORA!!
     @FXML
     public void exportarCarnetXML() {
         Peregrino peregrinoActual = obtenerPeregrino();
@@ -215,37 +211,21 @@ public class PeregrinoControlador implements Initializable {
             carnetExportado.showAndWait();
 
         } catch (ParserConfigurationException pce) {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Fatal Error");
-            error.setHeaderText("Ocurrió una excepción del tipo ParserConfigurationException");
-            error.setContentText(pce.getMessage());
-            error.showAndWait();
+            alertaError("Ocurrió una excepción del tipo ParserConfigurationException", pce.getMessage());
 
         } catch (TransformerConfigurationException tce) {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Fatal Error");
-            error.setHeaderText("Ocurrió una excepción del tipo TransformerConfigurationException");
-            error.setContentText(tce.getMessage());
-            error.showAndWait();
+            alertaError("Ocurrió una excepción del tipo TransformerConfigurationException", tce.getMessage());
 
         } catch (TransformerException te) {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Fatal Error");
-            error.setHeaderText("Ocurrió una excepción del tipo TransformerException");
-            error.setContentText(te.getMessage());
-            error.showAndWait();
+            alertaError("Ocurrió una excepción del tipo TransformerException", te.getMessage());
 
-        } catch (Exception e) {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Fatal Error");
-            error.setHeaderText("Ocurrió una excepción desconocida");
-            error.setContentText(e.getMessage());
-            error.showAndWait();
+        } catch (Exception excepcion) {
+            alertaError("Ocurrió una excepción desconocida", excepcion.getMessage());
         }
     }
 
     /***
-     * Método initialize que sirve para cargar valores al arrancar la aplicación.
+     * Método Initialize que sirve para cargar valores al arrancar la aplicación.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -256,55 +236,66 @@ public class PeregrinoControlador implements Initializable {
     }
 
     /***
-     * Método obtenerPeregrino que sirve para obtener el objeto peregrino de la base
-     * de datos accediendo a él gracias a la sesión guardada al iniciar sesión.
+     * Método para Obtener un Peregrino que sirve para obtener el objeto peregrino de la base de datos, accediendo a él
+     * gracias a la sesión guardada al iniciar sesión.
      *
-     * @return peregrinoActual si se encontró el peregrino, si no, debería lanzar un error.
+     * @return peregrino actual si se encontró el peregrino.
      */
     private Peregrino obtenerPeregrino() {
-        Credenciales credencialesActuales = su.getCredenciales();
+        Credenciales credencialesActuales = sesionUsuario.getCredenciales();
         Peregrino peregrinoActual = null;
 
         if (credencialesActuales != null) {
-            peregrinoActual = pes.encontrarPorId(credencialesActuales.getId());
+            peregrinoActual = peregrinoServicio.encontrarPorId(credencialesActuales.getId());
         } else {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Error");
-            error.setHeaderText("Fatal error");
-            error.setContentText("No se encontro el peregrino");
+            alertaError("", "No se encontró al peregrino");
         }
         return peregrinoActual;
     }
 
     /***
-     * Método obtenerCarnet que sirve para obtener el objeto carnet del peregrino.
+     * Método para Obtener un Carnet que sirve para obtener el objeto carnet del peregrino.
      *
-     * @param idPeregrino que se puede obtener desde el método obtenerPeregrino.
-     * @return carnetActual.
+     * @param idPeregrino que se puede obtener desde el método obtenerPeregrino, es un dato de tipo Long.
+     * @return el carnet actual del peregrino.
      */
     private Carnet obtenerCarnet(Long idPeregrino) {
-        return cas.encontrarPorId(idPeregrino);
+        return carnetServicio.encontrarPorId(idPeregrino);
     }
 
     /***
-     * Método obtenerParadas que sirve para obtener una lista de todas las paradas asociadas
-     * a un peregrino.
+     * Método para Obtener Paradas que sirve para obtener una lista de todas las paradas asociadas a un peregrino.
      *
-     * @param idPeregrino que se puede obtener desde el método obtenerPeregrino.
-     * @return la lista de paradasActuales.
+     * @param idPeregrino que se puede obtener desde el método obtenerPeregrino, es un dato de tipo Long.
+     * @return la lista de paradas actuales.
      */
     private List<Parada> obtenerParadas(Long idPeregrino) {
-        return pps.obtenerParadaPeregrino(idPeregrino);
+        return peregrinoParadaServicio.obtenerParadaPeregrino(idPeregrino);
     }
 
     /***
-     * Método obtenerEstancias que sirve para obtener una lista de todas las estancias asociadas
-     * a un peregrino.
+     * Método para Obtener Estancias que sirve para obtener una lista de todas las estancias asociadas a un peregrino.
      *
-     * @param idPeregrino que se puede obtener desde el método obtenerPeregrino.
-     * @return la lista de estanciasActuales.
+     * @param idPeregrino que se puede obtener desde el método obtenerPeregrino, es un dato de tipo Long.
+     * @return la lista de estancias actuales.
      */
     private List<Estancia> obtenerEstancias(Long idPeregrino) {
-        return ess.encontrarPorIdPeregrino(idPeregrino);
+        return estanciaServicio.encontrarPorIdPeregrino(idPeregrino);
+    }
+
+    /***
+     * Método para mostrar Alerta de Error que se encarga de lanzar una alerta avisando qué es lo que ha fallado en el
+     * programa.
+     *
+     * @param textoError al cual se le pasa un String del texto personalizado.
+     * @param excepcionTexto al que se le pasa un String del mensaje de la excepción para obtener información más
+     *                       concreta del error.
+     */
+    private void alertaError(String textoError, String excepcionTexto) {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        error.setTitle("Fatal Error");
+        error.setHeaderText(textoError);
+        error.setContentText(excepcionTexto);
+        error.showAndWait();
     }
 }

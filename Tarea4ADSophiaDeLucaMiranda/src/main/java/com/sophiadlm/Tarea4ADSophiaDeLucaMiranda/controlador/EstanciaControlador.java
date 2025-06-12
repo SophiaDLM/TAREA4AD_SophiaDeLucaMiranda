@@ -4,24 +4,21 @@ import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.config.ManejadorEscenas;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.*;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.servicios.*;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.vista.VistaFxml;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
-//MUY DESORGANIZADO Y FALTA DOCUMENTAR
 @Controller
 public class EstanciaControlador implements Initializable {
     //Elementos relacionados con el archivo FXML:
@@ -58,6 +55,9 @@ public class EstanciaControlador implements Initializable {
     @FXML
     private CheckBox chbUrgente;
 
+    @FXML
+    private TextField tfConjunto;
+
     //Elementos relacionados con el manejo de las escenas:
     @Lazy
     @Autowired
@@ -71,10 +71,16 @@ public class EstanciaControlador implements Initializable {
     private ParadaServicio pas;
 
     @Autowired
+    private EstanciaServicio es;
+
+    @Autowired
     private ServicioServicio ss;
 
     @Autowired
     private ConjuntoContratadoServicio ccs;
+
+    @Autowired
+    private EnvioACasaServicio eacs;
 
     /***
      * Método cerrarSesion que lanza una alerta pidiendo al usuario que
@@ -126,30 +132,50 @@ public class EstanciaControlador implements Initializable {
 
         try {
             Parada paradaActual = obtenerParada();
-            //lstServicios.getSelectionModel().getSelectionMode();
-            //char modoPago = cbPago.getValue().charAt(0);
-            //String extra = taExtra.getText();
-            //double precioTotal = Double.parseDouble(tfTotal.getText());
+            List<Long> idServicios = obtenerListaServicios();
 
-            //AÑADIR COMPROBACIONES
+            String pagoSeleccionado = cbPago.getSelectionModel().getSelectedItem();
+            if(pagoSeleccionado != null || !pagoSeleccionado.isEmpty()) {
+                char modoPago = pagoSeleccionado.charAt(0);
+                String extra = taExtra.getText();
+                double precioTotal = Double.parseDouble(tfTotal.getText());
+                Long idEstancia = es.encontrarPorIdParadaEnOrden(paradaActual.getId()).getId();
 
-//            listaConjuntos = obtenerListaConjuntos();
-//            Long idNuevo = listaConjuntos.isEmpty() ?1 : listaConjuntos.getLast().getId() + 1;
-//
-//            ConjuntoContratado conjunto = new ConjuntoContratado();
-//            conjunto.setId(idNuevo);
-//            conjunto.setPrecioTotal(precioTotal);
-//            conjunto.setModoPago(modoPago);
-//            conjunto.setExtra(extra);
-            //conjunto.setIdServicios();
-            //conjunto.setIdEstancia();
+                listaConjuntos = obtenerListaConjuntos();
+                Long idNuevo = listaConjuntos.isEmpty() ?1 : listaConjuntos.getLast().getId() + 1;
 
-            //ALERTA
+                ConjuntoContratado conjunto = new ConjuntoContratado(idNuevo, precioTotal, modoPago, extra);
+                conjunto.setIdServicios(idServicios);
+                conjunto.setIdEstancia(idEstancia);
+                ccs.guardar(conjunto);
 
-            //CAMBIO PANEL
-            cambiarPanelEnvio();
+                System.out.println(conjunto.toString());
 
+                if(contieneEnvioACasa) {
+                    Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+                    confirmacion.setTitle("Confirmar");
+                    confirmacion.setHeaderText("¿Está seguro de que desea contratar el servicio especial de envío a casa?");
 
+                    ButtonType confirmar = confirmacion.showAndWait().orElse(ButtonType.CANCEL);
+
+                    if (confirmar == ButtonType.OK) {
+                        cambiarPanelEnvio();
+                    }
+
+                } else {
+                    //EVITAR CONTRATAR EL SERVICIO - CONTROLAR MEJOR ESTO
+                    Alert informacion = new Alert(Alert.AlertType.INFORMATION);
+                    informacion.setTitle("Operación exitosa");
+                    informacion.setHeaderText("Se han contratado los servicios exitosamente");
+                    informacion.showAndWait();
+                }
+
+            } else {
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Error");
+                error.setHeaderText("Debe seleccionar un método de pago");
+                error.showAndWait();
+            }
 
         } catch (Exception e) {
             Alert error = new Alert(Alert.AlertType.ERROR);
@@ -163,9 +189,81 @@ public class EstanciaControlador implements Initializable {
     /***
      *
      */
-    //@FXML
+    @FXML
     public void registrarEnvioACasa() {
+        Parada paradaActual = obtenerParada();
+        String direccion = tfDireccion.getText();
+        String localidad = tfLocalidad.getText();
+        String textoPeso = tfPeso.getText();
+        String textoVolumen = tfVolumen.getText();
 
+        try {
+            if(direccion != null || !direccion.isEmpty()) {
+                if(localidad != null || !localidad.isEmpty()) {
+                    if(textoPeso.matches("^\\d+(\\.\\d+)?$")) {
+                        double peso = Double.parseDouble(textoPeso);
+
+                        String[] partesVolumen = textoVolumen.split("-");
+                        if(partesVolumen.length == 3 ) {
+                            int[] volumen = new int[3];
+
+                            for(int i = 0; i < 3; i++) {
+                                volumen[i] = Integer.parseInt(partesVolumen[i]);
+                            }
+
+                            boolean urgente = chbUrgente.isSelected();
+
+                            //Crear objeto Dirección
+                            Direccion direccionEnvio = new Direccion(direccion, localidad);
+
+                            //Crear objeto Envío a Casa
+                            EnvioACasa envio = new EnvioACasa(peso, volumen, urgente);
+                            envio.setDireccion(direccionEnvio);
+                            envio.setIdParada(paradaActual.getId());
+                            eacs.guardar(envio);
+
+                            Alert informacion = new Alert(Alert.AlertType.INFORMATION);
+                            informacion.setTitle("Operación exitosa");
+                            informacion.setHeaderText("Se han contratado los servicios exitosamente");
+                            informacion.showAndWait();
+
+                            System.out.println(envio.toString());
+
+                        } else {
+                            Alert error = new Alert(Alert.AlertType.ERROR);
+                            error.setTitle("Error");
+                            error.setHeaderText("El volumen debe introducirse de la siguiente manera: '##-##-##', es decir, largo-ancho-alto");
+                            error.showAndWait();
+                        }
+
+                    } else {
+                        Alert error = new Alert(Alert.AlertType.ERROR);
+                        error.setTitle("Error");
+                        error.setHeaderText("El peso debe introducirse como decimal, es decir, ##.##");
+                        error.showAndWait();
+                    }
+
+                } else {
+                    Alert error = new Alert(Alert.AlertType.ERROR);
+                    error.setTitle("Error");
+                    error.setHeaderText("La localidad no puede estar vacía");
+                    error.showAndWait();
+                }
+
+            } else {
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Error");
+                error.setHeaderText("La dirección no puede estar vacía");
+                error.showAndWait();
+            }
+
+        } catch (Exception e) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Fatal Error");
+            error.setHeaderText("Ocurrió una excepción general");
+            error.setContentText(e.getMessage());
+            error.showAndWait();
+        }
     }
 
     /***
@@ -178,8 +276,7 @@ public class EstanciaControlador implements Initializable {
         ObservableList<String> auxiliar = FXCollections.observableArrayList();
 
         for(Servicio indice: serviciosParada) {
-
-            auxiliar.add(indice.getNombre() + " - " + indice.getPrecio());
+            auxiliar.add(indice.getId() + " - " + indice.getNombre() + " - " + indice.getPrecio());
         }
 
         lstServicios.setItems(auxiliar);
@@ -222,7 +319,7 @@ public class EstanciaControlador implements Initializable {
         double total = 0;
 
         for (String indice : serviciosSeleccionados) {
-            String nombre = indice.split(" - ")[0];
+            String nombre = indice.split(" - ")[1];
             for (Servicio indice2 : servicios) {
                 if (indice2.getNombre().equals(nombre)) {
                     total += indice2.getPrecio();
@@ -231,7 +328,38 @@ public class EstanciaControlador implements Initializable {
             }
         }
 
-        tfTotal.setText(total + "€");
+        tfTotal.setText(String.valueOf(total));
+    }
+
+    private boolean contieneEnvioACasa = false;
+
+    private List<Long> obtenerListaServicios() {
+        List<String> listaServiciosString = lstServicios.getSelectionModel().getSelectedItems();
+        contieneEnvioACasa = false;
+
+        if(!listaServiciosString.isEmpty()) {
+            List<Long> listaIdServicios = new ArrayList<>();
+
+            for (String indice : listaServiciosString) {
+                String[] campos = indice.split(" - ");
+                Long idServicio = Long.parseLong(campos[0]);
+                listaIdServicios.add(idServicio);
+
+                //Verifica si está con o sin acento
+                if(campos.length > 1 && campos[1].toLowerCase().contains("envío a casa") || campos.length > 1 && campos[1].toLowerCase().contains("envio a casa")) {
+                    contieneEnvioACasa = true;
+                }
+            }
+            return listaIdServicios;
+
+        } else {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText("Debe seleccionar al menos un servicio");
+            error.showAndWait();
+        }
+
+        return null;
     }
 
     private List<ConjuntoContratado> obtenerListaConjuntos() {
