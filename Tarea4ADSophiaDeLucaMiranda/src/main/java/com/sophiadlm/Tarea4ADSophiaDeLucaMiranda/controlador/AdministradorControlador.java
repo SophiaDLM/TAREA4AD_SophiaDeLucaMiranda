@@ -222,7 +222,10 @@ public class AdministradorControlador implements Initializable {
                                         Parada nuevaParada = new Parada(nuevasCredenciales.getId(), nombre, region, responsable);
                                         nuevaParada = ps.guardar(nuevaParada);
 
-                                        //existDB = new DataConexionExistDB("")
+                                        existDB = new DataConexionExistDB();
+
+                                        String nombreSinEspacios = nombre.replaceAll("\\s+", "");
+                                        existDB.crearSubColeccionParada("parada_"+nombreSinEspacios);
 
                                         Alert confirmacion = new Alert(Alert.AlertType.INFORMATION);
                                         confirmacion.setTitle("Operación Exitosa");

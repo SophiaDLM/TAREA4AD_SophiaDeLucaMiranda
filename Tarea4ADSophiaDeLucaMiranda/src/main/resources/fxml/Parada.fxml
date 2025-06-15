@@ -23,7 +23,7 @@
    <center>
       <Pane prefHeight="600.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane fx:id="panelParada" prefHeight="600.0" prefWidth="700.0">
+            <GridPane fx:id="panelParada" prefHeight="600.0" prefWidth="700.0" visible="false">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="602.7999572753906" minWidth="10.0" prefWidth="557.9999694824219" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="272.7999633789062" minWidth="10.0" prefWidth="142.4000305175781" />
@@ -99,7 +99,7 @@
                         <Insets left="170.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="360.0" style="-fx-background-color: white; -fx-border-color: black;" text="VER CARNETS EXPEDIDOS" GridPane.columnSpan="2" GridPane.rowIndex="6">
+                  <Button mnemonicParsing="false" onAction="#verCarnetsExpedidos" prefHeight="35.0" prefWidth="360.0" style="-fx-background-color: white; -fx-border-color: black;" text="VER CARNETS EXPEDIDOS" GridPane.columnSpan="2" GridPane.rowIndex="6">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="16.0" />
                      </font>
@@ -126,7 +126,7 @@
                   </Button>
                </children>
             </GridPane>
-            <GridPane fx:id="panelExportar" prefHeight="600.0" prefWidth="700.0">
+            <GridPane fx:id="panelExportar" prefHeight="600.0" prefWidth="700.0" visible="false">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="411.20001220703125" minWidth="10.0" prefWidth="348.79998779296875" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="515.8000122070312" minWidth="10.0" prefWidth="351.20001220703125" />
@@ -157,6 +157,14 @@
                         <Insets left="25.0" top="40.0" />
                      </GridPane.margin>
                   </Rectangle>
+                  <ImageView fitHeight="150.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/perfil.png" />
+                     </image>
+                     <GridPane.margin>
+                        <Insets left="80.0" top="40.0" />
+                     </GridPane.margin>
+                  </ImageView>
                   <Label text="Exportar Datos Parada" GridPane.columnSpan="2">
                      <GridPane.margin>
                         <Insets left="140.0" top="40.0" />
@@ -550,6 +558,77 @@
                      </graphic>
                      <GridPane.margin>
                         <Insets bottom="40.0" left="180.0" right="80.0" />
+                     </GridPane.margin>
+                  </Button>
+               </children>
+            </GridPane>
+            <GridPane fx:id="panelCarnetsExpedidos" prefHeight="600.0" prefWidth="700.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="582.2000427246094" minWidth="10.0" prefWidth="571.2000244140625" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.5999877929687" minWidth="10.0" prefWidth="129.5999755859375" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="350.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fitHeight="670.0" fitWidth="700.0" nodeOrientation="INHERIT" opacity="0.9" pickOnBounds="true" GridPane.rowIndex="2">
+                     <image>
+                        <Image url="@../imagenes/beautiful-rays-of-sunlight-in-a-green-forest-generative-ai-free-photo.jpg" />
+                     </image>
+                  </ImageView>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffffb2" height="560.0" stroke="BLACK" strokeType="INSIDE" width="650.0" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="25.0" />
+                     </GridPane.margin>
+                  </Rectangle>
+                  <ImageView fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/licencia-de-conducir.png" />
+                     </image>
+                     <GridPane.margin>
+                        <Insets left="80.0" top="40.0" />
+                     </GridPane.margin>
+                  </ImageView>
+                  <Label text="Carnets Expedidos" GridPane.columnSpan="2">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="34.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="140.0" top="40.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Line endX="548.0" startX="-100.0" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="25.0" />
+                     </GridPane.margin>
+                  </Line>
+                  <TableView fx:id="tvCarnetsExpedidos" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                    <columns>
+                      <TableColumn fx:id="tcNombreArchivo" prefWidth="535.0" text="Nombre Archivo XML" />
+                    </columns>
+                     <GridPane.margin>
+                        <Insets left="80.0" right="80.0" />
+                     </GridPane.margin>
+                  </TableView>
+                  <Line endX="548.0" startX="-100.0" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="25.0" />
+                     </GridPane.margin>
+                  </Line>
+                  <Button mnemonicParsing="false" onAction="#volver" style="-fx-background-color: white; -fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagenes/logout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <GridPane.margin>
+                        <Insets bottom="35.0" />
                      </GridPane.margin>
                   </Button>
                </children>

@@ -91,6 +91,7 @@ public class PeregrinoControlador implements Initializable {
      * tecnología DOM, un documento XML que se encontrará disponible en la carpeta denominada como "exportable".
      */
     //EN MONGO DB BACKUP NOMBRE DEBE TENER FECHA Y HORA!!
+    //Modificar para que muestre todas las paradas por las que se ha pasado, no importa si salen repetidas
     @FXML
     public void exportarCarnetXML() {
         Peregrino peregrinoActual = obtenerPeregrino();

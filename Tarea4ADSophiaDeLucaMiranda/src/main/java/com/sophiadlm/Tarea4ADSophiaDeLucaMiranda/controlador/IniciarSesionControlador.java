@@ -2,6 +2,7 @@ package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.controlador;
 
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.config.ManejadorEscenas;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexion;
+import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexionExistDB;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.*;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.servicios.*;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.vista.VistaFxml;
@@ -91,6 +92,8 @@ public class IniciarSesionControlador implements Initializable {
 
     @Autowired
     private PeregrinoParadaServicio pps;
+
+    private DataConexionExistDB existDB = new DataConexionExistDB();
 
     /***
      * Método volver que se utiliza para cambiar el panel de registrar peregrino al de iniciar sesión y borra los
@@ -224,6 +227,13 @@ public class IniciarSesionControlador implements Initializable {
 
                                             pps.guardarPeregrinoParada(nuevoPeregrino.getId(), nuevoCarnet.getParadaInicial().getId(), fechaHora);
 
+                                            //Parte de existDB
+                                            String nombreParadaSinEspacios = paradaInicial.getNombre().replaceAll("\\s+", "");
+                                            String nombrePeregrinoSinEspacios = nuevoPeregrino.getNombre().replaceAll("\\s+", "");
+
+                                            Document carnetInicial = existDB.convertirCarnetInicialXML(nuevoCarnet.getId(), paradaInicial.getId());
+                                            existDB.introducirCarnetEnColeccion(carnetInicial, nombreParadaSinEspacios, nombrePeregrinoSinEspacios);
+
                                             Alert confirmacion = new Alert(Alert.AlertType.INFORMATION);
                                             confirmacion.setTitle("Operación exitosa");
                                             confirmacion.setHeaderText("Se ha registrado el usuario y el peregrino exitosamente");
@@ -297,6 +307,7 @@ public class IniciarSesionControlador implements Initializable {
             error.setTitle("Fatal Error");
             error.setHeaderText("Ocurrió una excepción desconocida");
             error.setContentText(e.getMessage());
+            e.printStackTrace();
             error.showAndWait();
         }
     }

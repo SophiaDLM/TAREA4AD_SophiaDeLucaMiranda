@@ -1,6 +1,7 @@
 package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.controlador;
 
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.config.ManejadorEscenas;
+import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexionExistDB;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.*;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.servicios.*;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.vista.VistaFxml;
@@ -44,6 +45,9 @@ public class ParadaControlador implements Initializable {
 
     @FXML
     private GridPane panelEnvios;
+
+    @FXML
+    private GridPane panelCarnetsExpedidos;
 
     @FXML
     private TextField tfId;
@@ -116,6 +120,12 @@ public class ParadaControlador implements Initializable {
     @FXML
     private TableColumn<EnvioACasa, String> tcLocalidad;
 
+    @FXML
+    private TableView<String> tvCarnetsExpedidos;
+
+    @FXML
+    private TableColumn<String, String> tcNombreArchivo;
+
     //Elementos relacionados con el manejo de las escenas:
     @Lazy
     @Autowired
@@ -142,6 +152,8 @@ public class ParadaControlador implements Initializable {
 
     @Autowired
     private EnvioACasaServicio eacs;
+
+    private DataConexionExistDB existDB = new DataConexionExistDB();
 
     /***
      * Método cerrarSesion que lanza una alerta pidiendo al usuario que
@@ -175,6 +187,7 @@ public class ParadaControlador implements Initializable {
         panelExportar.setVisible(false);
         panelSellarAlojarse.setVisible(false);
         panelEnvios.setVisible(false);
+        panelCarnetsExpedidos.setVisible(false);
     }
 
     /***
@@ -186,6 +199,7 @@ public class ParadaControlador implements Initializable {
         panelExportar.setVisible(true);
         panelSellarAlojarse.setVisible(false);
         panelEnvios.setVisible(false);
+        panelCarnetsExpedidos.setVisible(false);
     }
 
     /***
@@ -197,6 +211,7 @@ public class ParadaControlador implements Initializable {
         panelExportar.setVisible(false);
         panelSellarAlojarse.setVisible(true);
         panelEnvios.setVisible(false);
+        panelCarnetsExpedidos.setVisible(false);
     }
 
     @FXML
@@ -205,6 +220,16 @@ public class ParadaControlador implements Initializable {
         panelExportar.setVisible(false);
         panelSellarAlojarse.setVisible(false);
         panelEnvios.setVisible(true);
+        panelCarnetsExpedidos.setVisible(false);
+    }
+
+    @FXML
+    public void cambiarPanelCarnetsExpedidos() {
+        panelParada.setVisible(false);
+        panelExportar.setVisible(false);
+        panelSellarAlojarse.setVisible(false);
+        panelEnvios.setVisible(false);
+        panelCarnetsExpedidos.setVisible(true);
     }
 
     @FXML
@@ -213,6 +238,7 @@ public class ParadaControlador implements Initializable {
         panelExportar.setVisible(false);
         panelSellarAlojarse.setVisible(false);
         panelEnvios.setVisible(false);
+        panelCarnetsExpedidos.setVisible(false);
 
         //Limpiar exportar
         dpFechaInicio.setValue(null);
@@ -476,6 +502,14 @@ public class ParadaControlador implements Initializable {
     }
 
     /***
+     *
+     */
+    @FXML
+    public void verCarnetsExpedidos() {
+        cambiarPanelCarnetsExpedidos();
+    }
+
+    /***
      * Método initialize que sirve para cargar valores al arrancar la aplicación.
      */
     @Override
@@ -508,6 +542,12 @@ public class ParadaControlador implements Initializable {
         tfId1.setText(String.valueOf(paradaActual.getId()));
         tfNombre1.setText(paradaActual.getNombre());
         tfRegion1.setText(paradaActual.getRegion() + "");
+
+        tcNombreArchivo.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+
+        String nombreParada = paradaActual.getNombre().replaceAll("\\s+", "");
+        List<String> nombreCarnets = existDB.obtenerCarnetsPorParada(nombreParada);
+        tvCarnetsExpedidos.setItems(FXCollections.observableArrayList(nombreCarnets));
     }
 
     /***
