@@ -2,6 +2,7 @@ package com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.controlador;
 
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.config.ManejadorEscenas;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexionExistDB;
+import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.data.DataConexionMongoDB;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Credenciales;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Parada;
 import com.sophiadlm.Tarea4ADSophiaDeLucaMiranda.modelo.Servicio;
@@ -121,6 +122,9 @@ public class AdministradorControlador implements Initializable {
 
     ObservableList<Servicio> lstServicioEditar;
 
+    @Autowired
+    private DataConexionMongoDB mongoDB;
+
     //Métodos:
     @FXML
     private void cambiarPanelNuevaParada() {
@@ -225,7 +229,7 @@ public class AdministradorControlador implements Initializable {
                                         existDB = new DataConexionExistDB();
 
                                         String nombreSinEspacios = nombre.replaceAll("\\s+", "");
-                                        existDB.crearSubColeccionParada("parada_"+nombreSinEspacios);
+                                        existDB.crearSubColeccionParada("parada_" + nombreSinEspacios);
 
                                         Alert confirmacion = new Alert(Alert.AlertType.INFORMATION);
                                         confirmacion.setTitle("Operación Exitosa");
@@ -314,7 +318,7 @@ public class AdministradorControlador implements Initializable {
                 if (svs.encontrarPorNombre(nombreServicio) == null) {
                     if (precioServicio.matches("^\\d+(\\.\\d{1,2})?$")) {
                         listaServicios = obtenerListaServicios();
-                        Long idNuevo = listaServicios.isEmpty() ?1 : listaServicios.getLast().getId() + 1;
+                        Long idNuevo = listaServicios.isEmpty() ? 1 : listaServicios.getLast().getId() + 1;
 
                         Servicio servicio = new Servicio(idNuevo, nombreServicio, Double.parseDouble(precioServicio));
                         servicio.setIdParadas(listaIdParadas);
@@ -408,36 +412,36 @@ public class AdministradorControlador implements Initializable {
 
             if (validarNombre(editarServicio)) {
                 if (editarPrecioServicio.matches("^\\d+(\\.\\d{1,2})?$")) {
-                        Servicio servicio = cargarServicio();
-                        servicio.setNombre(editarServicio);
-                        servicio.setPrecio(Double.parseDouble(editarPrecioServicio));
-                        servicio.setIdParadas(editarListaIdParadas);
-                        svs.actualizar(servicio);
+                    Servicio servicio = cargarServicio();
+                    servicio.setNombre(editarServicio);
+                    servicio.setPrecio(Double.parseDouble(editarPrecioServicio));
+                    servicio.setIdParadas(editarListaIdParadas);
+                    svs.actualizar(servicio);
 
-                        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                        alerta.setTitle("Servicio editado");
-                        alerta.setHeaderText("El servicio ha sido editado correctamente");
-                        alerta.showAndWait();
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                    alerta.setTitle("Servicio editado");
+                    alerta.setHeaderText("El servicio ha sido editado correctamente");
+                    alerta.showAndWait();
 
-                        tfNombreServicio.setText("");
-                        tfPrecioServicio.setText("");
-                        tvParadasUsar.getItems().clear();
-
-                } else {
-                        Alert error = new Alert(Alert.AlertType.ERROR);
-                        error.setTitle("Error");
-                        error.setHeaderText("Precio inválido");
-                        error.setContentText("No pueden introducirse letras ni caracteres especiales a excepción de: \".\", \",\" y \"€\"");
-                        error.showAndWait();
-                    }
+                    tfNombreServicio.setText("");
+                    tfPrecioServicio.setText("");
+                    tvParadasUsar.getItems().clear();
 
                 } else {
                     Alert error = new Alert(Alert.AlertType.ERROR);
                     error.setTitle("Error");
-                    error.setHeaderText("Nombre inválido");
-                    error.setContentText("El nombre no puede estar vacio o contener caracteres que no sean letras");
+                    error.setHeaderText("Precio inválido");
+                    error.setContentText("No pueden introducirse letras ni caracteres especiales a excepción de: \".\", \",\" y \"€\"");
                     error.showAndWait();
                 }
+
+            } else {
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Error");
+                error.setHeaderText("Nombre inválido");
+                error.setContentText("El nombre no puede estar vacio o contener caracteres que no sean letras");
+                error.showAndWait();
+            }
 
 //            } else {
 //                Alert error = new Alert(Alert.AlertType.ERROR);
@@ -457,6 +461,22 @@ public class AdministradorControlador implements Initializable {
         }
     }
 
+    /***
+     *
+     */
+    public void hacerBackupCarnets() {
+        try {
+            mongoDB.crearBackupCarnets();
+
+        } catch (Exception e) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Fatal Error");
+            error.setHeaderText("Ocurrió una excepción desconocida");
+            error.setContentText(e.getMessage());
+            error.showAndWait();
+            e.printStackTrace();
+        }
+    }
 
     /***
      * Método initialize que no ha sido utilizado porque en este caso no es
@@ -523,7 +543,7 @@ public class AdministradorControlador implements Initializable {
     private Servicio cargarServicio() {
         Servicio servicio = tvServiciosEditar.getSelectionModel().getSelectedItem();
 
-        if(servicio != null) {
+        if (servicio != null) {
             tfNombreServicio.setText(servicio.getNombre());
             tfPrecioServicio.setText(String.valueOf(servicio.getPrecio()));
 

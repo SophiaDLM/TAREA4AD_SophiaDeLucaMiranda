@@ -27,14 +27,6 @@ public class DataConexionExistDB {
 
     /***
      *
-     * @param url
-     */
-    public void conexionExistDB(String url) {
-        Collection coleccion = conectarExistDB(url);
-    }
-
-    /***
-     *
      * @param URI
      * @return
      */
